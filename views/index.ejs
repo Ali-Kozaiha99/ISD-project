@@ -1,0 +1,5 @@
+<h1>hi <%= name %></h1>
+<form action="/logout" method="POST"> <!-- Change method to POST -->
+    <input type="hidden" name="_method" value="DELETE"> <!-- Method override for DELETE -->
+    <button type="submit">Log Out</button>
+</form>
