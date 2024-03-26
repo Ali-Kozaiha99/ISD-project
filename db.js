@@ -135,6 +135,7 @@ console.log('Table add to successfully');
 // Call the function to create table
 createTable();
  */
+/*
 
 const db = require('./db');
 
@@ -162,4 +163,4 @@ async function createTable() {
 
 // Call the function to create table
 createTable();
- 
+ */

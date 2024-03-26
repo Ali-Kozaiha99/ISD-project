@@ -60,7 +60,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
-
+app.use(express.static('public'));
 app.get('/',checkAuthenticated,(req,res)=>{
     res.render('index.ejs',{name:req.user.email})
 })
@@ -192,7 +192,12 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
     }
     })
 
+app.get('/tasks',async(req,res)=>{
 
+})
+app.post('/tasks',async(req,res)=>{
+    
+}) 
 
 /*
 app.delete('/logout', (req, res) => {
