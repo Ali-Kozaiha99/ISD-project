@@ -1,26 +1,27 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<% if(messages.error){ %> <%= messages.error %> <% } %>
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login</title>
+  </head>
+  <body>
+    <div class="login_container">
+      <center>
+        <h1>login</h1>
+        <form action="/login" method="post">
+            <input type="email" name="email" id="email" placeholder="Email" />
+          <br />
+          <input type="password" name="password" id="password" placeholder="Password"/>
+          <br />
+          <button type="submit">Login</button>
 
-</head>
+        </form>
 
-<% if(messages.error){ %>
-<%= messages.error %>
-<% } %>
-
-
-<h1>Login</h1>
-<form action="/login" method="post">
-<div>
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email">
-</div>
-<div>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password">
-</div>
-<button type="submit">Login</button>
-</form>
-<a href="/register">Register</a>
+      </center>
+    </div>
+  </body>
+</html>
