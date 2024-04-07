@@ -1,76 +1,206 @@
-<h1>Register</h1>
-<form action="/register" method="post">
-    <div>
-        <label for="role">role</label>
-        <input type="text"  id="role" name="role" >
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>it</title>
+  </head>
+  <body >
+    <div class="left">
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fa-solid fa-hospital-user"></i>
+            <p>Today's Patient</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fa-solid fa-file-waveform"></i>
+            <p>Patient Files</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <p>Tasks</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fas fa-flask"></i>
+            <i class="fas fa-syringe"></i>
+            <p>Tests</p>
+          </a>
+        </center>
+      </div>
     </div>
-<div>
-    <label for="name">Name</label>
-    <input type="text"  id="name" name="name" >
-</div>
-<div>
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" >
-</div>
-<div>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" >
-</div>
 
-<div>
-    <label for="birthDate">Date of Birth</label>
-    <input type="date"  id="birthDate" name="birthDate" >
-</div>
+    <div class="right">
+      <input type="text" class="it_search"id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
+      <br />
+      <form action="/register" method="post">
 
-<div>
-    <label for="section">Section</label>
-    <input type="text"  id="section" name="section" >
-</div>
-<div>
-    <label for="rank">Rank</label>
-    <input type="number"  id="rank" name="rank" >
-</div>
-<div>
-    <label for="phoneNumber">Phone number</label>
-    <input type="number"  id="phoneNumber" name="phoneNumber" >
-</div>
-<div>
-    <label for="spaciality">spaciality</label>
-    <input type="text"  id="spaciality" name="spaciality" >
-</div>
-<div>
-    <label for="staffSpaciality">Staff spaciality</label>
-    <input type="text"  id="staffSpaciality" name="staffSpaciality" >
-</div>
-<div>
-    <label for="type">Type</label>
-    <input type="text"  id="type" name="type" >
-</div>
-<button type="submit">Register</button>
-</form>
-<a href="/login">Login</a>
+        <h2 class="add_user">Add User</h2> 
+        <div class="rolee">
+          <h2>Role:</h3>
+         
+            <input type="radio" id="doctorRole" name="role" value="b" required onchange="updateForm()">
+            <label for="doctorRole">Doctor</label>
+          
+          
+            <input type="radio" id="nurseRole" name="role" value="a" required onchange="updateForm()">
+            <label for="nurseRole">Nurse</label>
+          
+          
+            <input type="radio" id="staffRole" name="role" value="s" required onchange="updateForm()">
+            <label for="staffRole">Staff</label>
+          
+          
+      </div>
+        <div class="add_user_container">
+          
 
 
+<div id="register_form" style="display: none;">
+
+  <label for="name">Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+  <input type="text" id="name" name="name" required />
+
+  <label for="email">Email:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+  <input type="email" id="email" name="email" required />
+<br>
+  <label for="phoneNumber">Phone number:</label>
+  <input type="number" id="phoneNumber" name="phoneNumber" required />
+       
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required />
+        <br>
+  <label for="birthDate">Date of Birth:&nbsp&nbsp&nbsp</label>
+  <input type="date" id="birthDate" name="birthDate" required />
+
+  <label for="spaciality"> spaciality:</label>
+  <input type="text" id="spaciality" name="spaciality" required />
+<br><br>
+  <label id="ggg">Gender:</label>
+  <label for="male">Male</label>
+  <input type="radio" id="male" name="gender" value="male" required />
+  <label for="female">Female</label>
+  <input type="radio" id="female" name="gender" value="female" required />
+
+  <label for="rank">Rank:</label>
+  <select id="rank" name="rank" required>
+    <option value="1">Junior Nurse</option>
+    <option value="2">Senior Nurse</option>
+    <option value="3">Head Nurse</option>
+  </select>
+
+  <label for="section">Section:</label>
+  <select id="section" name="section" required>
+    <option value="" selected>select section</option>
+    <option value="1">1st Floor</option>
+    <option value="2">2nd Floor</option>
+    <option value="3">3rd Floor</option>
+    <option value="4">4th Floor</option>
+  </select>
+
+  <label for="type">Type:</label>
+  <select id="type" name="type" required>
+    <option value="" selected>type</option>
+    <option value="scan">Scan</option>
+    <option value="lab">Lab</option>
+  </select>
+</div>
 
 
-<h1>Doctors List</h1>
-<ul>
-    <% doctors.forEach(doctor => { %>
-        <li><%= doctor.name %> - <%= doctor.email %> - <%= doctor.spaciality %></li>
-    <% }) %>
-</ul>
 
-<h1>Nurses List</h1>
-<ul>
-    <% nurses.forEach(nurse => { %>
-        <li><%= nurse.name %> - <%= nurse.email %> - <%= nurse.section %></li>
-    <% }) %>
-</ul>
-
-<h1>Staff List</h1>
-<ul>
-    <% staff.forEach(staffMember => { %>
-        <li><%= staffMember.name %> - <%= staffMember.email %> - <%= staffMember.staffSpaciality %></li>
-    <% }) %>
-</ul>
-
+        <button class="it_form_button" type="submit" >Submit</button>
+            
+       
+        </div>
+        <br>
+      </form>
+      
+      <div class="right_container">
+        <!-- Search Bar -->
+    
+        <!-- Doctors -->
+        <ul>
+            <% doctors.forEach(doctor => { %>
+            <div class="it_show_users">
+                <div class="namess">Name:</div >
+         <span>      <%= doctor.name %>  </span>   <button class="show_user_buttom" style="float: right;">+</button> <br>
+                <div class="namess">Email:</div >
+                <%= doctor.email %> <br>
+                <div class="namess">PhoneNumber:</div >
+                <%= doctor.phoneNumber %>
+            </div>
+            <% }) %>
+        </ul>
+    
+        <!-- Nurses -->
+        <ul>
+            <% nurses.forEach(nurse => { %>
+            <div class="it_show_users">
+                <div class="namess">Name:</div >
+        <span>       <%= nurse.name %>  </span>  <button class="show_user_buttom" style="float: right;">+</button> <br>
+                <div class="namess">Email:</div >
+                <%= nurse.email %> <br>
+                <div class="namess">PhoneNumber:</div >
+                <%= nurse.phoneNumber %>
+            </div>
+            <% }) %>
+        </ul>
+    
+        <!-- Staff -->
+        <ul>
+            <% staff.forEach(staffMember => { %>
+            <div class="it_show_users">
+                <div class="namess">Name:</div >
+              <span> <%= staffMember.name %>  </span>    <button class="show_user_buttom" style="float: right;">+</button> <br>
+                <div class="namess">Email:</div >
+                <%= staffMember.email %> <br>
+                <div class="namess">PhoneNumber:</div >
+                <%= staffMember.phoneNumber %>
+            </div>
+            <% }) %>
+        </ul>
+    </div>
+    
+    <script>
+        function searchFunction() {
+            var input, filter, ul, li, div, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            ul = document.querySelector('.right_container');
+            div = ul.getElementsByTagName('div');
+    
+            for (var i = 0; i < div.length; i++) {
+                span = div[i].getElementsByTagName('span')[0];
+                txtValue = span.textContent || span.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    div[i].style.display = '';
+                } else {
+                    div[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+    
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

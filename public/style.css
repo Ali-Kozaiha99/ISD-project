@@ -1,4 +1,292 @@
-body{
-    font-size: large;
-    color: blue;
+* {
+    margin: 0;
+    padding: 0;
 }
+
+body {
+    background-color: white;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 10% 90%;
+}
+
+.left {
+    height: 600px;
+    display: grid;
+    grid-template-rows: 25% 25% 25%;
+    border-radius: 10px;
+    margin: 15px;
+    background-color: rgb(3, 49, 80);
+}
+
+.right {
+    margin: 10px;
+    margin-right: 20px;
+}
+
+.right_container {
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+}
+
+
+
+.it_form {
+
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    height: 30vh;
+    background-color: rgb(85, 141, 194);
+
+}
+
+.right_it_roles {
+    color: black;
+}
+
+.left_nav {
+    padding-top: 5vh;
+}
+
+.login_container {
+
+    position: absolute;
+    top: 25%;
+    left: 32%;
+    background-color: #9fc2e1;
+    height: 50vh;
+    width: 35vw;
+    border-radius: 30px;
+
+}
+
+
+.login_container h1 {
+    padding-top: 20px;
+    font-weight: 800;
+    font-size: 3em;
+    color: rgb(3, 49, 92);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.login_container input {
+    outline: none;
+    width: 22vw;
+    height: 7vh;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: white;
+    font-size: 1.15em;
+    padding-left: 10px;
+}
+
+.login_container button {
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-top: 15px;
+    width: 8vw;
+    height: 5.5vh;
+    border: none;
+    background-color: rgb(3, 49, 92);
+}
+
+.it_search {
+    padding-left: 10px;
+    width: 25vw;
+    height: 6.5vh;
+    border: none;
+    border-top: 1px solid lightgray;
+    box-shadow: 1px 7px 4px grey;
+    border-radius: 10px;
+    margin-top: 6vh;
+}
+
+.rolee h2 {
+
+    color: rgb(3, 49, 92);
+}
+
+.add_user {
+    font-weight: 600;
+    margin-bottom: 1vh;
+    color: rgb(3, 49, 92);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 2vh;
+
+}
+
+.add_user_container {
+position: relative;
+    padding: 10px;
+    height: 26vh;
+    border-radius: 10px;
+    background-color: white;
+    border: 2px solid #9fc2e1;
+}
+
+.rolee label {
+    font-weight: bold;
+    padding-left: 20px;
+    color: rgb(3, 49, 92);
+    font-size: 1.3em;
+}
+
+.rolee input[type="radio"] {
+    display: none;
+    /* Hide the actual radio buttons */
+}
+
+.rolee input[type="radio"]+label {
+    padding-left: 25px;
+    cursor: pointer;
+}
+
+/* Style for radio button when selected */
+.rolee input[type="radio"]:checked+label::before {
+    content: "\2022";
+    /* Bullet point as the radio button */
+    color: rgb(3, 49, 92);
+    font-size: 1.5em;
+    padding-right: 5px;
+}
+
+/* Style for radio button labels */
+.rolee label::before {
+    content: "\25CB";
+    /* Empty circle as the radio button */
+    font-size: 1.5em;
+    padding-right: 5px;
+}
+
+/* Adjust styles as needed */
+
+.add_user_container label {
+    font-weight: bold;
+    padding-left: 20px;
+    color: rgb(3, 49, 92);
+    font-size: 1.3em;
+ 
+}
+
+.add_user_container input:not([type="radio"]) {
+    width: 20vw;
+    padding-left: 5px;
+    margin-top: 5px;
+    outline: none;
+    height: 5vh;
+    border-radius: 5px;
+    background-color: #9fc2e1;
+    border: none;
+    font-size: 1em;
+}
+
+
+.add_user_container option {
+    width: 7vw;
+    background-color: #9fc2e1;
+    color: rgb(3, 49, 92);
+    font-weight: bold;
+
+}
+
+.add_user_container select {
+    padding: 3px;
+    width: 7vw;
+
+    border: none;
+    border: 1px solid rgb(3, 49, 92);
+
+    background-color: #9fc2e1;
+    color: rgb(3, 49, 92);
+    font-weight: bold;
+
+}
+
+.it_form_data {
+    color: rgb(3, 49, 92);
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 1.5em;
+    outline: none;
+    height: 4vh;
+}
+
+.it_form_button {
+position:absolute;
+bottom:2px;
+right:2px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    float: right;
+    width: 10vw;
+    height: 6vh;
+    color: rgb(3, 49, 92);
+    background-color: #9fc2e1;
+}
+
+i {
+    color: white;
+    font-size: 2.5em;
+}
+
+.left_nav p {
+    padding-top: 10px;
+    color: white;
+}
+
+.find_button {
+    height: 50px;
+    width: 50px;
+    background-color: #9fc2e1;
+    font-size: 3em;
+    border: none;
+    border-radius: 10px;
+    float: right;
+    color: rgb(3, 49, 92);
+}
+
+.today_grid_area {
+
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.today_grid_area h1 {
+    color: rgb(3, 49, 80);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.it_show_users {
+    
+    padding:10px;
+    
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    border-radius: 10px;
+    color: rgb(3, 49, 92);
+    background-Color: #9fc2e1;
+    font-Weight: bo;
+    border-Radius: 10;
+    margin: 10px;
+    box-Shadow: 2px 3px 2px grey;
+}
+.namess{
+    display: inline;
+color: white;
+}
+.show_user_buttom{
+    color: white    ;
+    font-size: 2em;
+    border: none;
+    background-color: #9fc2e1;
+}
+
+
