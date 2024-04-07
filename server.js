@@ -50,7 +50,7 @@ So, overall, this line is configuring Passport.js to use a function that searche
 const users=[]
 app.set('view-engine','ejs')
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:true}))
 app.use(flash())
 app.use(session({
     secret:process.env.SESSION_SECRET,
@@ -59,8 +59,17 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(methodOverride('_method'))
+app.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      var method = req.body._method
+      console.log(method,req.body._method)
+      delete req.body._method
+      return method
+    }
+  }))
 app.use(express.static('public'));
+
 app.get('/',checkAuthenticated,(req,res)=>{
     res.render('index.ejs',{name:req.user.email})
 })
@@ -192,12 +201,205 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
     }
     })
 
-app.get('/tasks',async(req,res)=>{
+   
 
-})
-app.post('/tasks',async(req,res)=>{
+    async function isDoctor(userId) {
+        try {
+            const sql = "SELECT * FROM doctors WHERE id = ?";
+            const [rows, fields] = await pool.query(sql, [userId]);
+            // If rows.length > 0, it means the user exists in the doctor table
+            return rows.length > 0;
+        } catch (error) {
+            console.error("Error checking doctor:", error);
+            return false;
+        }
+    } 
+    async function getNameById(id, tableName) {
+        try {
+            const [rows, fields] = await connection.execute(`SELECT name FROM ${tableName} WHERE id = ?`, [id]);
     
-}) 
+            if (rows.length > 0) {
+                return rows[0].name;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error fetching name:', error);
+            throw error;
+        }
+    }
+
+
+
+    async function getNameById(id, tableName) {
+        try {
+            const [rows, fields] = await pool.query(`SELECT name FROM ${tableName} WHERE id = ?`, [id]);
+    
+            if (rows.length > 0) {
+                return rows[0].name;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error fetching name:', error);
+            throw error;
+        }
+    }
+
+     
+        app.get('/tasks', async (req, res) => {
+            try {
+                const query = `
+                SELECT tasks.*, doctors.name AS doctor_name
+                FROM tasks
+                LEFT JOIN doctors ON tasks.doctor_id = doctors.id
+            `;
+            const [tasksRows] = await pool.query(query);
+                        const query1 = `
+                        SELECT nurses.*
+                        FROM done_tasks
+                        INNER JOIN nurses ON done_tasks.nurse_id = nurses.id;
+
+                        
+            `;
+
+            const [nurseRows] = await pool.query(query1);
+
+                const isUserDoctor = await isDoctor(req.user.id);
+                if (nurseRows.length > 0) {
+                    // The query returned results, do something with them
+                    console.log("Tasks found:", nurseRows);
+                } else {
+                    // No tasks found
+                    console.log("No tasks found.");
+                }
+                if (isUserDoctor) {
+
+                
+                    res.render('tasks.ejs', { tasks: tasksRows, isDoctor: true,done_task_nurse_info:nurseRows });
+                } 
+                 else {
+                    res.render('tasks.ejs', { tasks: tasksRows, isDoctor: false,done_task_nurse_info:nurseRows});
+                } 
+            } catch (error) {
+                console.error('Error retrieving tasks or checking user type:', error);
+                res.status(500).send('Internal Server Error');
+            }  
+        }); 
+           
+    app.post('/tasks', async (req, res) => {
+    try {
+        // Check if req.user.id exists in the doctor table
+        const isUserDoctor = await isDoctor(req.user.id);
+        const formType = req.body.formType;
+        if (isUserDoctor) {
+
+            if (formType === 'deleteTasks'){
+                const deleteTaskId = req.body.deleteTaskId;
+                if (deleteTaskId) {
+                    // Execute SQL query to delete task from database
+                    const query = 'DELETE FROM tasks WHERE task_id = ?';
+                    pool.query(query, [deleteTaskId], (error, results) => {
+                        if (error) {
+                            console.error('Error deleting task:', error);
+                            res.status(500).send('Internal Server Error');
+                        } else {
+                            console.log('Task deleted successfully');
+                            // Redirect to the same page or render the tasks page again
+                            res.redirect('/tasks');
+                        }
+                    });
+                }
+            
+            }
+
+            
+            if (formType === 'addTask'){
+            await pool.query("INSERT INTO `tasks` (`details`, `doctor_id`, `file_id`) VALUES ( ?, ?, ?)", [
+                req.body.details,
+                req.user.id, // Assuming req.user.id contains the doctor's ID from the session
+                req.body.patient_id,]); 
+                res.redirect('/tasks')  
+            }
+            else if (formType === 'submitTasks') {res.redirect('/tasks') }
+        } else {   if (formType === 'submitTasks') {
+            const taskIds = req.body.taskIds;
+            // Render tasks.ejs with isDoctor set to false
+            //res.status(403).send("Forbidden: User is not a doctor");
+            if (taskIds && taskIds.length > 0) {
+                for (const taskId of taskIds) {
+                    await pool.query("INSERT INTO `done_tasks` (`taskId`, `nurse_id`) VALUES (?, ?)", [
+                        taskId,
+                        req.user.id
+                    ]);
+                } 
+            } 
+res.redirect('/tasks') 
+         }
+         else if (formType === 'addTask') {res.redirect('/tasks') } 
+          } 
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});  
+
+
+app.delete('/tasks/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        // Disable foreign key checks
+        await pool.query('SET FOREIGN_KEY_CHECKS = 0');
+
+        // SQL query to delete a record from the 'tasks' table based on ID
+        const sql = 'DELETE FROM tasks WHERE task_id = ?';
+
+        // Execute the delete query
+        await pool.query(sql, [id]);
+
+        // Re-enable foreign key checks
+        await pool.query('SET FOREIGN_KEY_CHECKS = 1');
+
+        console.log('Task deleted successfully');
+        res.json({ redirect: '/tasks' }); // Redirect to the tasks page after successful deletion
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+/*
+app.delete('/deleteTask', (req, res) => {
+    console.log('DELETE request received for /deleteTask route');
+    const id = parseInt(req.body.id);
+
+    const query = 'DELETE FROM tasks WHERE task_id = ?';
+    pool.query(query, [id], (error, results) => {
+        if (error) {
+            console.error('Error deleting task:', error);
+            res.status(500).send('Internal Server Error');
+        } else {
+            console.log('Task deleted successfully');
+            res.redirect('/tasks'); // Redirect to the tasks page after successful deletion
+        }
+    });
+});
+*/
+
+ 
+/*
+<h1>Tasks List</h1>
+<ul>
+    <% tasks.forEach(task => { %>
+        <li><%= task.details %> </li>
+    <% }) %>
+</ul> */
+/*else {
+                // Respond with an error message if req.user.id does not exist in the doctor table
+                res.status(403).send("Forbidden: User is not a doctor");
+            }
+
 
 /*
 app.delete('/logout', (req, res) => {
@@ -225,4 +427,19 @@ function checkNotAuthenticated(req,res,next){
     next()
 }
 
-app.listen(3000)
+app.listen(3000)  
+
+/*<h1>hi <%= name %></h1>
+<form id="logoutForm" action="/logout" method="POST"> <!-- Form submission method set to POST -->
+    <input type="hidden" name="_method" id="methodOverride" value="DELETE"> <!-- Method override for DELETE -->
+    <input type="hidden" name="originalMethod" value="POST"> <!-- Store the original method -->
+    <button type="submit">Log Out</button> <!-- Submit button -->
+</form>
+<a href="/tasks">tasks</a> <!-- Link to tasks page -->
+
+<script>
+    document.getElementById("logoutForm").addEventListener("submit", function(event) {
+        const originalMethod = document.getElementById("logoutForm").elements["originalMethod"].value;
+        document.getElementById("methodOverride").value = originalMethod; // Set method override to original method
+    });
+</script>*/

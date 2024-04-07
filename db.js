@@ -164,3 +164,96 @@ async function createTable() {
 // Call the function to create table
 createTable();
  */
+
+
+
+
+/*
+
+const db = require('./db');
+
+async function createTable() {
+    try {
+        const sql = `
+        CREATE TABLE Tasks (
+            task_id INT PRIMARY KEY AUTO_INCREMENT,
+            details TEXT,
+            added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            doctor_id INT,
+            nurse_id INT,
+            patient_id INT,
+            checked_by_nurse_date TIMESTAMP,
+            FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+            FOREIGN KEY (nurse_id) REFERENCES nurses(nurse_id),
+            FOREIGN KEY (patient_id) REFERENCES patients(patient_id)
+        )
+        `;
+        await db.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+*/
+/*
+
+const db = require('./db');
+
+async function createTable() {
+    try {
+        const sql = `
+        CREATE TABLE Tasks (
+            task_id INT PRIMARY KEY AUTO_INCREMENT,
+            details TEXT,
+            added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            doctor_id INT,
+           
+            file_id INT
+        )
+        `;
+        await db.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+*/
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+/*
+    const db = require('./db');
+
+async function createTable() {
+    try {
+        const sql = `
+        SET FOREIGN_KEY_CHECKS = 0
+        `;
+        await db.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+*/
