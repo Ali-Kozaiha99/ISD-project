@@ -110,7 +110,6 @@
 
   <label for="section">Section:</label>
   <select id="section" name="section" required>
-    <option value="" selected>select section</option>
     <option value="1">1st Floor</option>
     <option value="2">2nd Floor</option>
     <option value="3">3rd Floor</option>
@@ -119,7 +118,6 @@
 
   <label for="type">Type:</label>
   <select id="type" name="type" required>
-    <option value="" selected>type</option>
     <option value="scan">Scan</option>
     <option value="lab">Lab</option>
   </select>
@@ -179,26 +177,7 @@
             <% }) %>
         </ul>
     </div>
-    
-    <script>
-        function searchFunction() {
-            var input, filter, ul, li, div, txtValue;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-            ul = document.querySelector('.right_container');
-            div = ul.getElementsByTagName('div');
-    
-            for (var i = 0; i < div.length; i++) {
-                span = div[i].getElementsByTagName('span')[0];
-                txtValue = span.textContent || span.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    div[i].style.display = '';
-                } else {
-                    div[i].style.display = 'none';
-                }
-            }
-        }
-    </script>
+
     
     </div>
     <script src="script.js"></script>

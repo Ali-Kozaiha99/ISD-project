@@ -70,6 +70,11 @@ body {
     color: rgb(3, 49, 92);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+.login_error{
+    margin-top: 2vh;
+    color: red;
+    font-weight: bold;
+}
 
 .login_container input {
     outline: none;
