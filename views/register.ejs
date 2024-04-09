@@ -142,11 +142,12 @@
             <% doctors.forEach(doctor => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-         <span>      <%= doctor.name %>  </span>   <button class="show_user_buttom" style="float: right;">+</button> <br>
+         <span>      <%= doctor.name %> - <%= doctor.id %> </span>   <button class="show_user_buttom" style="float: right;">+</button> <br>
                 <div class="namess">Email:</div >
                 <%= doctor.email %> <br>
                 <div class="namess">PhoneNumber:</div >
                 <%= doctor.phoneNumber %>
+                <a class="delete" data-dtask="<%= doctor.id  %>" href="">delete</a>
             </div>
             <% }) %>
         </ul>
@@ -156,11 +157,12 @@
             <% nurses.forEach(nurse => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-        <span>       <%= nurse.name %>  </span>  <button class="show_user_buttom" style="float: right;">+</button> <br>
+        <span>       <%= nurse.name %> - <%= nurse.id  %></span>  <button class="show_user_buttom" style="float: right;">+</button> <br>
                 <div class="namess">Email:</div >
                 <%= nurse.email %> <br>
                 <div class="namess">PhoneNumber:</div >
                 <%= nurse.phoneNumber %>
+                <a class="delete" data-dtask="<%= nurse.id  %>" href="">delete</a>
             </div>
             <% }) %>
         </ul>
@@ -170,16 +172,33 @@
             <% staff.forEach(staffMember => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-              <span> <%= staffMember.name %>  </span>    <button class="show_user_buttom" style="float: right;">+</button> <br>
+              <span> <%= staffMember.id %>  </span>    <button class="show_user_buttom" style="float: right;">+</button> <br>
                 <div class="namess">Email:</div >
                 <%= staffMember.email %> <br>
                 <div class="namess">PhoneNumber:</div >
                 <%= staffMember.phoneNumber %>
+                <a class="delete" data-dtask="<%= staffMember.id  %>" href="">delete</a>
             </div>
             <% }) %>
         </ul>
     </div>
+    <script>
+        document.querySelectorAll('a.delete').forEach(trashcan => {
+      trashcan.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent the default action of the link
+        
+        const endpoint = `/register/${trashcan.dataset.dtask}`;
     
+        fetch(endpoint, {
+          method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => window.location.href = data.redirect)
+        .catch(err => console.error(err));
+      });
+    });
+    
+      </script>
     <script>
         function searchFunction() {
             var input, filter, ul, li, div, txtValue;

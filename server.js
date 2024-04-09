@@ -95,10 +95,10 @@ app.post('/login',checkNotAuthenticated, passport.authenticate('local', {
         res.redirect('/');
     }
 });
+ 
 
 
-
-app.get('/register', checkNotAuthenticated, async (req, res) => {
+app.get('/register',  async (req, res) => {
     try {
         const [doctorRows, doctorFields] = await pool.query('SELECT * FROM Doctors');
         const [nurseRows, nurseFields] = await pool.query('SELECT * FROM nurses');
@@ -151,7 +151,7 @@ res.status(500).send()
 
 })*/
 
-app.post('/register',checkNotAuthenticated,async(req,res)=>{
+app.post('/register',async(req,res)=>{
     try{
     const hashedPassword=await bcrypt.hash(req.body.password,10)
     if(req.body.role==="a"){
@@ -182,7 +182,7 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
             await pool.query("INSERT INTO Staff (email, password, staffSpaciality, type) VALUES (?, ?, ?, ?)", [
                 req.body.email,
                 hashedPassword,
-                req.body.staffSpaciality,  
+                req.body.spaciality,  
                 req.body.type
             ]);
             
@@ -193,13 +193,52 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
 
 
 
-    res.redirect('/login')
+    res.redirect('/register')
     console.log(users)
     }catch (error) {
         console.error('Error inserting data:', error);
         res.status(500).send('Error inserting data: ' + error.message);
     }
     })
+
+
+
+
+
+
+    app.delete('/register/:id', async (req, res) => {
+        const id = req.params.id;
+    
+        try {
+            // Disable foreign key checks
+            await pool.query('SET FOREIGN_KEY_CHECKS = 0');
+    
+            // SQL query to delete a record from the 'doctors' table based on ID or from the 'nurses' table if the ID is found there
+            await pool.query('DELETE FROM doctors WHERE id = ?', [id]);
+
+            // Delete record from the 'nurses' table
+            await pool.query('DELETE FROM nurses WHERE id = ?', [id]);
+            await pool.query('DELETE FROM Staff WHERE id = ?', [id]);
+
+            // Execute the delete query with both 'id' values passed as parameters
+            //await pool.query(sql, [id, id]);
+    
+            // Re-enable foreign key checks
+            await pool.query('SET FOREIGN_KEY_CHECKS = 1');
+    
+            console.log('user deleted successfully');
+            res.json({ redirect: '/register' }); // Redirect to the register page after successful deletion
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+    
+  
+
+
+
+
 
    
 
@@ -256,15 +295,21 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
             `;
             const [tasksRows] = await pool.query(query);
                         const query1 = `
-                        SELECT nurses.*
-                        FROM done_tasks
-                        INNER JOIN nurses ON done_tasks.nurse_id = nurses.id;
+                        SELECT nurses.name, done_tasks.taskId FROM done_tasks INNER JOIN nurses ON done_tasks.nurse_id = nurses.id WHERE done_tasks.taskId IN (SELECT taskId FROM tasks WHERE tasks.task_id = done_tasks.taskId);
 
                         
-            `;
-
+            `;/* SELECT tasks.task_id, nurses.*
+            FROM tasks
+            INNER JOIN done_tasks ON tasks.task_id = done_tasks.taskId
+            INNER JOIN nurses ON done_tasks.nurse_id = nurses.id
+            WHERE done_tasks.taskId IS NOT NULL;
+            */
+const query2=`SELECT tasks.task_id FROM tasks LEFT JOIN done_tasks ON tasks.task_id = done_tasks.taskId WHERE done_tasks.taskId IS NOT NULL;
+`
+const [doneRows] = await pool.query(query2);
+console.log(doneRows)
             const [nurseRows] = await pool.query(query1);
-
+console.log(nurseRows.id)
                 const isUserDoctor = await isDoctor(req.user.id);
                 if (nurseRows.length > 0) {
                     // The query returned results, do something with them
@@ -273,10 +318,11 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
                     // No tasks found
                     console.log("No tasks found.");
                 }
-                if (isUserDoctor) {
+                if (isUserDoctor) { 
 
-                
+                   
                     res.render('tasks.ejs', { tasks: tasksRows, isDoctor: true,done_task_nurse_info:nurseRows });
+                   
                 } 
                  else {
                     res.render('tasks.ejs', { tasks: tasksRows, isDoctor: false,done_task_nurse_info:nurseRows});
@@ -293,7 +339,7 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
         const isUserDoctor = await isDoctor(req.user.id);
         const formType = req.body.formType;
         if (isUserDoctor) {
-
+/*
             if (formType === 'deleteTasks'){
                 const deleteTaskId = req.body.deleteTaskId;
                 if (deleteTaskId) {
@@ -311,8 +357,8 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
                     });
                 }
             
-            }
-
+            } 
+*/
             
             if (formType === 'addTask'){
             await pool.query("INSERT INTO `tasks` (`details`, `doctor_id`, `file_id`) VALUES ( ?, ?, ?)", [
@@ -326,8 +372,10 @@ app.post('/register',checkNotAuthenticated,async(req,res)=>{
             const taskIds = req.body.taskIds;
             // Render tasks.ejs with isDoctor set to false
             //res.status(403).send("Forbidden: User is not a doctor");
+            
             if (taskIds && taskIds.length > 0) {
                 for (const taskId of taskIds) {
+                    console.log(taskId)
                     await pool.query("INSERT INTO `done_tasks` (`taskId`, `nurse_id`) VALUES (?, ?)", [
                         taskId,
                         req.user.id
@@ -427,7 +475,7 @@ function checkNotAuthenticated(req,res,next){
     next()
 }
 
-app.listen(3000)  
+app.listen(3000)   
 
 /*<h1>hi <%= name %></h1>
 <form id="logoutForm" action="/logout" method="POST"> <!-- Form submission method set to POST -->
