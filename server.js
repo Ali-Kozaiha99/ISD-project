@@ -417,6 +417,19 @@ app.delete('/tasks/:id', async (req, res) => {
     }
 });
 
+app.get('/admition', async (req, res) => {
+    try {
+        const query = `SELECT * FROM file`;
+        const [fileRows] = await pool.query(query);
+        console.log('Fetched files:', fileRows); // Log fetched files for debugging
+        res.render('admition.ejs', { files: fileRows });
+    } catch (error) {
+        console.error('Error retrieving files:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.post
+
 /*
 app.delete('/deleteTask', (req, res) => {
     console.log('DELETE request received for /deleteTask route');

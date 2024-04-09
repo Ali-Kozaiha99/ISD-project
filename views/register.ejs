@@ -110,7 +110,6 @@
 
   <label for="section">Section:</label>
   <select id="section" name="section" required>
-    <option value="" selected>select section</option>
     <option value="1">1st Floor</option>
     <option value="2">2nd Floor</option>
     <option value="3">3rd Floor</option>
@@ -119,7 +118,6 @@
 
   <label for="type">Type:</label>
   <select id="type" name="type" required>
-    <option value="" selected>type</option>
     <option value="scan">Scan</option>
     <option value="lab">Lab</option>
   </select>
@@ -182,23 +180,7 @@
             <% }) %>
         </ul>
     </div>
-    <script>
-        document.querySelectorAll('a.delete').forEach(trashcan => {
-      trashcan.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent the default action of the link
-        
-        const endpoint = `/register/${trashcan.dataset.dtask}`;
     
-        fetch(endpoint, {
-          method: 'DELETE',
-        })
-        .then(response => response.json())
-        .then(data => window.location.href = data.redirect)
-        .catch(err => console.error(err));
-      });
-    });
-    
-      </script>
     <script>
         function searchFunction() {
             var input, filter, ul, li, div, txtValue;
