@@ -17,6 +17,7 @@
     <h1>You are not a doctor.</h1>
     <!-- Other content for non-doctors -->
 <% } %>
+
 <h1>Tasks List</h1>
 
 <!-- Submit Tasks Form -->
@@ -25,7 +26,7 @@
 
     <ul>
         <%
-        for (let i = 0, d = 0; i < tasks.length && d < done_task_nurse_info.length; i++, d++) {
+        for (let i = 0, d = 0; i < tasks.length || d < done_task_nurse_info.length; i++, d++) {
             const task = tasks[i];
             const nurseInfo = done_task_nurse_info[d];
         %>
@@ -63,3 +64,13 @@
 });
 
   </script>
+  <script>
+    var isDoctor = '<%= isDoctor %>';
+    
+if (isDoctor) {
+    console.log("Welcome, Doctor!");
+} else {
+    console.log("You are not a doctor.");
+}
+
+</script>
