@@ -1,76 +1,136 @@
-<!-- Add Task Form -->
-<form action="/tasks" method="post">
-    <div>
-        <label for="patient_id">Patient ID</label>
-        <input type="number" id="patient_id" name="patient_id">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha384-..." crossorigin="anonymous" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>it</title>
+</head>
+
+<body onload="hideCheckboxesAndButton()">
+    <div class="left">
+        <div class="left_nav">
+            <center>
+                <a href="">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <p>Today's Patient</p>
+                </a>
+            </center>
+        </div>
+        <div class="left_nav">
+            <center>
+                <a href="">
+                    <i class="fa-solid fa-file-waveform"></i>
+                    <p>Patient Files</p>
+                </a>
+            </center>
+        </div>
+        <div class="left_nav">
+            <center>
+                <a href="">
+                    <i class="fas fa-tasks"></i>
+                    <p>Tasks</p>
+                </a>
+            </center>
+        </div>
+        <div class="left_nav">
+            <center>
+                <a href="">
+                    <i class="fas fa-flask"></i>
+                    <i class="fas fa-syringe"></i>
+                    <p>Tests</p>
+                </a>
+            </center>
+        </div>
     </div>
-    <input type="hidden" name="formType" value="addTask"> <!-- This line was added -->
-    <div>
-        <label for="details">Details</label>
-        <input type="text" id="details" name="details">
-    </div>
-    <button type="submit">Add Task</button>
-</form>
-<% if (isDoctor) { %>
-    <h1>Welcome, Doctor!</h1>
-<% } else { %>
-    <h1>You are not a doctor.</h1>
-    <!-- Other content for non-doctors -->
-<% } %>
 
-<h1>Tasks List</h1>
+    <div class="right">
+        <% if (isDoctor) { %>
+            <h1 style="color: rgb(3, 49, 92)">Welcome, Doctor!</h1>
 
-<!-- Submit Tasks Form -->
-<form id="submitTasksForm" action="/tasks" method="POST">
-    <input type="hidden" name="formType" value="submitTasks"> <!-- This line was added -->
-
-    <ul>
-        <%
-        for (let i = 0, d = 0; i < tasks.length || d < done_task_nurse_info.length; i++, d++) {
-            const task = tasks[i];
-            const nurseInfo = done_task_nurse_info[d];
-        %>
-            <li>
-                <input type="checkbox" name="taskIds" value="<%= task.task_id %>">
-                <%= task.details %> - <%= task.doctor_name %> - <%= task.added_date.toLocaleString() %> - <%= task.task_id %>
-                <% if (nurseInfo) { %>
-                    - Nurse: <%= nurseInfo.name %>
+            <% } else { %>
+                <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
+                <!-- Other content for non-doctors -->
                 <% } %>
+                    <center>
+                        <div class="task_form">
+                            <form action="/tasks" method="post">
+                                <div>
+                                    <label for="patient_id">Patient ID:</label>
+                                    <input type="number" id="patient_id" name="patient_id" />
+                                </div>
+                                <input type="hidden" name="formType" value="addTask" />
+                                <!-- This line was added -->
+                                <div>
+                                    <label for="details">Details</label><br />
+                                    <textarea name="details" id="details" cols="30" rows="10"></textarea>
+                                </div>
+                                <button type="submit">Add Task</button>
+                            </form>
+                        </div>
+                    </center>
+                    <div class="task_under">
+                        <h1>Tasks List</h1>
 
-                <!-- delete is not supported in html only get and post -->
+                        <!-- Submit Tasks Form -->
+                        <form id="submitTasksForm" action="/tasks" method="POST">
+                            <input type="hidden" name="formType" value="submitTasks" />
+                            <!-- This line was added -->
 
+                            <ul>
+                                <%
+                                for (let i = 0, d = 0; i < tasks.length || d < done_task_nurse_info.length; i++, d++) {
+                                    const task = tasks[i];
+                                    const nurseInfo = done_task_nurse_info[d];
+                                %>
+                                    <div>
+                                        <input type="checkbox" name="taskIds" value="<%= task.task_id %>" />
+                                        <a class="delete" data-dtask="<%= task.task_id  %>" href="">Delete</a>
 
-            <a class="delete" data-dtask="<%= task.task_id  %>" href="">delete</a>
-            </li>
-        <% } %>
-        
-    </ul>
-    <button type="submit">Submit</button>
-</form>
-<script>
-    document.querySelectorAll('a.delete').forEach(trashcan => {
-  trashcan.addEventListener('click', (e) => {
-    e.preventDefault(); // Prevent the default action of the link
-    
-    const endpoint = `/tasks/${trashcan.dataset.dtask}`;
+                                        <span> File ID: </span>
+                                        <%= task.file_id %>
+                                            <span>Task ID: </span>
+                                            <%= task.task_id %> <br />
+                                                <span>Task Ditails:</span>
+                                              <p class="task-details">  <%= task.details %></p> <br />
+                                                    <a>
+                                                        <span>Created by:</span>
+                                                        <%= task.doctor_name %> At: <%= task.added_date.toLocaleString()
+                                                                %>
+                                                    </a>
 
-    fetch(endpoint, {
-      method: 'DELETE',
-    })
-    .then(response => response.json())
-    .then(data => window.location.href = data.redirect)
-    .catch(err => console.error(err));
-  });
-});
+                                                    <% if (nurseInfo) { %>
+                                                        <span>Done By:</span> Nurse: <%= nurseInfo.name %>
+                                                    <% } %>
 
-  </script>
-  <script>
-    var isDoctor = '<%= isDoctor %>';
-    
-if (isDoctor) {
-    console.log("Welcome, Doctor!");
-} else {
-    console.log("You are not a doctor.");
-}
+                                                                <!-- delete is not supported in html only get and post -->
+                                    </div>
+                                    <% } %>
+                            </ul>
+                            <button class="task_but" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    <script>
+                        document.querySelectorAll("a.delete").forEach((trashcan) => {
+                            trashcan.addEventListener("click", (e) => {
+                                e.preventDefault(); // Prevent the default action of the link
 
-</script>
+                                const endpoint = `/tasks/${trashcan.dataset.dtask}`;
+
+                                fetch(endpoint, {
+                                    method: "DELETE",
+                                })
+                                    .then((response) => response.json())
+                                    .then((data) => (window.location.href = data.redirect))
+                                    .catch((err) => console.error(err));
+                            });
+                        });
+                    </script>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
