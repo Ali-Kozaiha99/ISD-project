@@ -1,5 +1,15 @@
 <h1>hi <%= name %></h1>
-<form action="/logout" method="POST"> <!-- Change method to POST -->
-    <input type="hidden" name="_method" value="DELETE"> <!-- Method override for DELETE -->
-    <button type="submit">Log Out</button>
+<form id="logoutForm" action="/logout" method="POST"> <!-- Form submission method set to POST -->
+    <input type="hidden" name="_method" id="methodOverride" value="DELETE"> <!-- Method override for DELETE -->
+    <input type="hidden" name="originalMethod" value="POST"> <!-- Store the original method -->
+    <button type="submit">Log Out</button> <!-- Submit button -->
 </form>
+<a href="/tasks">tasks</a> <!-- Link to tasks page -->
+<a href="/register">register</a>
+<a href="/admition">admition</a>
+<script>
+    document.getElementById("logoutForm").addEventListener("submit", function(event) {
+        const originalMethod = document.getElementById("logoutForm").elements["originalMethod"].value;
+        document.getElementById("methodOverride").value = originalMethod; // Set method override to original method
+    });
+</script>
