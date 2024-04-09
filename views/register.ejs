@@ -180,7 +180,23 @@
             <% }) %>
         </ul>
     </div>
-    
+    <script>
+      document.querySelectorAll('a.delete').forEach(trashcan => {
+    trashcan.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent the default action of the link
+      
+      const endpoint = `/register/${trashcan.dataset.dtask}`;
+  
+      fetch(endpoint, {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => window.location.href = data.redirect)
+      .catch(err => console.error(err));
+    });
+  });
+  
+    </script>
     <script>
         function searchFunction() {
             var input, filter, ul, li, div, txtValue;
