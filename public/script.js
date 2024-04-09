@@ -358,5 +358,35 @@ formm.style.display='block'
         }
     }
 
-// Call the function to append persons to floor divs
+  function hideCheckboxesAndButton() {
+    '<% if (isDoctor) { %>'
+     console.log('D');
 
+      '<% } else { %>'
+      console.log('e');
+
+          '<% } %>'
+    /*  if (isDoctor) {
+          console.log('hi1');
+          var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          var submitButton = document.querySelector('.task_but');
+
+          // Set display to 'none' for each checkbox and the submit button
+          checkboxes.forEach(function (checkbox) {
+              checkbox.style.display = 'none';
+          });
+          submitButton.style.display = 'none';
+      } else {
+          console.log('hi2');
+
+          document.querySelector('.task_form').style.display = 'none';
+
+          // Hide all delete buttons
+          document.querySelectorAll('a.delete').forEach(deleteButton => {
+              deleteButton.style.display = 'none';
+          });
+      }*/
+  }
+
+
+   
