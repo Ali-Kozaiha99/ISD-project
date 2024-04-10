@@ -257,3 +257,71 @@ async function createTable() {
 // Call the function to create table
 createTable();
 */
+
+
+
+
+/*
+async function createTable() {
+    try {
+        const sql = `
+        CREATE TABLE admition (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            phone_number VARCHAR(20),
+            gender VARCHAR(20),
+            email VARCHAR(255),
+            password VARCHAR(255),
+            dateOfBirth DATE
+        ) AUTO_INCREMENT = 400;
+        
+        `;
+        await pool.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+*/
+/*
+async function createTable() {
+    try {
+        const sql = `
+        INSERT INTO admition (name, phone_number, gender, email, password) 
+VALUES ('admition', 585, 'n', 'd@d', 'a')
+
+        
+        `;
+        await pool.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+*/
+/*
+
+async function createTable() {
+    try {
+        const sql = `
+            INSERT INTO admition (name, phone_number, gender, email, password) 
+    VALUES ('admition', 585, 'n', 'd@dd', 'a')
+
+        
+        `;
+        await pool.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+*/
