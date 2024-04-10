@@ -187,6 +187,17 @@ app.post('/register',async(req,res)=>{
             ]);
             
             }
+
+            else if(req.body.role==="admition"){
+                await pool.query("INSERT INTO `admition`(name, email,password, dateOfBirth,phone_number ) VALUES (?, ?, ?, ?, ?, ?)", [
+                    req.body.name,
+                    req.body.email,
+                    hashedPassword,
+                    req.body.birthDate,  
+                    req.body.phoneNumber
+                ]);
+                }
+
             else{
                 await pool.query("INSERT INTO `users`(`id`, `username`, `email`) VALUES (9,'[value-2]','[value-3]')")
             }
@@ -417,6 +428,18 @@ app.delete('/tasks/:id', async (req, res) => {
     }
 });
 
+
+async function isAdmition(userId) {
+    try {
+        const sql = "SELECT * FROM file WHERE id = ?";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking doctor:", error);
+        return false;
+    }
+}
 app.get('/admition', async (req, res) => {
     try {
         const query = `SELECT * FROM file`;
@@ -428,7 +451,21 @@ app.get('/admition', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-app.post
+app.post('/admition', async (req, res) => {
+    const isUseradmition = await isAdmition(req.user.id);
+    if(isUseradmition){
+    await pool.query("INSERT INTO `file` (`patient_name`, `file_id`, `phone_number`) VALUES ( ?, ?, ?)", [
+        req.body.patient_name,
+        req.body.patient_id,
+        req.body.phone_number
+    ]); 
+        res.redirect('/admition')  
+}
+})
+
+app.get('/AI', async (req, res) => {
+    res.render('AI.ejs'); 
+});
 
 /*
 app.delete('/deleteTask', (req, res) => {

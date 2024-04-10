@@ -1,0 +1,28 @@
+<h1>Create file</h1>
+<form action="/admition" method="post">
+    <div>
+        <label for="patient_id">Patient ID</label>
+        <input type="number" id="patient_id" name="patient_id">
+
+        <label for="patient_name">patient name</label>
+        <input type="text" id="patient_name" name="patient_name">
+
+        <label for="phone_number">phone number</label>
+        <input type="number" id="phone_number" name="phone_number">
+    </div>
+    <button type="submit">Add patient</button>
+</form>
+
+
+
+<ul>
+    <% files.forEach(file => { %>
+        <li> 
+            <form action="your_action_here" method="POST">
+                <input type="hidden" name="file_id" value="<%= file.file_id %>">
+                <%= file.file_id %> - <%= file.patient_name %> - <%= file.phone_number %>
+                <input type="submit" name="taskIds" value="Add">
+            </form>
+        </li>
+    <% }) %>
+</ul>

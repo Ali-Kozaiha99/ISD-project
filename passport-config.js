@@ -17,18 +17,41 @@ async function getUserById(id) {
 }
 
 async function getUserByEmail(email) {
-  const [rows] = await pool.query(`
-      SELECT * FROM (
-          SELECT id, email, password FROM nurses
-          UNION ALL
-          SELECT id, email, password FROM doctors
-          UNION ALL
-          SELECT id, email, password FROM staff
-      ) AS all_users
-      WHERE email = ?
-  `, [email]);
-  return rows[0]; // Assuming you expect only one user per email
-}
+    const [nurseRows] = await pool.query(`
+        SELECT id, email, password FROM nurses WHERE email = ?
+    `, [email]);
+  
+    if (nurseRows.length > 0) {
+      return nurseRows[0];
+    }
+  
+    const [doctorRows] = await pool.query(`
+        SELECT id, email, password FROM doctors WHERE email = ?
+    `, [email]);
+  
+    if (doctorRows.length > 0) {
+      return doctorRows[0];
+    }
+  
+    const [staffRows] = await pool.query(`
+        SELECT id, email, password FROM staff WHERE email = ?
+    `, [email]);
+  
+    if (staffRows.length > 0) {
+      return staffRows[0];
+    }
+  
+    const [admissionRows] = await pool.query(`
+        SELECT id, email, password FROM admition WHERE email = ?
+    `, [email]);
+  
+    if (admissionRows.length > 0) {
+      return admissionRows[0];
+    }
+  
+    return null;
+  }
+  
 
 function initialize(passport, getUserByEmail, getUserById) {
     const authenticateUser = async (email, password, done) => {
