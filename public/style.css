@@ -70,6 +70,118 @@ body {
     color: rgb(3, 49, 92);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+.task_form{
+    
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #9fc2e1;
+   width: 50vw;
+   height: 37vh;
+}
+.login_error{
+    font-weight: bold;
+    color: red;
+}
+.task_form label{
+font-size: 1.4em;
+color: rgb(3, 49, 92);
+font-weight: bold;
+}
+
+.task_under h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+color: rgb(3, 49, 92);
+}
+.task-details {
+   
+    max-width: 60vw; /* Adjust this value as needed */
+    word-wrap: break-word; /* Enable word wrapping */
+}
+.task_under div{
+    position: relative;
+
+    height: inherit;
+    padding: 4px;
+    font-weight: bold;
+  color: rgb(3, 49, 92);
+    border-radius: 5px;
+    font-size: 1.1em;
+    margin: 5px;
+    background-color: #9fc2e1;
+}
+.task_but{
+    margin-bottom: 10px;
+    width: 8vw;
+    border: none;
+    padding: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 5px;
+   background-color: #9fc2e1;
+    text-decoration: none;
+    color: rgb(3, 49, 92);
+    float: right;
+}
+.delete{
+    padding: 5px;
+    border-radius: 5px;
+   background-color: white;
+    text-decoration: none;
+    color: rgb(3, 49, 92);
+    float: right;
+}
+.task_under a{
+    text-decoration: none;
+    color: rgb(3, 49, 92);
+float: right;
+}
+.created_by{
+    position:absolute;
+    text-decoration: none;
+    color: rgb(3, 49, 92);
+   bottom: 0;
+   right: 0;
+}
+.task_under span{
+    font-weight: 400;
+    color: white;
+}
+.task_form input{
+font-size: 1.2em;
+border: none;
+border-radius: 5px;
+    width: 15vw;
+    height: 4vh;
+    outline: none;
+}
+.task_form textarea{
+    border: none;
+border-radius: 5px;
+    padding: 5px;
+    resize: none;
+font-size: 1.2em;
+height: 20vh;
+    outline: none;
+    width: 35vw;
+}
+.task_form button{
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 10px;
+    float: right;
+    width: 8vw;
+    height: 5.5vh;
+    border: none;
+    background-color: rgb(3, 49, 92);
+}
+
+.login_error{
+    margin-top: 2vh;
+    color: red;
+    font-weight: bold;
+}
 
 .login_container input {
     outline: none;
@@ -101,7 +213,7 @@ body {
     height: 6.5vh;
     border: none;
     border-top: 1px solid lightgray;
-    box-shadow: 1px 7px 4px grey;
+    box-shadow: 1px 2px 2px grey;
     border-radius: 10px;
     margin-top: 6vh;
 }
@@ -288,5 +400,3 @@ color: white;
     border: none;
     background-color: #9fc2e1;
 }
-
-
