@@ -288,7 +288,38 @@ formm.style.display='block'
     phoneNumberInput.setAttribute('required', 'required');
     birthDateInput.setAttribute('required', 'required');
     spacialityInput.setAttribute('required', 'required');
-  } else if (selectedRole === 'a') {
+  }
+  else if(selectedRole === 'admition') {
+      // Display doctor fields
+      nameInput.style.display = 'inline';
+      gender.style.display = 'inline';
+  
+      nameLabel.style.display = 'inline';
+      emailInput.style.display = 'inline';
+      emailLabel.style.display = 'inline';
+      passwordInput.style.display = 'inline';
+      passwordLabel.style.display = 'inline';
+      phoneNumberInput.style.display = 'inline';
+      phoneNumberLabel.style.display = 'inline';
+      birthDateInput.style.display = 'inline';
+      birthDateLabel.style.display = 'inline';
+
+  
+      maleRadioButton.style.display = 'inline';
+      maleLabel.style.display = 'inline';
+      femaleRadioButton.style.display = 'inline';
+      femaleLabel.style.display = 'inline';
+  
+      // Set required attribute for doctor fields
+      nameInput.setAttribute('required', 'required');
+      emailInput.setAttribute('required', 'required');
+      passwordInput.setAttribute('required', 'required');
+      phoneNumberInput.setAttribute('required', 'required');
+      birthDateInput.setAttribute('required', 'required');
+    
+
+  }
+   else if (selectedRole === 'a') {
     // Display nurse fields
     nameInput.style.display = 'inline';
     nameLabel.style.display = 'inline';

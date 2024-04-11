@@ -189,7 +189,7 @@ app.post('/register',async(req,res)=>{
             }
 
             else if(req.body.role==="admition"){
-                await pool.query("INSERT INTO `admition`(name, email,password, dateOfBirth,phone_number ) VALUES (?, ?, ?, ?, ?, ?)", [
+                await pool.query("INSERT INTO `admition`(name, email,password, dateOfBirth,phone_number ) VALUES (?, ?, ?, ?, ?)", [
                     req.body.name,
                     req.body.email,
                     hashedPassword,
