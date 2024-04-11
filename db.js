@@ -325,3 +325,29 @@ async function createTable() {
 // Call the function to create table
 createTable();
 */
+
+
+/*
+
+async function createTable() {
+    try {
+        const sql = `
+        CREATE TABLE admission_patient (
+            admission_number INT AUTO_INCREMENT PRIMARY KEY,
+            date_added DATE,
+            file_id INT
+        );
+
+        
+        `;
+        await pool.query(sql);
+        console.log('Table created successfully');
+    } catch (error) {
+        console.error('Error creating table:', error);
+    }
+}
+
+// Call the function to create table
+createTable();
+
+*/

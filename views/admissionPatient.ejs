@@ -1,0 +1,28 @@
+<ul>
+    <% admission_patients.forEach(admission_patient => { %>
+        <li> 
+            <form action="admissionPatient" method="POST">
+                <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>">
+                <%= admission_patient.file_id %> - <%= admission_patient.patient_name %> - <%= admission_patient.phone_number %> - <%= admission_patient.date_added.toLocaleString() %>
+                <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="">Delete</a>
+            </form>
+        </li>
+    <% }) %>
+</ul>
+
+<script>
+    document.querySelectorAll("a.delete").forEach((trashcan) => {
+      trashcan.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent the default action of the link
+
+        const endpoint = `/admissionPatient/${trashcan.dataset.dtask}`;
+
+        fetch(endpoint, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((data) => (window.location.href = data.redirect))
+          .catch((err) => console.error(err));
+      });
+    });
+  </script>

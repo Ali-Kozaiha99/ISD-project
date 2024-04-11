@@ -462,7 +462,75 @@ app.post('/admition', async (req, res) => {
         res.redirect('/admition')  
 }
 })
+/*SELECT f.*, ap.date_added
+FROM file f
+INNER JOIN admission_patient ap ON f.file_id = ap.file_id;
+ */
+app.get('/admissionPatient', async (req, res) => {
 
+    try {
+        const query = `SELECT f.*, ap.date_added
+        FROM file f
+        INNER JOIN admission_patient ap ON f.file_id = ap.file_id;`;
+        const [admission_patientRows] = await pool.query(query);
+        console.log('Fetched files:', admission_patientRows); // Log fetched files for debugging
+        res.render('admissionPatient.ejs', { admission_patients: admission_patientRows });
+    } catch (error) {
+        console.error('Error retrieving files:', error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+app.post('/admissionPatient', async (req, res) => {
+    const [existingPatientt] = await pool.query('SELECT * FROM admission_patient WHERE file_id = ?', [
+        req.body.file_id,
+    ]);
+    console.log(req.body.file_id)
+    console.log(existingPatientt)
+
+
+    if( existingPatientt.length > 0 ){
+       /* const sql = "SELECT * FROM file WHERE id = ?";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        res.render('/admition',{mes:'user already added'})*/
+        console.log("user already added")
+        res.redirect('/admition')
+    }
+    else{
+        console.log("here i am")
+    await pool.query("INSERT INTO `admission_patient` (`file_id`) VALUES ( ?)", [
+        
+        req.body.file_id,
+        
+    ]); 
+        res.redirect('/admition')  
+    }
+})
+ 
+app.delete('/admissionPatient/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        // Disable foreign key checks
+        await pool.query('SET FOREIGN_KEY_CHECKS = 0');
+
+        // SQL query to delete a record from the 'tasks' table based on ID
+        const sql = 'DELETE FROM admission_patient WHERE file_id = ?';
+
+        // Execute the delete query
+        await pool.query(sql, [id]);
+
+        // Re-enable foreign key checks
+        await pool.query('SET FOREIGN_KEY_CHECKS = 1');
+
+        console.log('Task deleted successfully');
+        res.json({ redirect: '/admissionPatient' }); // Redirect to the tasks page after successful deletion
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+ 
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 
 });
