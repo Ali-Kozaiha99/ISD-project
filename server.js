@@ -103,8 +103,10 @@ app.get('/register',  async (req, res) => {
         const [doctorRows, doctorFields] = await pool.query('SELECT * FROM Doctors');
         const [nurseRows, nurseFields] = await pool.query('SELECT * FROM nurses');
         const [staffRows, staffFields] = await pool.query('SELECT * FROM staff');
+        const [admitionRows, admitionFields] = await pool.query('SELECT * FROM admition');
+
         
-        res.render('register.ejs', { doctors: doctorRows, nurses: nurseRows, staff: staffRows });
+        res.render('register.ejs', { doctors: doctorRows, nurses: nurseRows, staff: staffRows,admitions:admitionRows });
 
     } catch (error) {
         console.error('Error retrieving data:', error);
@@ -155,12 +157,13 @@ app.post('/register',async(req,res)=>{
     try{
     const hashedPassword=await bcrypt.hash(req.body.password,10)
     if(req.body.role==="a"){
-    await pool.query("INSERT INTO nurses (id, name, email, password, birthDate, section, rank, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+    await pool.query("INSERT INTO nurses (id, name, email, password, birthDate,gender, section, rank, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)", [
         req.body.id,
         req.body.name,
         req.body.email,
         hashedPassword,
-        req.body.birthDate,  
+        req.body.birthDate, 
+        req.body.gender , 
         req.body.section,
         req.body.rank,
         req.body.phoneNumber
@@ -168,11 +171,12 @@ app.post('/register',async(req,res)=>{
 
 
     else if(req.body.role==="b"){
-        await pool.query("INSERT INTO Doctors (name, email, password, birthDate, spaciality, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)", [
+        await pool.query("INSERT INTO Doctors (name, email, password, birthDate,gender, spaciality, phoneNumber) VALUES (?, ?, ?, ?, ?, ?,?)", [
             req.body.name,
             req.body.email,
             hashedPassword,
-            req.body.birthDate,  
+            req.body.birthDate,
+            req.body.gender,  
             req.body.spaciality,
             req.body.phoneNumber
         ]);
@@ -189,12 +193,13 @@ app.post('/register',async(req,res)=>{
             }
 
             else if(req.body.role==="admition"){
-                await pool.query("INSERT INTO `admition`(name, email,password, dateOfBirth,phone_number ) VALUES (?, ?, ?, ?, ?)", [
+                await pool.query("INSERT INTO `admition`(name, email,password, dateOfBirth,phone_number,gender  ) VALUES (?, ?, ?, ?, ?,?)", [
                     req.body.name,
                     req.body.email,
                     hashedPassword,
                     req.body.birthDate,  
-                    req.body.phoneNumber
+                    req.body.phoneNumber,
+                    req.body.gender 
                 ]);
                 }
 
@@ -494,7 +499,7 @@ app.post('/admissionPatient', async (req, res) => {
         const [rows, fields] = await pool.query(sql, [userId]);
         res.render('/admition',{mes:'user already added'})*/
         console.log("user already added")
-        res.redirect('/admition')
+        res.redirect('/file')
     }
     else{
         console.log("here i am")
@@ -503,7 +508,7 @@ app.post('/admissionPatient', async (req, res) => {
         req.body.file_id,
         
     ]); 
-        res.redirect('/admition')  
+    res.redirect('/file')
     }
 })
  
@@ -530,7 +535,10 @@ app.delete('/admissionPatient/:id', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
- 
+app.get('/file', async (req, res) => {
+    res.render('file.ejs'); 
+
+})
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 
 });

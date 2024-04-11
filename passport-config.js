@@ -10,6 +10,8 @@ async function getUserById(id) {
           SELECT id, email, password FROM doctors
           UNION ALL
           SELECT id, email, password FROM staff
+          UNION ALL
+          SELECT id, email, password FROM admition
       ) AS all_users
       WHERE id = ?
   `, [id]);
@@ -91,4 +93,3 @@ module.exports = {
   getUserByEmail,
   getUserById
 };
-

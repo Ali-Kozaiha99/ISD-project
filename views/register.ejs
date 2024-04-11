@@ -183,6 +183,20 @@
             <% }) %>
         </ul>
     </div>
+    <ul>
+      <% admitions.forEach(admition => { %>
+      <div class="it_show_users">
+          <div class="namess">Name:</div >
+        <span> <%= admition.id %>  </span>                    <a class="delete" data-dtask="<%= admition.id  %>" href="">delete</a>
+        <br>
+          <div class="namess">Email:</div >
+          <%= admition.email %> <br>
+          <div class="namess">PhoneNumber:</div >
+          <%= admition.phoneNumber %>
+      </div>
+      <% }) %>
+  </ul>
+
     <script>
       document.querySelectorAll('a.delete').forEach(trashcan => {
     trashcan.addEventListener('click', (e) => {
