@@ -3,12 +3,13 @@
     padding: 0;
 }
 
-body {
+.Right_left_body{
     background-color: white;
     height: 100vh;
     display: grid;
     grid-template-columns: 10% 90%;
 }
+
 
 .left {
     height: 600px;
@@ -206,10 +207,14 @@ height: 20vh;
     border: none;
     background-color: rgb(3, 49, 92);
 }
+.file-info div{
+    display: inline;
+}
 
 .it_search {
     padding-left: 10px;
     width: 25vw;
+    outline: none;
     height: 6.5vh;
     border: none;
     border-top: 1px solid lightgray;
@@ -222,7 +227,9 @@ height: 20vh;
 
     color: rgb(3, 49, 92);
 }
-
+.add_user_admi{
+    color: rgb(3, 49, 92);
+    font-size:2.2em;}
 .add_user {
     font-weight: 600;
     margin-bottom: 1vh;
@@ -231,14 +238,86 @@ height: 20vh;
     margin-top: 2vh;
 
 }
-
+.add_pat_container{
+    border-radius: 10px;    
+    position: relative;
+    padding: 10px;
+    height: 28vh;
+    width: 54vw;
+    border-radius: 10px;
+    background-color: white;
+    border: 2px solid #9fc2e1;
+}
 .add_user_container {
 position: relative;
-    padding: 10px;
+    padding: 5px;
     height: 26vh;
     border-radius: 10px;
     background-color: white;
     border: 2px solid #9fc2e1;
+}
+.files_divvv{
+    border-radius: 10px;    
+
+    padding: 10px;
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 1.3em;
+    color: rgb(3, 49, 92);
+    margin: 10px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-top: 15px;
+
+
+
+    background-color: #9fc2e1;
+}
+.files_divvv span{
+    padding-left: 10px;
+    font-weight: 600;
+
+color: white;    
+}
+.files_divvv input[type=submit]{
+    float: right;
+    font-weight: bold;
+color: white;
+color: rgb(3, 49, 92);
+    width: 6vw;
+    height: 2vw;
+    border: none   ;
+    border-radius:5px;
+
+}
+
+.add_pat_container label{
+    font-weight: bold;
+    padding-left: 20px;
+    color: rgb(3, 49, 92);
+    font-size: 1.3em;
+}
+.add_pat_container input{
+    width: 16vw;
+    padding-left: 5px;
+    margin-top: 15px;
+    outline: none;
+    height: 5vh;
+    border-radius: 5px;
+    background-color: #9fc2e1;
+    border: none;
+    font-size: 1em;
+}
+.add_pat_container button{
+    bottom: 5px;
+    right: 5px;
+    position: absolute;
+    border: none;
+    border-radius: 5px;
+    color:white;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: rgb(3, 49, 92);
 }
 
 .rolee label {
@@ -399,4 +478,7 @@ color: white;
     font-size: 2em;
     border: none;
     background-color: #9fc2e1;
+}
+.addmittion_container{
+   background-color: black; 
 }

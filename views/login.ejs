@@ -17,8 +17,8 @@
           <input type="password" name="password" id="password" placeholder="Password"/>
           <br />
           <button type="submit">Login</button>
-<% if(messages.error){ %> <%= messages.error %> <% } %>
-<div class="login_error"></div>
+<div class="login_error">
+  <% if(messages.error){ %> <%= messages.error %> <% } %></div>
         </form>
     <a href="/register">register</a>
         

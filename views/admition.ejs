@@ -1,28 +1,64 @@
-<h1>Create file</h1>
-<form action="/admition" method="post">
-    <div>
-        <label for="patient_id">Patient ID</label>
-        <input type="number" id="patient_id" name="patient_id">
-
-        <label for="patient_name">patient name</label>
-        <input type="text" id="patient_name" name="patient_name">
-
-        <label for="phone_number">phone number</label>
-        <input type="number" id="phone_number" name="phone_number">
-    </div>
-    <button type="submit">Add patient</button>
-</form>
-
-
-
-<ul>
-    <% files.forEach(file => { %>
-        <li> 
-            <form action="your_action_here" method="POST">
-                <input type="hidden" name="file_id" value="<%= file.file_id %>">
-                <%= file.file_id %> - <%= file.patient_name %> - <%= file.phone_number %>
-                <input type="submit" name="taskIds" value="Add">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>it</title>
+</head>
+<body>
+    <input type="text" style="margin-left: 20px;" class="it_search" id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
+    <center>
+        <div class="add_pat_container" style="margin-top: 20px;">
+            <h1 class="add_user_admi">Create File:</h1> 
+            <form action="/admition" method="post">
+                <div>
+                    <label for="patient_id">Patient ID:</label>
+                    <input type="number" id="patient_id" name="patient_id">
+                    <label for="patient_name">patient name:</label>
+                    <input type="text" id="patient_name" name="patient_name">
+                    <br><br>
+                    <label for="phone_number" style="margin-bottom: 0px;">phone number</label>
+                    <br>
+                    <input type="number" id="phone_number" name="phone_number" style="margin-top:0;">
+                </div>
+                <button type="submit">Add patient</button>
             </form>
-        </li>
+        </div>
+    </center>
+    <% files.forEach(file => { %>
+        <div class="files_divvv">
+            <form action="admissionPatient" method="POST">
+                <input type="hidden" name="file_id" value="<%= file.file_id %>">
+                <div class="file-info">
+                    <div class="file-id">  <span>ID:</span> <%= file.file_id %></div>
+                    <div class="file-name"> <span>Name: </span><%= file.patient_name %></div>
+                    <div class="file-phone"> <span>Number:</span><%= file.phone_number %></div>
+                <input type="submit" name="taskIds" value="Add">
+
+                </div>
+            </form>
+        </div>
     <% }) %>
-</ul>
+
+    <script>
+        function searchFunction() {
+            var input, filter, files, fileDiv, fileInfos, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            files = document.getElementsByClassName("files_divvv");
+            for (i = 0; i < files.length; i++) {
+                fileDiv = files[i];
+                fileInfos = fileDiv.getElementsByClassName("file-info")[0];
+                txtValue = fileInfos.textContent || fileInfos.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    fileDiv.style.display = "";
+                } else {
+                    fileDiv.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>  
+</html>

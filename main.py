@@ -4,18 +4,15 @@ from tensorflow.keras.models import load_model
 import tensorflow as tf
 import pandas as pd
 import re
-import numpy as np 
-
-
-
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
 
 loaded_model = load_model('final_model')
 
-class_names=pd.read_csv('class_names.csv')
-dis_name=list(class_names['Class Names'])
+class_names = pd.read_csv('class_names.csv')
+dis_name = list(class_names['Class Names'])
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
@@ -25,11 +22,16 @@ def send_message():
         message = data['message']
 
         preds = loaded_model.predict([message])
-        diss = dis_name[np.argmax(preds)]
+        confidence = np.max(preds)
+        if confidence >= 0.2:
+            disease = dis_name[np.argmax(preds)]
+        else:
+            disease = "Not enough information"
 
         response = {
-            'disease': diss,
-            }
+            'disease': disease,
+            'confidence': float(confidence)
+        }
         # Return response
         return jsonify(response)
 
