@@ -235,7 +235,7 @@ app.post('/register',async(req,res)=>{
             // Delete record from the 'nurses' table
             await pool.query('DELETE FROM nurses WHERE id = ?', [id]);
             await pool.query('DELETE FROM Staff WHERE id = ?', [id]);
-
+            await pool.query('DELETE FROM admition WHERE id = ?',[id])
             // Execute the delete query with both 'id' values passed as parameters
             //await pool.query(sql, [id, id]);
     
