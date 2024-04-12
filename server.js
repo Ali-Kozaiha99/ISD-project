@@ -444,7 +444,7 @@ async function isAdmition(userId) {
         console.error("Error checking doctor:", error);
         return false;
     }
-}
+} 
 app.get('/admition', async (req, res) => {
     try {
         const query = `SELECT * FROM file`;
