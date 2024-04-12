@@ -418,6 +418,22 @@ formm.style.display='block'
           });
       }*/
   }
+  document.addEventListener("DOMContentLoaded", function() {
+    var todayItems = document.getElementById("today-items").querySelectorAll(".today-item");
+    todayItems.forEach(function(item) {
+        item.style.borderLeftColor = getRandomColor();
+    });
+});
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 
 
    

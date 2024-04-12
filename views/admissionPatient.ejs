@@ -1,28 +1,123 @@
-<ul>
-    <% admission_patients.forEach(admission_patient => { %>
-        <li> 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>it</title>
+  </head>
+  <body class="Right_left_body">
+    <div  class="left">
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fa-solid fa-hospital-user"></i>
+            <p>Today's Patient</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fa-solid fa-file-waveform"></i>
+            <p>Patient Files</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <p>Tasks</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fas fa-flask"></i>
+            <i class="fas fa-syringe"></i>
+            <p>Tests</p>
+          </a>
+        </center>
+      </div>
+    </div>
+
+    <div class="right">
+      <input type="text" class="it_search" id="TodaysearchInput" placeholder="Search..." onkeyup="TodaysearchFunction()" style="margin-bottom: 20px;" />
+
+      <ul class="show_today_container" id="today-items">
+        <% admission_patients.forEach(admission_patient => { %>
+          <div class="today-item" data-name="<%= admission_patient.patient_name %>" data-number="<%= admission_patient.phone_number %>">
             <form action="admissionPatient" method="POST">
-                <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>">
-                <%= admission_patient.file_id %> - <%= admission_patient.patient_name %> - <%= admission_patient.phone_number %> - <%= admission_patient.date_added.toLocaleString() %>
-                <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="">Delete</a>
+              <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>">
+              <div class="file-id"><span> ID: </span> <%= admission_patient.file_id %></div>
+              <div class="patient-name"> <span>Name:  </span><%= admission_patient.patient_name %></div>
+              <div class="phone-number"><span>Number:  </span> <%= admission_patient.phone_number %></div>
+              <span>Date:  </span> <%= admission_patient.date_added.toLocaleString() %>
             </form>
-        </li>
-    <% }) %>
-</ul>
+            <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="">Delete</a>
+            
+          </div>
+        <% }) %>
+      </ul>
+      
+      <script>
+        function TodaysearchFunction() {
+          var input, filter, ul, li, divs, i, txtValue;
+          input = document.getElementById("TodaysearchInput");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("today-items");
+          li = ul.getElementsByTagName("div");
+          for (i = 0; i < li.length; i++) {
+            divs = li[i].getElementsByTagName("div");
+            for (var j = 0; j < divs.length; j++) {
+              txtValue = divs[j].textContent || divs[j].innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+                break;
+              } else {
+                li[i].style.display = "none";
+              }
+            }
+          }
+        }
+      </script>
+      
+    
+    
+    
+    <script>
+        document.querySelectorAll("a.delete").forEach((trashcan) => {
+          trashcan.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent the default action of the link
+    
+            const endpoint = `/admissionPatient/${trashcan.dataset.dtask}`;
+    
+            fetch(endpoint, {
+              method: "DELETE",
+            })
+              .then((response) => response.json())
+              .then((data) => (window.location.href = data.redirect))
+              .catch((err) => console.error(err));
+          });
+        });
+      </script>
 
-<script>
-    document.querySelectorAll("a.delete").forEach((trashcan) => {
-      trashcan.addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent the default action of the link
 
-        const endpoint = `/admissionPatient/${trashcan.dataset.dtask}`;
 
-        fetch(endpoint, {
-          method: "DELETE",
-        })
-          .then((response) => response.json())
-          .then((data) => (window.location.href = data.redirect))
-          .catch((err) => console.error(err));
-      });
-    });
-  </script>
+      <script src="script.js"></script>
+
+    </div>
+  </body>
+</html>
+
+
+
+
