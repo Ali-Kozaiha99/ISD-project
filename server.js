@@ -436,7 +436,7 @@ app.delete('/tasks/:id', async (req, res) => {
 
 async function isAdmition(userId) {
     try {
-        const sql = "SELECT * FROM file WHERE id = ?";
+        const sql = "SELECT * FROM admition WHERE id = ?";
         const [rows, fields] = await pool.query(sql, [userId]);
         // If rows.length > 0, it means the user exists in the doctor table
         return rows.length > 0;
@@ -444,7 +444,7 @@ async function isAdmition(userId) {
         console.error("Error checking doctor:", error);
         return false;
     }
-} 
+}  
 app.get('/admition', async (req, res) => {
     try {
         const query = `SELECT * FROM file`;
@@ -466,7 +466,7 @@ app.post('/admition', async (req, res) => {
     ]); 
         res.redirect('/admition')  
 }
-})
+}) 
 /*SELECT f.*, ap.date_added
 FROM file f
 INNER JOIN admission_patient ap ON f.file_id = ap.file_id;
