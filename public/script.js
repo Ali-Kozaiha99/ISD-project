@@ -433,6 +433,17 @@ function getRandomColor() {
     }
     return color;
 }
+function showRooms() {
+  var selectedFloor = document.getElementById("choosenFloor").value;
+  var rooms = document.getElementsByClassName("floor-room");
+  for (var i = 0; i < rooms.length; i++) {
+    rooms[i].removeAttribute("required");
+    rooms[i].style.display = "none";
+  }
+  var selectedRoom = document.getElementById("choosenFloor" + selectedFloor + "Room");
+  selectedRoom.setAttribute("required", true);
+  selectedRoom.style.display = "block";
+}
 
 
 
