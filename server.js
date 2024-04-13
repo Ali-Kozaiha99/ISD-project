@@ -536,8 +536,41 @@ app.delete('/admissionPatient/:id', async (req, res) => {
     }
 });
 app.get('/file', async (req, res) => {
-    res.render('file.ejs'); 
+    const query = `SELECT * FROM floors`;
+        const [floorRows] = await pool.query(query);
+        const query1 = `SELECT r.*
+        FROM rooms r
+        LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+        WHERE r.floor_number = 1
+          AND ap.room_name IS NULL;
+        `;
+        const [floor1Rows] = await pool.query(query1);
+        const query2 = `SELECT r.*
+        FROM rooms r
+        LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+        WHERE r.floor_number = 2
+          AND ap.room_name IS NULL;
+        `;
+        const [floor2Rows] = await pool.query(query2);
+        const query3 = `SELECT r.*
+        FROM rooms r
+        LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+        WHERE r.floor_number = 3
+          AND ap.room_name IS NULL;
+        `;
+        const [floor3Rows] = await pool.query(query3);
+        const query4 = `SELECT r.*
+        FROM rooms r
+        LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+        WHERE r.floor_number = 4
+          AND ap.room_name IS NULL;
+        `;
+        const [floor4Rows] = await pool.query(query4);
+    res.render('file.ejs',{floors:floorRows,floor1:floor1Rows,floor2:floor2Rows,floor3:floor3Rows,floor4:floor4Rows}); 
 
+}) 
+app.post('/file', async (req, res) => {
+    
 })
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 

@@ -1,1 +1,32 @@
 <h1>hi</h1>
+
+<select id="choosenFloor">
+    <% floors.forEach(floor => { %>
+    <option value="<%= floor.floor_nmber %>"><%= floor.floor_number %></option>
+    <% }) %>
+    </select>
+
+    <form action="/file" method="post">
+        <select id="choosenFloor1Room" name="selectedRoom1">
+            <% floor1.forEach(rooms1 => { %>
+            <option value="<%= rooms1.room_name %>"><%= rooms1.room_name %></option>
+            <% }) %>
+        </select>
+        <select id="choosenFloor2Room" name="selectedRoom2">
+            <% floor2.forEach(rooms2 => { %>
+            <option value="<%= rooms2.room_name %>"><%= rooms2.room_name %></option>
+            <% }) %>
+        </select>
+        <select id="choosenFloor3Room" name="selectedRoom3">
+            <% floor3.forEach(rooms3 => { %>
+            <option value="<%= rooms3.room_name %>"><%= rooms3.room_name %></option>
+            <% }) %>
+        </select>
+        <select id="choosenFloor4Room" name="selectedRoom4">
+            <% floor4.forEach(rooms4 => { %>
+            <option value="<%= rooms4.room_name %>"><%= rooms4.room_name %></option>
+            <% }) %>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+    
