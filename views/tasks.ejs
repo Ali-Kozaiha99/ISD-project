@@ -19,7 +19,7 @@
         <center>
           <a href="">
             <i class="fa-solid fa-hospital-user"></i>
-            <p>Today's Patient</p>
+         <p>Today's Patient</p>
           </a>
         </center>
       </div>
@@ -34,8 +34,8 @@
       <div class="left_nav">
         <center>
           <a href="">
-            <i class="fas fa-tasks"></i>
-            <p>Tasks</p>
+            <i class="fas fa-tasks" style="color:#9fc2e1;"></i>
+            <p style="color: #9fc2e1;">Tasks</p>
           </a>
         </center>
       </div>
@@ -63,9 +63,9 @@
           <form action="/tasks" method="post">
             <div>
               <label for="patient_id">Patient ID:</label>
-              <input type="number" id="patient_id" name="patient_id" />
+              <input type="number" id="patient_id" name="patient_id" required />
             </div>
-            <input type="hidden" name="formType" value="addTask" />
+            <input type="hidden" name="formType" value="addTask" required />
             <!-- This line was added -->
             <div>
               <label for="details">Details</label><br />

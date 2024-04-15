@@ -17,8 +17,8 @@
       <div class="left_nav">
         <center>
           <a href="">
-            <i class="fa-solid fa-hospital-user"></i>
-            <p>Today's Patient</p>
+            <i class="fa-solid fa-hospital-user" style="color: #9fc2e1;"></i>
+            <p style="color: #9fc2e1;">Today's Patient</p>
           </a>
         </center>
       </div>
@@ -55,8 +55,8 @@
       <ul class="show_today_container" id="today-items">
         <% admission_patients.forEach(admission_patient => { %>
           <div class="today-item" data-name="<%= admission_patient.patient_name %>" data-number="<%= admission_patient.phone_number %>">
-            <form action="admissionPatient" method="POST">
-              <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>">
+            <form action="admissionPatient" method="POST" autocomplete="off">
+              <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>" >
               <div class="file-id"><span> ID: </span> <%= admission_patient.file_id %></div>
               <div class="patient-name"> <span>Name:  </span><%= admission_patient.patient_name %></div>
               <div class="phone-number"><span>Number:  </span> <%= admission_patient.phone_number %></div>
