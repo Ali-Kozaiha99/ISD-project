@@ -600,13 +600,26 @@ async function islab(userId) {
 
 app.get('/lab', async (req, res) => {
     try {
+        console.log(req.user.id)
         const isUserDoctor = await isDoctor(req.user.id);
         const isUserlabStaff = await islab(req.user.id);
         // Fetch all data from the lab table
+        if(isUserlabStaff){
         const query5 = await pool.query("SELECT * FROM `lab`");
         const labData = query5[0]; // Access the rows returned by the query
         // Render an HTML page and pass the fetched data to it
         res.render('lab.ejs', { labData, isDoctor:isUserDoctor,islab:isUserlabStaff});
+        }
+        else if(isDoctor){
+            const id = req.user.id;
+            const sql = 'SELECT * FROM `lab` WHERE `dr_name` = ?';
+            
+            // Execute the select query
+            const labData = await pool.query(sql, [id]);
+            console.log(labData)
+            res.render('lab.ejs', { labData:labData[0], isDoctor: isUserDoctor, islab: isUserlabStaff });
+            
+        }
     } catch (error) {
         console.error('Error:', error);
         res.render('error.ejs', { errorMessage: 'Error fetching lab data' });
@@ -627,15 +640,25 @@ app.post('/lab', upload.single('file'), async (req, res) => {
           filename,
           
         ]);
-
-        const query5 = await pool.query("SELECT * FROM `lab`");
-        const labData = query5[0]; // Accessing the rows returned by the query
-
-        res.render('lab.ejs', { 
-            labData,
-            successMessage: 'File uploaded and form data saved successfully' 
-        });
-    } catch (error) {
+        const isUserDoctor = await isDoctor(req.user.id);
+        const isUserlabStaff = await islab(req.user.id);
+        if(isUserlabStaff){
+            const query5 = await pool.query("SELECT * FROM `lab`");
+            const labData = query5[0]; // Access the rows returned by the query
+            // Render an HTML page and pass the fetched data to it
+            res.render('lab.ejs', { labData, isDoctor:isUserDoctor,islab:isUserlabStaff});
+            }
+            else if(isDoctor){
+                const id = req.user.id;
+                const sql = 'SELECT * FROM `lab` WHERE `dr_name` = ?';
+                
+                // Execute the select query
+                const labData = await pool.query(sql, [id]);
+                console.log(labData)
+                res.render('lab.ejs', { labData:labData[0], isDoctor: isUserDoctor, islab: isUserlabStaff });
+                
+            }
+    } catch (error) { 
         console.error('Error:', error);
         res.render('error.ejs', { 
             errorMessage: 'Error uploading file and saving form data' 

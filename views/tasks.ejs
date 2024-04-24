@@ -58,6 +58,11 @@
       <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
       <!-- Other content for non-doctors -->
       <% } %>
+      <script>
+         
+        var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
+       console.log("Is user a doctor?", isDoctor);
+     </script>
       <center>
         <div class="task_form">
           <form action="/tasks" method="post">
