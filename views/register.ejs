@@ -52,7 +52,7 @@
     <div class="right">
       <input type="text" class="it_search"id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
       <br />
-      <form action="/register" method="post">
+      <form action="/register" method="post"  autocomplete="off">
 
         <h2 class="add_user">Add User</h2> 
         <div class="rolee">
@@ -196,6 +196,7 @@
       <% }) %>
   </ul>
 
+
     <script>
       document.querySelectorAll('a.delete').forEach(trashcan => {
     trashcan.addEventListener('click', (e) => {
@@ -232,6 +233,7 @@
             }
         }
     </script>
+    
     
     </div>
     <script src="script.js"></script>
