@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab</title>
+</head>
+<body>
+    <form action="/lab" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="test_name">Test Name:</label>
+            <input type="text" id="test_name" name="test_name">
+            <input type="file" name="file">
+            <input type="submit">
+        </div>
+       
+    </form>
+    
+    <% if (labData) { %>
+        <table>
+            <tr>
+                <th>Test Name</th>
+                <th>Doctor Name</th>
+                <th>File</th>
+            </tr>
+            <% labData.forEach(item => { %>
+            <tr>
+                <td><%= item.test_name %></td>
+                <td><%= item.dr_name %></td>
+                <td><% if (item.file_filename) { %>
+                    <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer">View File</a>
+                    <% }%>
+                </td>
+            </tr>
+            <% }); %>
+        </table>
+    <% } else { %>
+        <p>No data available</p>
+    <% } %>
+
+
+    <% if (isDoctor) { %>
+        <h1 style="color: rgb(3, 49, 92)">Welcome, Doctor!</h1>
+  
+        <% } else { %>
+        <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
+        <!-- Other content for non-doctors -->
+        <% } %>
+        <% if (islab) { %>
+            <h1>lab staff</h1>
+            <% } %>
+        <center>
+          <script>
+           
+           var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
+           var islab = '<%= JSON.stringify(islab) %>;'
+          console.log("Is user a doctor?", isDoctor);
+          console.log("Is user a doctor?", islab);
+
+        </script>
+</body>
+</html>

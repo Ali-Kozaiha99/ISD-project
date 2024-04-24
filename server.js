@@ -13,8 +13,17 @@ const flash=require('express-flash')
 const session = require('express-session')
 const methodOverride=require('method-override')
 
- 
-
+const multer = require('multer');
+const storage=multer.diskStorage({
+    destination:(req,file,cd)=>{
+        cd(null,'file_uploads')
+    },
+    filename:(req,file,cd)=>{
+console.log(file)
+cd(null,Date.now()+path.extname(file.originalname))
+    }
+})
+const upload=multer({storage:storage})
 const { initialize, getUserByEmail, getUserById } = require('./passport-config');
 
 
@@ -57,6 +66,7 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride(function (req, res) {
@@ -69,7 +79,7 @@ app.use(methodOverride(function (req, res) {
     }
   }))
 app.use(express.static('public'));
-
+app.use('/file_uploads', express.static(path.join(__dirname, 'file_uploads'))); 
 app.get('/',checkAuthenticated,(req,res)=>{
     res.render('index.ejs',{name:req.user.email})
 })
@@ -502,7 +512,7 @@ app.post('/admissionPatient', async (req, res) => {
         res.redirect('/file')
     }
     else{
-        console.log("here i am")
+        
     await pool.query("INSERT INTO `admission_patient` (`file_id`) VALUES ( ?)", [
         
         req.body.file_id,
@@ -568,14 +578,73 @@ app.get('/file', async (req, res) => {
         const [floor4Rows] = await pool.query(query4);
     res.render('file.ejs',{floors:floorRows,floor1:floor1Rows,floor2:floor2Rows,floor3:floor3Rows,floor4:floor4Rows}); 
 
-}) 
+})  
 app.post('/file', async (req, res) => {
     
 })
+
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 
+}); 
+async function islab(userId) {
+    try {
+        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'lab'";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking lab:", error);
+        return false;
+    }
+}
+
+app.get('/lab', async (req, res) => {
+    try {
+        const isUserDoctor = await isDoctor(req.user.id);
+        const isUserlabStaff = await islab(req.user.id);
+        // Fetch all data from the lab table
+        const query5 = await pool.query("SELECT * FROM `lab`");
+        const labData = query5[0]; // Access the rows returned by the query
+        // Render an HTML page and pass the fetched data to it
+        res.render('lab.ejs', { labData, isDoctor:isUserDoctor,islab:isUserlabStaff});
+    } catch (error) {
+        console.error('Error:', error);
+        res.render('error.ejs', { errorMessage: 'Error fetching lab data' });
+    }
+});
+ 
+ 
+app.post('/lab', upload.single('file'), async (req, res) => {
+    try {
+        const { test_name } = req.body;
+        const dr_name = req.user.id;
+        const {  filename } = req.file;
+  
+        // Insert both form data and file information into the database
+        await pool.query("INSERT INTO `lab` (`test_name`, `dr_name`, `file_filename`) VALUES (?, ?, ?)", [
+          test_name,
+          dr_name,
+          filename,
+          
+        ]);
+
+        const query5 = await pool.query("SELECT * FROM `lab`");
+        const labData = query5[0]; // Accessing the rows returned by the query
+
+        res.render('lab.ejs', { 
+            labData,
+            successMessage: 'File uploaded and form data saved successfully' 
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.render('error.ejs', { 
+            errorMessage: 'Error uploading file and saving form data' 
+        });
+    }
 });
 
+  
+  
 /*
 app.delete('/deleteTask', (req, res) => {
     console.log('DELETE request received for /deleteTask route');
@@ -594,7 +663,7 @@ app.delete('/deleteTask', (req, res) => {
 });
 */
 
- 
+  
 /*
 <h1>Tasks List</h1>
 <ul>
