@@ -13,8 +13,17 @@ const flash=require('express-flash')
 const session = require('express-session')
 const methodOverride=require('method-override')
 
- 
-
+const multer = require('multer');
+const storage=multer.diskStorage({
+    destination:(req,file,cd)=>{
+        cd(null,'file_uploads')
+    },
+    filename:(req,file,cd)=>{
+console.log(file)
+cd(null,Date.now()+path.extname(file.originalname))
+    }
+})
+const upload=multer({storage:storage})
 const { initialize, getUserByEmail, getUserById } = require('./passport-config');
 
 
@@ -57,6 +66,7 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride(function (req, res) {
@@ -69,7 +79,7 @@ app.use(methodOverride(function (req, res) {
     }
   }))
 app.use(express.static('public'));
-
+app.use('/file_uploads', express.static(path.join(__dirname, 'file_uploads'))); 
 app.get('/',checkAuthenticated,(req,res)=>{
     res.render('index.ejs',{name:req.user.email})
 })
@@ -336,12 +346,16 @@ console.log(nurseRows.id)
                 }
                 if (isUserDoctor) { 
 
+                    const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+
+                    // Execute the query with the userId as a parameter
+                    const [dr_patientsRows] = await pool.query(query, req.user.id);
                    
-                    res.render('tasks.ejs', { tasks: tasksRows, isDoctor: true,done_task_nurse_info:nurseRows });
-                   
+                    res.render('tasks.ejs', { tasks: tasksRows, isDoctor: true,done_task_nurse_info:nurseRows,dr_patients:dr_patientsRows });
+                    
                 } 
                  else {
-                    res.render('tasks.ejs', { tasks: tasksRows, isDoctor: false,done_task_nurse_info:nurseRows});
+                    res.render('tasks.ejs', { tasks: tasksRows, isDoctor: false,done_task_nurse_info:nurseRows,dr_patients:[]});
                 } 
             } catch (error) {
                 console.error('Error retrieving tasks or checking user type:', error);
@@ -474,7 +488,7 @@ INNER JOIN admission_patient ap ON f.file_id = ap.file_id;
 app.get('/admissionPatient', async (req, res) => {
 
     try {
-        const query = `SELECT f.*, ap.date_added
+        const query = `SELECT f.*, ap.date_added,ap.room_name
         FROM file f
         INNER JOIN admission_patient ap ON f.file_id = ap.file_id;`;
         const [admission_patientRows] = await pool.query(query);
@@ -484,33 +498,24 @@ app.get('/admissionPatient', async (req, res) => {
         console.error('Error retrieving files:', error);
         res.status(500).send('Internal Server Error');
     }
-})
+}) 
 
 app.post('/admissionPatient', async (req, res) => {
     const [existingPatientt] = await pool.query('SELECT * FROM admission_patient WHERE file_id = ?', [
         req.body.file_id,
     ]);
-    console.log(req.body.file_id)
-    console.log(existingPatientt)
+ 
+    if (existingPatientt.length > 0) {
+        console.log("User already added");
+        console.log(existingPatientt)
 
+        res.redirect('/file?existingPatientId=' + existingPatientt[0].file_id); // Redirect with patient ID in query parameter
+    } else {
+        await pool.query("INSERT INTO `admission_patient` (`file_id`) VALUES (?)", [req.body.file_id]);
+        res.redirect('/file?existingPatientId=' + existingPatientt[0].file_id);
+    }
+});
 
-    if( existingPatientt.length > 0 ){
-       /* const sql = "SELECT * FROM file WHERE id = ?";
-        const [rows, fields] = await pool.query(sql, [userId]);
-        res.render('/admition',{mes:'user already added'})*/
-        console.log("user already added")
-        res.redirect('/file')
-    }
-    else{
-        console.log("here i am")
-    await pool.query("INSERT INTO `admission_patient` (`file_id`) VALUES ( ?)", [
-        
-        req.body.file_id,
-        
-    ]); 
-    res.redirect('/file')
-    }
-})
  
 app.delete('/admissionPatient/:id', async (req, res) => {
     const id = req.params.id;
@@ -566,16 +571,227 @@ app.get('/file', async (req, res) => {
           AND ap.room_name IS NULL;
         `;
         const [floor4Rows] = await pool.query(query4);
-    res.render('file.ejs',{floors:floorRows,floor1:floor1Rows,floor2:floor2Rows,floor3:floor3Rows,floor4:floor4Rows}); 
+        /*SELECT doctors.name
+        FROM doctors
+        JOIN file_case ON doctors.id = file_case.dr_id; */
 
-}) 
+        const query5 = `
+        SELECT  * FROM doctors 
+        `;
+         
+        const [query5Rows] = await pool.query(query5);
+
+        const existingPatientId = req.query.existingPatientId;
+        console.log(existingPatientId)
+        res.render('file.ejs', { floors: floorRows, floor1: floor1Rows, floor2: floor2Rows, floor3: floor3Rows, floor4: floor4Rows, existingPatientId: existingPatientId,DRs:query5Rows });
+})  
 app.post('/file', async (req, res) => {
+    try {
+        let selectedRoom;
+        let fileId = req.body.file_id; // Assuming file_id is provided in the request body
     
-})
+        // Check which room select has a value
+        if (req.body.selectedRoom1) {
+          selectedRoom = req.body.selectedRoom1;
+        } else if (req.body.selectedRoom2) {
+          selectedRoom = req.body.selectedRoom2;
+        } else if (req.body.selectedRoom3) {
+          selectedRoom = req.body.selectedRoom3;
+        } else if (req.body.selectedRoom4) {
+          selectedRoom = req.body.selectedRoom4;
+        }
+     
+        if (selectedRoom && fileId) {
+          // Update the `room_name` where `file_id` equals the provided value
+          const [result] = await pool.query('UPDATE `admission_patient` SET `room_name` = ? WHERE `file_id` = ?', [selectedRoom, fileId]);
+          const [resultt] = await pool.query('INSERT INTO `file_case` (`file_id`, `dr_id`) VALUES (?, ?)', [fileId, req.body.Dr_name]);
+          // Handle success or send a response to the client
+          res.send('Room updated in the database.');
+        } else {
+          // Handle case where no room or fileId is provided
+          res.status(400).send('No room selected or fileId provided.');
+        }
+      } catch (error) {
+        console.error('Error updating room in the database:', error);
+        // Handle error or send an error response to the client
+        res.status(500).send('Internal server error');
+      }
+})  
+
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 
+}); 
+async function islab(userId) {
+    try {
+        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'lab'";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking lab:", error);
+        return false;
+    }
+}
+
+app.get('/lab', async (req, res) => {
+    try {
+        console.log(req.user.id)
+        const isUserDoctor = await isDoctor(req.user.id);
+        const isUserlabStaff = await islab(req.user.id);
+        // Fetch all data from the lab table
+        if(isUserlabStaff){
+        const query5 = await pool.query("SELECT * FROM `lab`");
+        const labData = query5[0]; // Access the rows returned by the query
+        // Render an HTML page and pass the fetched data to it
+        res.render('lab.ejs', { labData, isDoctor:isUserDoctor,islab:isUserlabStaff,dr_patients:[] });
+        }
+        else if(isDoctor){
+            const id = req.user.id;
+            const sql = 'SELECT * FROM `lab` WHERE `dr_name` = ?';
+            
+            // Execute the select query
+            const labData = await pool.query(sql, [id]);
+            const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+
+            // Execute the query with the userId as a parameter
+            const [dr_patientsRows] = await pool.query(query, req.user.id);
+            console.log(labData)
+            res.render('lab.ejs', { labData:labData[0], isDoctor: isUserDoctor, islab: isUserlabStaff,dr_patients:dr_patientsRows });
+            
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.render('error.ejs', { errorMessage: 'Error fetching lab data' });
+    }
+});
+ 
+ 
+app.post('/lab', upload.single('file'), async (req, res) => {
+    try {
+        const { test_name } = req.body;
+        const dr_name = req.user.id;
+        const {  filename } = req.file;
+        const file_id = req.body.patient_id;
+  
+        // Insert both form data and file information into the database
+        await pool.query("INSERT INTO `lab` (`test_name`, `dr_name`, `file_filename`,`file_id`) VALUES (?, ?, ?, ?)", [
+          test_name,
+          dr_name,
+          filename,
+          file_id
+          
+        ]);
+        const isUserDoctor = await isDoctor(req.user.id);
+        const isUserlabStaff = await islab(req.user.id);
+        if(isUserlabStaff){
+            const query5 = await pool.query("SELECT * FROM `lab`");
+            const labData = query5[0]; // Access the rows returned by the query
+            // Render an HTML page and pass the fetched data to it
+            res.render('lab.ejs', { labData, isDoctor:isUserDoctor,islab:isUserlabStaff,dr_patients:[]});
+            }
+            else if(isDoctor){
+                const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+
+                // Execute the query with the userId as a parameter
+                const [dr_patientsRows] = await pool.query(query, req.user.id);
+                const id = req.user.id;
+                const sql = 'SELECT * FROM `lab` WHERE `dr_name` = ?';
+                
+                // Execute the select query
+                const labData = await pool.query(sql, [id]);
+                console.log(labData)
+                res.render('lab.ejs', { labData:labData[0], isDoctor: isUserDoctor, islab: isUserlabStaff ,dr_patients:dr_patientsRows});
+                
+            }
+    } catch (error) { 
+        console.error('Error:', error);
+        res.render('error.ejs', { 
+            errorMessage: 'Error uploading file and saving form data' 
+        });
+    }
 });
 
+async function isScan(userId) {
+    try {
+        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'scan'";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking lab:", error);
+        return false;
+    }
+}
+
+app.get('/scan', async (req, res) => {
+    try {
+        console.log(req.user.id)
+        const isUserDoctor = await isDoctor(req.user.id);
+        const isUserScanStaff = await isScan(req.user.id);
+        // Fetch all data from the lab table
+        if(isUserScanStaff){
+        const query5 = await pool.query("SELECT * FROM `scan`");
+        const scanData = query5[0]; // Access the rows returned by the query
+        // Render an HTML page and pass the fetched data to it
+        res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff});
+        }
+        else if(isDoctor){
+            const id = req.user.id;
+            const sql = 'SELECT * FROM `scan` WHERE `dr_id` = ?';
+            
+            // Execute the select query
+            const scanData = await pool.query(sql, [id]);
+            
+            res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff });
+            
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.render('error.ejs', { errorMessage: 'Error fetching scan data' });
+    }
+});
+ 
+ 
+app.post('/scan', upload.single('file'), async (req, res) => {
+    try {
+        const { scan_name } = req.body;
+        const dr_id = req.user.id;
+        const {  filename } = req.file;
+  
+        // Insert both form data and file information into the database
+        await pool.query("INSERT INTO `scan` (`scan_name`, `dr_id`, `result`) VALUES (?, ?, ?)", [
+            scan_name,
+          dr_id,
+          filename,
+          
+        ]);
+        const isUserDoctor = await isDoctor(req.user.id);
+        const isUserScanStaff = await isScan(req.user.id);
+        if(isUserScanStaff){
+            const query5 = await pool.query("SELECT * FROM `scan`");
+            const scanData = query5[0]; // Access the rows returned by the query
+            // Render an HTML page and pass the fetched data to it
+            res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff});
+            }
+            else if(isDoctor){
+                const id = req.user.id;
+                const sql = 'SELECT * FROM `scan` WHERE `dr_id` = ?';
+                
+                // Execute the select query
+                const scanData = await pool.query(sql, [id]);
+                
+                res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff });
+                
+            }
+    } catch (error) { 
+        console.error('Error:', error);
+        res.render('error.ejs', { 
+            errorMessage: 'Error uploading file and saving form data' 
+        });
+    }
+});
+
+  
 /*
 app.delete('/deleteTask', (req, res) => {
     console.log('DELETE request received for /deleteTask route');
@@ -594,7 +810,7 @@ app.delete('/deleteTask', (req, res) => {
 });
 */
 
- 
+  
 /*
 <h1>Tasks List</h1>
 <ul>

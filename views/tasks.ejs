@@ -58,12 +58,21 @@
       <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
       <!-- Other content for non-doctors -->
       <% } %>
+      <script>
+         
+        var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
+       console.log("Is user a doctor?", isDoctor);
+     </script>
       <center>
         <div class="task_form">
           <form action="/tasks" method="post">
             <div>
-              <label for="patient_id">Patient ID:</label>
-              <input type="number" id="patient_id" name="patient_id" required />
+
+              <select name="patient_id">
+                <% dr_patients.forEach(patient => { %>
+                <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
+                <% }) %>
+              </select>
             </div>
             <input type="hidden" name="formType" value="addTask" required />
             <!-- This line was added -->
