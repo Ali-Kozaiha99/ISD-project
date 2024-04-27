@@ -179,9 +179,9 @@ color: rgb(3, 49, 92);
     float: right;
 }
 .delete{
-    
+    height: 2vh;
     text-align: center;
-    width: 5vw;
+    width: 75px;
     padding: 5px;
     border-radius: 5px;
    background-color: white;
@@ -195,12 +195,13 @@ right: 5px;
     top: 37px;
     border: none;
     text-align: center;
-    width: 5.5vw;
+    width:85px;
     padding: 5px;
     border-radius: 5px;
    background-color: white;
     text-decoration: none;
     color: rgb(3, 49, 92);
+    font-weight: bold;
   
 }
 .task_under a{
@@ -328,7 +329,7 @@ position: relative;
 }
 .files_divvv{
     border-radius: 10px;    
-
+height: 4vh;
     padding: 10px;
     padding-left: 10px;
     font-weight: bold;
@@ -505,7 +506,7 @@ i {
     height: 50px;
     width: 50px;
     background-color: #9fc2e1;
-    font-size: 3em;
+    font-size: 3eqx m;
     border: none;
     border-radius: 10px;
     float: right;

@@ -144,7 +144,7 @@
             <% doctors.forEach(doctor => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-         <span>      <%= doctor.name %> - <%= doctor.id %> </span>                  <a class="delete" data-dtask="<%= doctor.id  %>" href="">delete</a>
+         <span>      <%= doctor.name %> - <%= doctor.id %> </span>                  <a class="delete" data-dtask="<%= doctor.id  %>" href="">Delete</a>
          <br>
                 <div class="namess">Email:</div >
                 <%= doctor.email %> <br>
@@ -161,7 +161,7 @@
             <% nurses.forEach(nurse => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-        <span>       <%= nurse.name %> - <%= nurse.id  %></span>                  <a class="delete" data-dtask="<%= nurse.id  %>" href="">delete</a>
+        <span>       <%= nurse.name %> - <%= nurse.id  %></span>                  <a class="delete" data-dtask="<%= nurse.id  %>" href="">Delete</a>
         <br>
                 <div class="namess">Email:</div >
                 <%= nurse.email %> <br>
@@ -178,7 +178,7 @@
             <% staff.forEach(staffMember => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-              <span> <%= staffMember.id %>  </span>                    <a class="delete" data-dtask="<%= staffMember.id  %>" href="">delete</a>
+              <span> <%= staffMember.id %>  </span>                    <a class="delete" data-dtask="<%= staffMember.id  %>" href="">Delete</a>
               <br>
                 <div class="namess">Email:</div >
                 <%= staffMember.email %> <br>
@@ -193,7 +193,7 @@
       <% admitions.forEach(admition => { %>
       <div class="it_show_users">
           <div class="namess">Name:</div >
-        <span> <%= admition.id %>  </span>                    <a class="delete" data-dtask="<%= admition.id  %>" href="">delete</a>
+        <span> <%= admition.id %>  </span>                    <a class="delete" data-dtask="<%= admition.id  %>" href="">Delete</a>
         <br>
           <div class="namess">Email:</div >
           <%= admition.email %> <br>
