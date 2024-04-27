@@ -119,6 +119,21 @@ font-weight: 500;
    width: 50vw;
    height: 37vh;
 }
+.task_form p{
+    font-size: 1.3em;
+    color: rgb(3, 49, 92);
+    font-weight: bold;
+}
+
+.task_form select {
+    padding: 2px;
+    font-size: 1em;
+    font-weight: bolder;
+    color:rgb(85, 141, 250);
+    border: none;
+    outline: none;
+width: 7vw;
+}
 .login_error{
     font-weight: bold;
     color: red;
@@ -164,12 +179,29 @@ color: rgb(3, 49, 92);
     float: right;
 }
 .delete{
+    
+    text-align: center;
+    width: 5vw;
     padding: 5px;
     border-radius: 5px;
    background-color: white;
     text-decoration: none;
     color: rgb(3, 49, 92);
     float: right;
+}
+.dell{
+    position: absolute;
+right: 5px;
+    top: 37px;
+    border: none;
+    text-align: center;
+    width: 5.5vw;
+    padding: 5px;
+    border-radius: 5px;
+   background-color: white;
+    text-decoration: none;
+    color: rgb(3, 49, 92);
+  
 }
 .task_under a{
     text-decoration: none;
@@ -447,8 +479,8 @@ color: rgb(3, 49, 92);
 
 .it_form_button {
 position:absolute;
-bottom:2px;
-right:2px;
+bottom:4px;
+right:4px;
     border: none;
     border-radius: 10px;
     font-size: 1.1em;
