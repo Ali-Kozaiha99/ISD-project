@@ -1,4 +1,5 @@
 * {
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -37,7 +38,9 @@
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
 }
-
+.right_container h2{
+color:rgb(3, 49, 92);
+}
 .show_today_container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -51,7 +54,6 @@
 }
 .today-item {
     position: relative;
-    font-family: Arial, Helvetica, sans-serif;
   font-size: 1.1em;
 font-weight: 400;
 
@@ -106,10 +108,8 @@ font-weight: 500;
 
 .login_container h1 {
     padding-top: 20px;
-    font-weight: 800;
     font-size: 3em;
     color: rgb(3, 49, 92);
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .task_form{
     
@@ -130,7 +130,6 @@ font-weight: bold;
 }
 
 .task_under h1{
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 color: rgb(3, 49, 92);
 }
@@ -226,11 +225,11 @@ height: 20vh;
 
 .login_container input {
     outline: none;
-    width: 22vw;
+    width: 25vw;
     height: 7vh;
     border: none;
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 35px;
     background-color: white;
     font-size: 1.15em;
     padding-left: 10px;
@@ -242,8 +241,8 @@ height: 20vh;
     font-weight: bold;
     border-radius: 10px;
     margin-top: 15px;
-    width: 8vw;
-    height: 5.5vh;
+    width: 9vw;
+    height: 6vh;
     border: none;
     background-color: rgb(3, 49, 92);
 }
@@ -274,7 +273,6 @@ height: 20vh;
     font-weight: 600;
     margin-bottom: 1vh;
     color: rgb(3, 49, 92);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-top: 2vh;
 
 }
@@ -491,7 +489,6 @@ i {
 
 .today_grid_area h1 {
     color: rgb(3, 49, 80);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .it_show_users {
@@ -499,7 +496,6 @@ i {
     padding:10px;
     
     font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     border-radius: 10px;
     color: rgb(3, 49, 92);
