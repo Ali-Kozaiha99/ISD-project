@@ -28,7 +28,12 @@
     <% }) %>
   </select>
   <p><%= existingPatientId %></p>
-
+  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+  <select name="Dr_name">
+    <% DRs.forEach(dr => { %>
+    <option value="<%= dr.id%>"><%= dr.name %></option>
+    <% }) %>
+  </select>
   <button type="submit">Submit</button>
 </form>
 <script src="script.js"></script>

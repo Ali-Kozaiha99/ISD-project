@@ -60,14 +60,20 @@
               <div class="file-id"><span> ID: </span> <%= admission_patient.file_id %></div>
               <div class="patient-name"> <span>Name:  </span><%= admission_patient.patient_name %></div>
               <div class="phone-number"><span>Number:  </span> <%= admission_patient.phone_number %></div>
+              <div class="phone-number"><span>Room Number:  </span> <%= admission_patient.room_name %></div>
+
+              
               <span>Date:  </span> <%= admission_patient.date_added.toLocaleString() %>
+
             </form>
             <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="">Delete</a>
-            
+            <form action="admissionPatient" method="post">
+              <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>" >
+              <input type="submit" name="taskIds" value="open file">
+            </form>
           </div>
         <% }) %>
       </ul>
-      
       <script>
         function TodaysearchFunction() {
           var input, filter, ul, li, divs, i, txtValue;
