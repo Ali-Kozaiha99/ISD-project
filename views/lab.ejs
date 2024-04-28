@@ -10,20 +10,22 @@
         <div>
             <label for="test_name">Test Name:</label>
             <input type="text" id="test_name" name="test_name">
+            
             <select name="patient_id">
                 <% dr_patients.forEach(patient => { %>
                 <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
                 <% }) %>
               </select>
-            <input type="file" name="file">
-            <input type="submit">
+              <input type="submit">
+
         </div>
        
     </form>
-    
+
     <% if (labData) { %>
         <table>
             <tr>
+                <th>Test id</th>
                 <th>Test Name</th>
                 <th>Doctor Name</th>
                 <th>patient id</th>
@@ -31,12 +33,20 @@
             </tr>
             <% labData.forEach(item => { %>
             <tr>
+                <td><%= item.test_id %></td>
                 <td><%= item.test_name %></td>
                 <td><%= item.dr_name %></td>
                 <td><%= item.file_id %></td>
                 <td><% if (item.file_filename) { %>
                     <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer">View File</a>
-                    <% }%>
+                    <% }else {%>
+                        <form action="/lab" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="test_name" value="<%= item.test_name %>">
+                            <input type="hidden" name="file_idd" value="<%= item.test_id  %>">
+                            <input type="file" name="file">
+                            <input type="submit">
+                        </form>
+                        <% } %>
                 </td>
             </tr>
             <% }); %>

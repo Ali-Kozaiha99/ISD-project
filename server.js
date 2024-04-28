@@ -665,24 +665,40 @@ app.get('/lab', async (req, res) => {
     }
 });
  
- 
+    
 app.post('/lab', upload.single('file'), async (req, res) => {
     try {
-        const { test_name } = req.body;
-        const dr_name = req.user.id;
-        const {  filename } = req.file;
-        const file_id = req.body.patient_id;
-  
-        // Insert both form data and file information into the database
-        await pool.query("INSERT INTO `lab` (`test_name`, `dr_name`, `file_filename`,`file_id`) VALUES (?, ?, ?, ?)", [
-          test_name,
-          dr_name,
-          filename,
-          file_id
-          
-        ]);
         const isUserDoctor = await isDoctor(req.user.id);
         const isUserlabStaff = await islab(req.user.id);
+
+
+        const { test_name, file_idd } = req.body;
+        const { filename } = req.file;
+ 
+        console.log("file_idd:",file_idd)
+        // Insert both form data and file information into the database
+        if(isUserDoctor){
+            const { test_name } = req.body;
+            const dr_name = req.user.id;
+            const file_id = req.body.patient_id;
+        console.log("file_id ",file_id)
+
+        await pool.query("INSERT INTO `lab` (`test_name`, `dr_name`,`file_id`) VALUES ( ?, ?, ?)", [
+          test_name,
+          dr_name,
+         
+          file_id
+          
+        ]);   
+    }
+    else if(isUserlabStaff){
+
+        await pool.query("UPDATE `lab` SET `file_filename` = ? WHERE `test_id` = ?", [
+            filename,
+            file_idd
+          ]);
+          
+    }
         if(isUserlabStaff){
             const query5 = await pool.query("SELECT * FROM `lab`");
             const labData = query5[0]; // Access the rows returned by the query
@@ -733,7 +749,7 @@ app.get('/scan', async (req, res) => {
         const query5 = await pool.query("SELECT * FROM `scan`");
         const scanData = query5[0]; // Access the rows returned by the query
         // Render an HTML page and pass the fetched data to it
-        res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff});
+        res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff,dr_patients:[]});
         }
         else if(isDoctor){
             const id = req.user.id;
@@ -741,8 +757,9 @@ app.get('/scan', async (req, res) => {
             
             // Execute the select query
             const scanData = await pool.query(sql, [id]);
-            
-            res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff });
+            const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+            const [dr_patientsRows] = await pool.query(query,[id]);
+            res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff, dr_patients: dr_patientsRows });
             
         }
     } catch (error) {
@@ -771,7 +788,7 @@ app.post('/scan', upload.single('file'), async (req, res) => {
             const query5 = await pool.query("SELECT * FROM `scan`");
             const scanData = query5[0]; // Access the rows returned by the query
             // Render an HTML page and pass the fetched data to it
-            res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff});
+            res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff,dr_patients:[]});
             }
             else if(isDoctor){
                 const id = req.user.id;
@@ -779,8 +796,9 @@ app.post('/scan', upload.single('file'), async (req, res) => {
                 
                 // Execute the select query
                 const scanData = await pool.query(sql, [id]);
-                
-                res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff });
+                const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+                const [dr_patientsRows] = await pool.query(query, req.user.id);
+                res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff, dr_patients:dr_patientsRows });
                 
             }
     } catch (error) { 
