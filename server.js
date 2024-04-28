@@ -771,23 +771,34 @@ app.get('/scan', async (req, res) => {
  
 app.post('/scan', upload.single('file'), async (req, res) => {
     try {
-        const { scan_name } = req.body;
-        const dr_id = req.user.id;
-        const {  filename } = req.file;
-  
-        // Insert both form data and file information into the database
-        await pool.query("INSERT INTO `scan` (`scan_name`, `dr_id`, `result`) VALUES (?, ?, ?)", [
-            scan_name,
-          dr_id,
-          filename,
-          
-        ]);
         const isUserDoctor = await isDoctor(req.user.id);
         const isUserScanStaff = await isScan(req.user.id);
+        const { scan_name } = req.body;
+        const dr_id = req.user.id;
+        const {  filename } = req.file||{};
+        const file_idd=req.body.file_idd
+        const file_id = req.body.patient_id;
+
+
+        if(isUserDoctor){
+            await pool.query("INSERT INTO `scan` (`scan_name`, `dr_id`,`file_id`) VALUES (?, ?,?)", [
+                scan_name,
+              dr_id,
+             file_id
+              
+            ]);
+        }
+        else if(isUserScanStaff){
+            await pool.query("UPDATE `scan` SET `result` = ? WHERE `scan_id` = ?", [
+                filename,
+                file_idd
+              ]);
+        }
         if(isUserScanStaff){
             const query5 = await pool.query("SELECT * FROM `scan`");
             const scanData = query5[0]; // Access the rows returned by the query
             // Render an HTML page and pass the fetched data to it
+            
             res.render('scan.ejs', { scanData, isDoctor:isUserDoctor,isScan:isUserScanStaff,dr_patients:[]});
             }
             else if(isDoctor){

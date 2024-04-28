@@ -15,7 +15,7 @@
                 <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
                 <% }) %>
               </select>
-            <input type="file" name="file">
+
             <input type="submit">
         </div>
        
@@ -31,12 +31,20 @@
             </tr>
             <% scanData.forEach(item => { %>
             <tr>
+                <td><%= item.scan_id %></td>
                 <td><%= item.scan_name %></td>
                 <td><%= item.dr_id %></td>
                 <td><%= item.file_id %></td>
                 <td><% if (item.result) { %>
                     <a href="../file_uploads/<%= item.result %>" target="_blank" rel="noopener noreferrer">View results</a>
-                    <% }%>
+                    <% }else {%>
+    <form action="/scan" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" name="file_idd" value="<%= item.scan_id  %>">
+                        <input type="file" name="file">
+                        <input type="submit">
+</form>
+                        <% } %>
                 </td>
             </tr>
             <% }); %>
