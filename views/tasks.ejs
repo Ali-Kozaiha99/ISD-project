@@ -85,7 +85,8 @@
           <form action="/tasks" method="post">
             <div>
 
-             <p style="display: inline;"> patient ID:</p> <select name="patient_id">
+             <p style="display: inline;"> patient ID:</p> 
+             <select name="patient_id">
                 
                 <% dr_patients.forEach(patient => { %>
                 <option value="<%= patient.file_id  %>" class="task_id"><%= patient.patient_name  %></option>
@@ -97,7 +98,7 @@
             <!-- This line was added -->
             <div>
               <label for="details">Details</label><br />
-              <textarea
+              <textarea required
                 name="details"
                 id="details"
                 cols="30"
