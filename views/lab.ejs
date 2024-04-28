@@ -1,56 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab</title>
-</head>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAb</title>
+  </head>
 <body>
+    <br><br>
+    <center>
+    <div class="Lab_form">
     <form action="/lab" method="post" enctype="multipart/form-data">
         <div>
+            <br>
+          <label style="display: inline;"> Patient ID:</label>
+
+          
+          <select name="patient_id" class="custom-select">
+            <% dr_patients.forEach(patient => { %>
+              <option style="border-radius: 10px;" id="option" value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
+            <% }) %>
+          </select>
+          
+              <br><br><br>
             <label for="test_name">Test Name:</label>
             <input type="text" id="test_name" name="test_name">
             
-            <select name="patient_id">
-                <% dr_patients.forEach(patient => { %>
-                <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
-                <% }) %>
-              </select>
+
               <input type="submit">
 
         </div>
        
     </form>
+</div>
+</center>
 
     <% if (labData) { %>
-        <table>
-            <tr>
-                <th>Test id</th>
-                <th>Test Name</th>
-                <th>Doctor Name</th>
-                <th>patient id</th>
-                <th>File</th>
-            </tr>
+       
+
             <% labData.forEach(item => { %>
-            <tr>
-                <td><%= item.test_id %></td>
-                <td><%= item.test_name %></td>
-                <td><%= item.dr_name %></td>
-                <td><%= item.file_id %></td>
-                <td><% if (item.file_filename) { %>
-                    <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer">View File</a>
-                    <% }else {%>
+                <center>
+           <div class="test_div">
+           <span>Test Name: </span>  <%= item.test_name %>   <span>From Doctor:</span><%= item.dr_name %> <span>Patient ID:</span>     <%= item.file_id %>
+                <%= item.test_id %>
+                
+                
+            
+                <% if (item.file_filename) { %>
+                  
+                    <center>
+                        <div style="margin-top: 40px;">
+                    <p style="display: inline;"> Results:</p>
+                    
+
+                    <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer" class="view_filee">View File</a>
+                </center>
+            </div>
+                    <% } else { %>
+                        
                         <form action="/lab" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="test_name" value="<%= item.test_name %>">
                             <input type="hidden" name="file_idd" value="<%= item.test_id  %>">
-                            <input type="file" name="file">
+                            <div class="file-container">
+                            <p style="display:inline; color: white;">Fill results:</p>
+
+                                <label for="file" class="file-label">Choose File</label>
+                                <input type="file" id="file" class="file-input" name="file">
+                              </div>
+                              
                             <input type="submit">
                         </form>
                         <% } %>
-                </td>
-            </tr>
+       
+                    </div>
+                </center>
             <% }); %>
-        </table>
+
     <% } else { %>
         <p>No data available</p>
     <% } %>

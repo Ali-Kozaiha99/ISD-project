@@ -171,12 +171,113 @@ color: rgb(3, 49, 92);
     margin: 5px;
     background-color: #9fc2e1;
 }
+.Lab_form{
+    position: relative;
+ border-radius: 10px;
+border: 2px solid rgb(85, 141, 194);
+    width: 45vw;
+    height: 30vh;
+    background-color: WHITE;
+}
+.Lab_form label{
+    color: rgb(3, 49, 92);
+    font-weight: bold;
+
+}
+.Lab_form input[type="submit"] {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: rgb(3, 49, 92);
+    background-color: #9fc2e1;
+    border: none;
+    padding: 8px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+.Lab_form input[type="text"]{
+background-color: #9fc2e1;
+border: none ;
+outline: none;
+padding: 10px;
+border-radius: 5px;
+width: 20vw;
+}
+.Lab_form input[type="text"]{
+    background-color: #9fc2e1;
+    border: none ;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    width: 20vw;
+    }
+
+.custom-select {
+        color: rgb(3, 49, 92);
+background-color: #9fc2e1;
+border: none;
+outline: none;
+width: 10vw;
+border-radius: 10px;
+text-align: center;
+font-size: 1.1em;
+      }
+      .custom-select option{
+    color: rgb(3, 49, 92);
+    background-color: #9fc2e1;
+    border: none;
+    outline: none;
+    width: 10vw;
+border-radius: 5px;
+    text-align: center;
+    font-size: 1.1em;
+}
+.test_div{
+    position: relative;
+    padding: 10px;
+    font-size: 1.2em;
+    color: rgb(3, 49, 200);
+
+    border-radius: 20px;
+    height: 20vh;
+    width: 60vw;
+margin-top: 10px;
+background-color:#9fc2e1;
+}
+
+.test_div span{
+    margin-left:50px;
+color: white;
+}
+.test_div input[type="submit"]{
+    color: rgb(3, 49, 200);
+    background-color: white;
+    font-size: 0.9em;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+    width: 7vw;
+    padding: 5px;
+    right: 10px;
+    bottom: 5px;
+position: absolute;
+}
+.view_filee{
+    border-radius: 5px;
+color: rgb(3, 49, 200);
+padding-left: 20px;
+padding-right: 20px;
+
+    text-decoration: none;
+    background-color: white;
+    
+}
 .task_but{
     margin-bottom: 10px;
     width: 8vw;
     border: none;
     padding: 5px;
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
     border-radius: 5px;
    background-color: #9fc2e1;
@@ -184,15 +285,31 @@ color: rgb(3, 49, 92);
     color: rgb(3, 49, 92);
     float: right;
 }
-.files_button{
-    padding: 1px;
-background-color: rgb(3, 49, 92);
-color: white;
-position: absolute;
-bottom: 2px;
-right: 5px;
+.file-container {
+    margin-top: 20px;
+    position: relative;
+  }
+  
+  .file-label {
+    background-color: white;
+    color: rgb(3, 49, 200);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
 
-}
 .delete{
     height: 2vh;
     text-align: center;
