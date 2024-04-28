@@ -388,7 +388,7 @@ formm.style.display='block'
             }
         }
     }
-
+/*
   function hideCheckboxesAndButton() {
     '<% if (isDoctor) { %>'
      console.log('D');
@@ -397,7 +397,7 @@ formm.style.display='block'
       console.log('e');
 
           '<% } %>'
-    /*  if (isDoctor) {
+    if (isDoctor) {
           console.log('hi1');
           var checkboxes = document.querySelectorAll('input[type="checkbox"]');
           var submitButton = document.querySelector('.task_but');
@@ -416,7 +416,7 @@ formm.style.display='block'
           document.querySelectorAll('a.delete').forEach(deleteButton => {
               deleteButton.style.display = 'none';
           });
-      }*/
+      }
   }
   document.addEventListener("DOMContentLoaded", function() {
     var todayItems = document.getElementById("today-items").querySelectorAll(".today-item");
@@ -424,7 +424,7 @@ formm.style.display='block'
         item.style.borderLeftColor = getRandomColor();
     });
 });
-
+*/
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';

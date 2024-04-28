@@ -40,16 +40,15 @@
             <h1 class="add_user_admi">Create File:</h1> 
             <form action="/admition" method="post" autocomplete="off">
                 <div>
-                    <label for="patient_id">Patient ID:</label>
-                    <input type="number" id="patient_id" name="patient_id" required>
-                    <label for="patient_name">patient name:</label>
+                    <label for="patient_id">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPatient ID:</label>
+                    <input type="number" id="patient_id" name="patient_id" required><br>
+                    <label for="patient_name">&nbsp&nbsppatient name:</label>
                     <input type="text" id="patient_name" name="patient_name"required>
                     <br><br>
-                    <label for="phone_number" style="margin-bottom: 0px;">phone number</label>
-                    <br>
+                    <label for="phone_number" style="margin-bottom: 0px;">phone number:</label>
                     <input type="number" id="phone_number" name="phone_number" style="margin-top:0;" required>
                 </div>
-                <button type="submit">Add patient</button>
+                <button type="submit" >Create File</button>
             </form>
         </div>
     </center>
@@ -58,10 +57,10 @@
             <form action="admissionPatient" method="POST">
                 <input type="hidden" name="file_id" value="<%= file.file_id %>">
                 <div class="file-info">
-                    <div class="file-id">  <span>ID:</span> <%= file.file_id %></div>
-                    <div class="file-name"> <span>Name: </span><%= file.patient_name %></div>
-                    <div class="file-phone"> <span>Number:</span><%= file.phone_number %></div>
-                <input type="submit" name="taskIds" value="Add">
+                    <div class="file-id">  <span>ID:</span> <%= file.file_id %></div><br>
+                    <div class="file-name"> <span>patients Name: </span><%= file.patient_name %></div>
+                    <div class="file-phone"> <span>Phone Number:</span><%= file.phone_number %></div>
+                <input type="submit" name="taskIds" value="Add patients " class="files_button " style="color: white;" >
 
                 </div>
             </form>

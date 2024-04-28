@@ -13,7 +13,7 @@
     <title>it</title>
   </head>
 
-  <body class="Right_left_body" onload="hideCheckboxesAndButton()">
+  <body class="Right_left_body"  >
     <div class="left">
       <div class="left_nav">
         <center>
@@ -51,34 +51,54 @@
     </div>
 
     <div class="right">
-      <% if (isDoctor) { %>
-      <h1 style="color: rgb(3, 49, 92)">Welcome, Doctor!</h1>
-
-      <% } else { %>
-      <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
-      <!-- Other content for non-doctors -->
-      <% } %>
+     
       <script>
-         
-        var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
-       console.log("Is user a doctor?", isDoctor);
-     </script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const isDoctor = '<%= JSON.stringify(isDoctor) %>';
+          console.log(isDoctor);
+          const submitButton = document.querySelector('.task_but');
+          const taskForm = document.querySelector('.task_form');
+        
+            if (isDoctor === "true") {
+                  // Hide checkboxes and submit button for doctors
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        if (checkboxes.length > 0) {
+          checkboxes.forEach(checkbox => checkbox.style.display = 'none');
+        }
+        submitButton.style.display = 'none';
+             
+            } else {
+              // Hide delete buttons for nurses
+              const deleteButtons = document.querySelectorAll('.delete');
+              if (deleteButtons.length > 0) {
+                deleteButtons.forEach(button => button.style.display = 'none');
+              }
+              console.log('nurse');
+              // Hide the task form for nurses
+              taskForm.style.display = 'none';
+            }
+          }
+        );
+      </script>
       <center>
         <div class="task_form">
           <form action="/tasks" method="post">
             <div>
 
-              <select name="patient_id">
+             <p style="display: inline;"> patient ID:</p> 
+             <select name="patient_id">
+                
                 <% dr_patients.forEach(patient => { %>
-                <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
+                <option value="<%= patient.file_id  %>" class="task_id"><%= patient.patient_name  %></option>
                 <% }) %>
               </select>
             </div>
+            <br>
             <input type="hidden" name="formType" value="addTask" required />
             <!-- This line was added -->
             <div>
               <label for="details">Details</label><br />
-              <textarea
+              <textarea required
                 name="details"
                 id="details"
                 cols="30"
@@ -116,11 +136,11 @@
               <span>Task ID: </span>
               <%= task.task_id %> <br />
               <span>Task Ditails:</span>
-              <p class="task-details"><%= task.details %></p>
-              <br />
+              <p class="task-details" style="display: inline;"><%= task.details %></p>
+              <br /><br>
               <a class="created_by">
                 <span>Created by:</span>
-                <%= task.doctor_name %> At: <%= task.added_date.toLocaleString()
+                <%= task.doctor_name %> <span>during:</span>  <%= task.added_date.toLocaleString()
                 %>
               </a>
 
@@ -151,6 +171,8 @@
         });
       </script>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js">
+      
+    </script>
   </body>
 </html>

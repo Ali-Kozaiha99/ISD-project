@@ -83,7 +83,7 @@
   <label for="name">Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
   <input type="text" id="name" name="name" required />
 
-  <label for="email">Email:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+  <label for="email">Email:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
   <input type="email" id="email" name="email" required />
 <br>
   <label for="phoneNumber">Phone number:</label>
@@ -95,7 +95,7 @@
   <label for="birthDate">Date of Birth:&nbsp&nbsp&nbsp</label>
   <input type="date" id="birthDate" name="birthDate" required />
 
-  <label for="spaciality"> spaciality:</label>
+  <label for="spaciality"> spaciality:&nbsp</label>
   <input type="text" id="spaciality" name="spaciality" required />
 <br><br>
   <label id="ggg">Gender:</label>
@@ -140,10 +140,11 @@
     
         <!-- Doctors -->
         <ul>
+          <center><h2>Doctor</h2></center>
             <% doctors.forEach(doctor => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-         <span>      <%= doctor.name %> - <%= doctor.id %> </span>                  <a class="delete" data-dtask="<%= doctor.id  %>" href="">delete</a>
+         <span>      <%= doctor.name %> - <%= doctor.id %> </span>                  <a class="delete" data-dtask="<%= doctor.id  %>" href="">Delete</a>
          <br>
                 <div class="namess">Email:</div >
                 <%= doctor.email %> <br>
@@ -155,10 +156,12 @@
     
         <!-- Nurses -->
         <ul>
+          <center><h2>Nurse</h2></center>
+
             <% nurses.forEach(nurse => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-        <span>       <%= nurse.name %> - <%= nurse.id  %></span>                  <a class="delete" data-dtask="<%= nurse.id  %>" href="">delete</a>
+        <span>       <%= nurse.name %> - <%= nurse.id  %></span>                  <a class="delete" data-dtask="<%= nurse.id  %>" href="">Delete</a>
         <br>
                 <div class="namess">Email:</div >
                 <%= nurse.email %> <br>
@@ -170,10 +173,12 @@
     
         <!-- Staff -->
         <ul>
+          <center><h2>Staff</h2></center>
+
             <% staff.forEach(staffMember => { %>
             <div class="it_show_users">
                 <div class="namess">Name:</div >
-              <span> <%= staffMember.id %>  </span>                    <a class="delete" data-dtask="<%= staffMember.id  %>" href="">delete</a>
+              <span> <%= staffMember.id %>  </span>                    <a class="delete" data-dtask="<%= staffMember.id  %>" href="">Delete</a>
               <br>
                 <div class="namess">Email:</div >
                 <%= staffMember.email %> <br>
@@ -183,10 +188,12 @@
             <% }) %>
         </ul>
     <ul>
+      <center><h2>Admittion </h2></center>
+
       <% admitions.forEach(admition => { %>
       <div class="it_show_users">
           <div class="namess">Name:</div >
-        <span> <%= admition.id %>  </span>                    <a class="delete" data-dtask="<%= admition.id  %>" href="">delete</a>
+        <span> <%= admition.id %>  </span>                    <a class="delete" data-dtask="<%= admition.id  %>" href="">Delete</a>
         <br>
           <div class="namess">Email:</div >
           <%= admition.email %> <br>
