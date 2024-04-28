@@ -1,119 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    integrity="sha384-..." crossorigin="anonymous" />
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="style.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LAb</title>
-</head>
-
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAb</title>
+  </head>
 <body>
-  
-  <br><br>
+    <br><br>
+    <input style="margin: 20px;" type="text" class="it_search"id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
 
-  <center>
+    <center>
     <div class="Lab_form">
-      <form action="/lab" method="post" enctype="multipart/form-data">
+    <form action="/lab" method="post" enctype="multipart/form-data">
         <div>
-          <br>
+            <br>
           <label style="display: inline;"> Patient ID:</label>
 
-
+          
           <select name="patient_id" class="custom-select">
-            <% dr_patients.forEach(patient=> { %>
-              <option style="border-radius: 10px;" id="option" value="<%= patient.file_id  %>">
-                <%= patient.patient_name %>
-              </option>
-              <% }) %>
+            <% dr_patients.forEach(patient => { %>
+              <option style="border-radius: 10px;" id="option" value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
+            <% }) %>
           </select>
+          
+              <br><br><br>
+            <label for="test_name">Test Name:</label>
+            <input type="text" id="test_name" name="test_name">
+            
 
-          <br><br><br>
-          <label for="test_name">Test Name:</label>
-          <input type="text" id="test_name" name="test_name">
-
-
-          <input type="submit">
+              <input type="submit">
 
         </div>
+       
+    </form>
+</div>
+</center>
 
-      </form>
-    </div>
-  </center>
-  <div class="grid-wrapper">
-    <div class="grid-container grid-left">
-        <% if (labData) { %>
+    <% if (labData) { %>
+       
+
             <% labData.forEach(item => { %>
-                <% if (!item.file_filename) { %>
-                    <div class="test_div left-side">
-                        <!-- Content for items without file_filename -->
-                        <span>Test Name: </span><%= item.test_name %>
-                        <span>From Doctor:</span><%= item.dr_name %>
-                        <span>Patient ID:</span><%= item.file_id %><%= item.test_id %>
+                <center>
+           <div class="test_div">
+           <span >Test Name: </span>  <p style="display: inline;" class="test_name"><%= item.test_name %></p>   <span>From Doctor:</span><%= item.dr_name %> <span >Patient ID:</span>     <p style="display: inline;" class="patient_id"></p><%= item.file_id %>
+                <%= item.test_id %>
+                
+                
+            
+                <% if (item.file_filename) { %>
+                  
+                    <center>
+                        <div style="margin-top: 40px;">
+                    <p style="display: inline;"> Results:</p>
+                    
+
+                    <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer" class="view_filee"><i class="fas fa-file"></i></a>
+
+                </center>
+            </div>
+                    <% } else { %>
+                        
                         <form action="/lab" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="test_name" value="<%= item.test_name %>">
-                            <input type="hidden" name="file_idd" value="<%= item.test_id %>">
+                            <input type="hidden" name="file_idd" value="<%= item.test_id  %>">
                             <div class="file-container">
-                                <p style="display:inline; color: white;">Fill results:</p>
+                            <p style="display:inline; color: white;">Fill test results:</p>
+
                                 <label for="file" class="file-label">Choose File</label>
                                 <input type="file" id="file" class="file-input" name="file">
-                            </div>
+                              </div>
+                              
                             <input type="submit">
                         </form>
+                        <% } %>
+       
                     </div>
-                <% } %>
+                </center>
             <% }); %>
-        <% } %>
-    </div>
-    <div class="grid-container grid-right">
-        <% if (labData) { %>
-            <% labData.forEach(item => { %>
-                <% if (item.file_filename) { %>
-                    <div class="test_div right-side">
-                        <!-- Content for items with file_filename -->
-                        <span>Test Name: </span><%= item.test_name %>
-                        <span>From Doctor:</span><%= item.dr_name %>
-                        <span>Patient ID:</span><%= item.file_id %><%= item.test_id %>
-                        <div class="result-section">
-                          <center>
-                            <div style="margin-top: 30px;">
-                            <p style="display: inline;"> Results:</p>
-                            <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer" class="view_filee">View File</a>
-                          </div>
-                          </center>
 
-                        </div>
-                    </div>
-                <% } %>
-            <% }); %>
-        <% } %>
-    </div>
-</div>
+    <% } else { %>
+        <p>No data available</p>
+    <% } %>
 
+        <center>
+          <script>
+           
+           var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
+           var islab = '<%= JSON.stringify(islab) %>;'
+          console.log("Is user a doctor?", isDoctor);
+          console.log("Is user a doctor?", islab);
 
-            <% if (isDoctor) { %>
-              <h1 style="color: rgb(3, 49, 92)">Welcome, Doctor!</h1>
-
-              <% } else { %>
-                <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
-                <!-- Other content for non-doctors -->
-                <% } %>
-                  <% if (islab) { %>
-                    <h1>lab staff</h1>
-                    <% } %>
-                      <center>
-                        <script>
-
-                          var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
-                          var islab = '<%= JSON.stringify(islab) %>;'
-                          console.log("Is user a doctor?", isDoctor);
-                          console.log("Is user a doctor?", islab);
-
-                        </script>
-               <input type="text" class="it_search" id="searchInput" placeholder="Search..." onkeyup="searchFunction()" style="margin-left:40px; margin-bottom: 20px;"/>
-
+        </script>
+        <script>
+          function searchFunction() {
+              // Get the input value
+              var input = document.getElementById("searchInput").value.toUpperCase();
+              
+              // Get all test_div elements
+              var testDivs = document.querySelectorAll('.test_div');
+              
+              // Loop through each test_div and hide/show based on search
+              testDivs.forEach(function(div) {
+                  var testName = div.querySelector('.test_name').textContent.toUpperCase();
+                  var patientID = div.querySelector('.patient_id').textContent.toUpperCase();
+                  
+                  // Extract only the text content after the label
+                  testName = testName.replace("Test Name:", "").trim();
+                  patientID = patientID.replace("Patient ID:", "").trim();
+                  
+                  console.log("Input:", input);
+                  console.log("Test Name:", testName);
+                  console.log("Patient ID:", patientID);
+                  
+                  if (testName.includes(input) || patientID.includes(input)) {
+                      div.style.display = "";
+                  } else {
+                      div.style.display = "none";
+                  }
+              });
+          }
+          </script>
+          
+          
 </body>
-
 </html>

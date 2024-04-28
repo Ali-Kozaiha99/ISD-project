@@ -53,16 +53,23 @@ color:rgb(3, 49, 92);
     top: 5px;
     right: 5px;
 }
-.grid-wrapper {
-    display: flex;
-}
-
 .grid-container {
-    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
-.grid-left {
-    margin-right: 20px; /* Add spacing between grids */
+.test_div {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.right-side {
+    grid-column: 2 / span 1; /* Place on the right side */
+}
+
+.left-side {
+    grid-column: 1 / span 1; /* Place on the left side */
 }
 
 .today-item {
@@ -246,15 +253,14 @@ border-radius: 5px;
     font-size: 1.1em;
 }
 .test_div{
-    margin-left:5vw;
     position: relative;
     padding: 10px;
     font-size: 1.2em;
-    color: rgb(3, 49, 200);
+    color: rgb(3, 49, 92);
 
     border-radius: 20px;
     height: 20vh;
-    width: 40vw;
+    width: 60vw;
 margin-top: 10px;
 background-color:#9fc2e1;
 }
@@ -264,7 +270,7 @@ background-color:#9fc2e1;
 color: white;
 }
 .test_div input[type="submit"]{
-    color: rgb(3, 49, 200);
+    color: rgb(3, 49, 92);
     background-color: white;
     font-size: 0.9em;
     border-radius: 5px;
@@ -278,12 +284,11 @@ position: absolute;
 }
 .view_filee{
     border-radius: 5px;
-color: rgb(3, 49, 200);
+color: rgb(3, 49, 92);
 padding-left: 20px;
 padding-right: 20px;
 
     text-decoration: none;
-    background-color: white;
     
 }
 .task_but{
@@ -306,7 +311,7 @@ padding-right: 20px;
   
   .file-label {
     background-color: white;
-    color: rgb(3, 49, 200);
+    color: rgb(3, 49, 92);
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
