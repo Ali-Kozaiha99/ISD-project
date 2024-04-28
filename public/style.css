@@ -29,6 +29,7 @@
     background-color: rgb(3, 49, 80);
 }
 
+
 .right {
     margin: 10px;
     margin-right: 20px;
@@ -52,6 +53,18 @@ color:rgb(3, 49, 92);
     top: 5px;
     right: 5px;
 }
+.grid-wrapper {
+    display: flex;
+}
+
+.grid-container {
+    flex-grow: 1;
+}
+
+.grid-left {
+    margin-right: 20px; /* Add spacing between grids */
+}
+
 .today-item {
     position: relative;
   font-size: 1.1em;
@@ -233,6 +246,7 @@ border-radius: 5px;
     font-size: 1.1em;
 }
 .test_div{
+    margin-left:5vw;
     position: relative;
     padding: 10px;
     font-size: 1.2em;
@@ -240,7 +254,7 @@ border-radius: 5px;
 
     border-radius: 20px;
     height: 20vh;
-    width: 60vw;
+    width: 40vw;
 margin-top: 10px;
 background-color:#9fc2e1;
 }
