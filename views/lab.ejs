@@ -13,11 +13,12 @@
     <title>LAb</title>
   </head>
 <body>
-    <br><br>
+    <br>
     <input style="margin: 20px;" type="text" class="it_search"id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
 
     <center>
     <div class="Lab_form">
+  <h1 style="text-align: left;  color: rgb(3, 49, 92); font-size: 1.5em;" >Request Test</h1>
     <form action="/lab" method="post" enctype="multipart/form-data">
         <div>
             <br>
@@ -36,6 +37,7 @@
             
 
               <input type="submit">
+             
 
         </div>
        
@@ -45,46 +47,59 @@
 
     <% if (labData) { %>
        
-
-            <% labData.forEach(item => { %>
-                <center>
-           <div class="test_div">
-           <span >Test Name: </span>  <p style="display: inline;" class="test_name"><%= item.test_name %></p>   <span>From Doctor:</span><%= item.dr_name %> <span >Patient ID:</span>     <p style="display: inline;" class="patient_id"></p><%= item.file_id %>
-                <%= item.test_id %>
+<center>
+      <% labData.forEach(item => { %>
+        <div class="test_div">
+            <!-- Left section for test names and IDs -->
+            <div class="left_section">
+             
                 
-                
-            
-                <% if (item.file_filename) { %>
-                  
-                    <center>
-                        <div style="margin-top: 40px;">
-                    <p style="display: inline;"> Results:</p>
-                    
-
-                    <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer" class="view_filee"><i class="fas fa-file"></i></a>
-
-                </center>
-            </div>
-                    <% } else { %>
-                        
-                        <form action="/lab" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="test_name" value="<%= item.test_name %>">
-                            <input type="hidden" name="file_idd" value="<%= item.test_id  %>">
-                            <div class="file-container">
-                            <p style="display:inline; color: white;">Fill test results:</p>
-
-                                <label for="file" class="file-label">Choose File</label>
-                                <input type="file" id="file" class="file-input" name="file">
-                              </div>
-                              
-                            <input type="submit">
-                        </form>
-                        <% } %>
-       
+                    <div class="test_info">
+                        <span >-Test Name: </span>
+                        <p style="display: inline;" class="test_name"><%= item.test_name %></p><br>
+                        <br>
+                        <span>-From Doctor:</span><%= item.dr_name %> <br>
+                        <br>
+                        <span>-Patient ID:</span>
+                        <p style="display: inline;" class="patient_id"><%= item.file_id %></p>
+                        <%= item.test_id %>
                     </div>
-                </center>
-            <% }); %>
+                
+            </div>
+    <hr style="background-color: lightgrey ; border: none; width: 2px;">
+            <!-- Right section for displaying results -->
+            <div class="right_section">
+                <% if (item.file_filename) { %>
+                    <center>
+                        <div class="results_content" style="margin-top: 40px;">
+                            <p style="display: inline;color: white;">Results:</p>
+                            <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer" class="view_filee"><i class="far fa-file-alt" style="color: rgb(3, 49, 92); padding: 5px; "></i></a>
+                        </div>
+                    </center>
+                <% } else { %>
+                    <form action="/lab" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="test_name" value="<%= item.test_name %>">
+                        <input type="hidden" name="file_idd" value="<%= item.test_id %>">
+                        <div class="file_container" >
+                            <p style="display:inline; color: white;">Fill test results:</p>
+                            <label for="file" class="file_label">Choose File</label>
+                            <br><br>
+                            <!-- Hide the input visually -->
+<input type="file" id="file" class="file_input" name="file" style="display: none;">
 
+<!-- Add an icon for file upload -->
+<label for="file" >
+    <i class="fas fa-upload" style="color: rgb(3, 49, 92); padding: 5px; background-color: white; border-radius: 5px;"></i> 
+</label>
+
+                        </div>
+                        <input type="submit">
+                    </form>
+                <% } %>
+            </div>
+        </div>
+    <% }); %>
+  </center>
     <% } else { %>
         <p>No data available</p>
     <% } %>

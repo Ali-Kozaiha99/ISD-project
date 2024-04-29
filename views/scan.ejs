@@ -1,58 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab</title>
-</head>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAb</title>
+  </head>
 <body>
-    <form action="/scan" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="scan_name">Test Name:</label>
-            <input type="text" id="scan_name" name="scan_name">
-            <select name="patient_id">
-                <% dr_patients.forEach(patient => { %>
-                <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
-                <% }) %>
-              </select>
+    <style>
+        .scan-grid-container {
+    position: relative;
+    padding: 10px;
+    font-size: 1.2em;
+    color: rgb(3, 49, 92);
 
-            <input type="submit">
-        </div>
-       
-    </form>
+    border-radius: 20px;
+    height: 32vh;
+    width: 50vw;
+margin-top: 20px;
+background-color:#9fc2e1;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+        }
+        
+        .scan-left-grid,
+        .scan-right-grid {
+            padding: 10px;
+        }
+        .scan-right-grid {
+            border-left: 1px solid lightgrey;
+        }
+        
+        .scan-info {
+            margin-bottom: 25px; /* Add space between each scan info */
+        }
+        
+        .info-heading {
+            font-weight: bold;
+        }
+        
+        .info-item {
+            margin-top: 5px;
+        }
+        .info-label{
+            color: white;
+        }
+        .scan-grid-container input[type="submit"]{
+            color: rgb(3, 49, 92);
+            background-color: white;
+            font-size: 0.9em;
+            border-radius: 5px;
+            font-weight: 600;
+            border: none;
+            width: 7vw;
+            padding: 5px;
+            right: 10px;
+            bottom: 5px;
+        position: absolute;
+        }
+    </style>
+    <br>
+    <input style="margin: 20px;" type="text" class="it_search"id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
+
+        <center>
+            <div class="Lab_form">
+          <h1 style="text-align: left;  color: rgb(3, 49, 92); font-size: 1.5em;" >Request scan</h1>
+          <form action="/scan" method="post" enctype="multipart/form-data">
+
+            <div>
+                <br>
+                <label style="display: inline;"> Patient ID:</label>
+                <select name="patient_id" class="custom-select">
+                    <% dr_patients.forEach(patient => { %>
+                    <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
+                    <% }) %>
+                   
+                  </select>
+                  <br><br>
+                <label for="scan_name">Test Name:</label>
+                <input type="text" id="scan_name" name="scan_name">
+
     
-    <% if (scanData) { %>
-        <table>
-            <tr>
-                <th>Test Name</th>
-                <th>Doctor Name</th>
-                <th>file id</th>
-                <th>File</th>
-            </tr>
-            <% scanData.forEach(item => { %>
-            <tr>
-                <td><%= item.scan_id %></td>
-                <td><%= item.scan_name %></td>
-                <td><%= item.dr_id %></td>
-                <td><%= item.file_id %></td>
-                <td><% if (item.result) { %>
-                    <a href="../file_uploads/<%= item.result %>" target="_blank" rel="noopener noreferrer">View results</a>
-                    <% }else {%>
-    <form action="/scan" method="post" enctype="multipart/form-data">
+                <input type="submit">
+            </div>
+           
+        </form>
+        </div>
+        </center>
+        <center>
+            <% if (scanData) { %>
+                <% scanData.forEach(item => { %>
+                    <div class="scan-grid-container">
+                        <div class="scan-left-grid">
+                            <div class="scan-info">
+                                <div class="info-item"><span class="info-label">-Scan ID:</span> <%= item.scan_id %></div>
+                            </div>
+                            <div class="scan-info">
+                                <div class="info-item"><span class="info-label">-Test Name:</span> <%= item.scan_name %></div>
+                            </div>
+                            <div class="scan-info">
+                                <div class="info-item"><span class="info-label">-Doctor ID:</span> <%= item.dr_id %></div>
+                            </div>
+                            <div class="scan-info">
+                                <div class="info-item"><span class="info-label">-File ID:</span> <%= item.file_id %></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Horizontal line separator between left and right grids -->
+                        <div class="scan-right-grid">
 
-                        <input type="hidden" name="file_idd" value="<%= item.scan_id  %>">
-                        <input type="file" name="file">
-                        <input type="submit">
-</form>
-                        <% } %>
-                </td>
-            </tr>
-            <% }); %>
-        </table>
-    <% } else { %>
-        <p>No data available</p>
-    <% } %>
+                                    <% if (item.result) { %>
+                                        <div class="scan-info" style="margin-top: 40px;">
+                                            <div class="info-heading" style="color: white; display: inline; font-weight: 400;">Scan Results:</div>
+                                            <div class="info-item" style="display: inline; ">
+                                        <a href="../file_uploads/<%= item.result %>" target="_blank" rel="noopener noreferrer"> <i class="far fa-file-alt" style="color: rgb(3, 49, 92); padding: 5px; "></i></a>
+                                    <% } else { %>
+                                        <form action="/scan" method="post" enctype="multipart/form-data">
 
+                                            <input type="hidden" name="file_idd" value="<%= item.scan_id  %>">
+                                            <label for="file" class="file_label" style="color: white;">Choose File:</label>
+                                            <br><br>
+                                            <input type="file" id="file" class="file_input" name="file" style="display: none;">
+                                            <label for="file" >
+                                                <i class="fas fa-upload" style="color: rgb(3, 49, 92); padding: 5px; background-color: white; border-radius: 5px;"></i> 
+                                            </label>
+                                            <input type="submit">
+                                        </form>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No data available</p>
+            <% } %>
+            
+    </center>
+ 
 
     <% if (isDoctor) { %>
         <h1 style="color: rgb(3, 49, 92)">Welcome, Doctor!</h1>

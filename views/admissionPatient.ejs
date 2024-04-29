@@ -55,6 +55,7 @@
       <ul class="show_today_container" id="today-items">
         <% admission_patients.forEach(admission_patient => { %>
           <div class="today-item" data-name="<%= admission_patient.patient_name %>" data-number="<%= admission_patient.phone_number %>">
+            
             <form action="admissionPatient" method="POST" autocomplete="off">
               <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>" >
               <div class="file-id"><span> ID: </span> <%= admission_patient.file_id %></div>
@@ -66,10 +67,10 @@
               <span>Date:  </span> <%= admission_patient.date_added.toLocaleString() %>
 
             </form>
-            <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="">Delete</a>
+            <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="" style="font-weight: 500;">Delete</a>
             <form action="admissionPatient" method="post">
               <input type="hidden" name="file_id" value="<%= admission_patient.file_id %>" >
-              <input type="submit" name="taskIds" value="Open File" class="dell">
+              <input type="submit" name="taskIds" value="Open File" class="dell" style="font-weight: 500;">
             </form>
           </div>
         <% }) %>

@@ -36,8 +36,9 @@
     <div class="right">
     <input type="text" style="margin-left: 20px;" class="it_search" id="searchInput" placeholder="Search..." onkeyup="searchFunction()" />
     <center>
+    
         <div class="add_pat_container" style="margin-top: 20px;">
-            <h1 class="add_user_admi">Create File:</h1> 
+            <h1 class="add_user_admi" >Create File:</h1> 
             <form action="/admition" method="post" autocomplete="off">
                 <div>
                     <label for="patient_id">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPatient ID:</label>
@@ -53,16 +54,17 @@
         </div>
     </center>
     <% files.forEach(file => { %>
-        <div class="files_divvv">
+        <div class="files_divvv" style="border-left: 4px solid lightgray;">
             <form action="admissionPatient" method="POST">
                 <input type="hidden" name="file_id" value="<%= file.file_id %>">
                 <div class="file-info">
-                    <div class="file-id">  <span>ID:</span> <%= file.file_id %></div><br>
-                    <div class="file-name"> <span>patients Name: </span><%= file.patient_name %></div>
-                    <div class="file-phone"> <span>Phone Number:</span><%= file.phone_number %></div>
-                <input type="submit" name="taskIds" value="Add patients " class="files_button " style="color: white;" >
-
-                </div>
+                  
+                  <div class="file-id"><span>ID:</span> <%= file.file_id %></div>
+                  <div class="file-name"><span>patients Name:</span> <%= file.patient_name %></div>
+                  <div class="file-phone"><span>Phone Number:</span> <%= file.phone_number %></div>
+              <input type="submit" name="taskIds" value="+ " class="files_button " style=" font-size: 1.5em;background-color: transparent; color: white; text-align: center;" >
+  
+              </div>
             </form>
         </div>
     <% }) %>
