@@ -143,26 +143,26 @@ background-color:#9fc2e1;
             <% } %>
             
     </center>
- 
 
-    <% if (isDoctor) { %>
-        <h1 style="color: rgb(3, 49, 92)">Welcome, Doctor!</h1>
-  
-        <% } else { %>
-        <h1 style="color: rgb(3, 49, 92)">You are not a doctor.</h1>
-        <!-- Other content for non-doctors -->
-        <% } %>
-        <% if (isScan) { %>
-            <h1>lab staff</h1>
-            <% } %>
         <center>
           <script>
            
-           var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
-           var isScan = '<%= JSON.stringify(isScan) %>;'
-          console.log("Is user a doctor?", isDoctor);
-          console.log("Is user a doctor?", isScan);
+           var isDoctor = '<%= JSON.stringify(isDoctor) %>'
+           var isScan = '<%= JSON.stringify(isScan) %>'
 
+
+           if(isScan=="true"){
+             function hideLabForm() {
+               var labForm = document.querySelector('.Lab_form');
+               if (labForm) {
+                 labForm.style.display = 'none';
+               } else {
+                 console.error('Lab form not found.');
+               }
+             }
+             hideLabForm();
+           }
+ 
         </script>
 </body>
 </html>

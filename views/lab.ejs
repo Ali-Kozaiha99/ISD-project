@@ -107,10 +107,20 @@
         <center>
           <script>
            
-           var isDoctor = '<%= JSON.stringify(isDoctor) %>;'
-           var islab = '<%= JSON.stringify(islab) %>;'
-          console.log("Is user a doctor?", isDoctor);
-          console.log("Is user a doctor?", islab);
+           var isDoctor = '<%= JSON.stringify(isDoctor) %>';
+           var islab = '<%= JSON.stringify(islab) %>';
+
+          if(islab=="true"){
+            function hideLabForm() {
+              var labForm = document.querySelector('.Lab_form');
+              if (labForm) {
+                labForm.style.display = 'none';
+              } else {
+                console.error('Lab form not found.');
+              }
+            }
+            hideLabForm();
+          }
 
         </script>
         <script>
