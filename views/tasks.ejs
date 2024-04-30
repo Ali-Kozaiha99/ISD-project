@@ -130,25 +130,31 @@
               <a class="delete" data-dtask="<%= task.task_id  %>" href=""
                 >Delete</a
               >
+            
+             
 
               <span> File ID: </span>
               <%= task.file_id %>
               <span>Task ID: </span>
               <%= task.task_id %> <br />
+              <hr style="background-color: white; font-weight: 400; border: none; height: 2px;">
+              <br>
               <span>Task Ditails:</span>
-              <p class="task-details" style="display: inline;"><%= task.details %></p>
+              <p class="task-details" style="display: inline; font-weight: 400;"><%= task.details %></p>
               <br /><br>
-              <a class="created_by">
-                <span>Created by:</span>
-                <%= task.doctor_name %> <span>during:</span>  <%= task.added_date.toLocaleString()
-                %>
+           <div style="color: grey; font-weight: 400; font-size: 1em;">               <a class="created_by">
+                <span  style="color: grey; font-weight: 400; font-size: 1em;">Created by:</span>
+                <div style="display: inline; color: grey; font-weight: 400; font-size: 1em;">  <%= task.doctor_name %> </div>  <span style="color: grey; font-weight: 400; font-size: 1em;">during:</span> <div style="display: inline; color: grey; font-weight: 400; font-size: 1em;"> <%= task.added_date.toLocaleString()
+                %></div> 
               </a>
 
               <% if (nurseInfo) { %>
-              <span>Done By:</span> Nurse: <%= nurseInfo.name %> <% } %>
+              <span style="color: grey; font-weight: 400; font-size: 1em;">Done By:</span> Nurse: <%= nurseInfo.name %> <% } %>
+            </div>
 
               <!-- delete is not supported in html only get and post -->
             </div>
+         
             <% } %>
           </ul>
           <button class="task_but" type="submit">Submit</button>

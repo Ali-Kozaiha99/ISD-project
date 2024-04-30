@@ -377,7 +377,7 @@ float: right;
 .created_by{
     position:absolute;
     text-decoration: none;
-
+color: lightgrey;
    bottom: 0;
    right: 0;
 }
