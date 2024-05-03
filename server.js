@@ -575,21 +575,51 @@ app.get('/file', async (req, res) => {
         FROM doctors
         JOIN file_case ON doctors.id = file_case.dr_id; */
 
+
+
+        const existingPatientId = req.query.existingPatientId;
+        console.log(existingPatientId)
         const query5 = `
         SELECT  * FROM doctors 
         `;
          
         const [query5Rows] = await pool.query(query5);
 
-        const existingPatientId = req.query.existingPatientId;
-        console.log(existingPatientId)
-        res.render('file.ejs', { floors: floorRows, floor1: floor1Rows, floor2: floor2Rows, floor3: floor3Rows, floor4: floor4Rows, existingPatientId: existingPatientId,DRs:query5Rows });
-})  
+
+        const query6 = `
+        SELECT * FROM surgery WHERE file_id=?
+      `;
+      
+      const [surgeryInfo] = await pool.query(query6, [existingPatientId]);
+      
+      const query7 = `
+      SELECT * FROM file WHERE file_id=?
+    `;
+    const [personalFileInfo] = await pool.query(query7, [existingPatientId]);
+    const query8 = `
+    SELECT * FROM allergy WHERE file_id=?
+  `;
+  const [allergyInfo] = await pool.query(query8, [existingPatientId]);
+  const query9 = `
+  SELECT admission_patient.room_name, file_case.dr_id, doctors.name AS doctor_name
+  FROM admission_patient
+  JOIN file_case ON admission_patient.file_id = file_case.file_id
+  JOIN doctors ON file_case.dr_id = doctors.id
+  WHERE admission_patient.file_id = 11;
+  
+;
+  `;
+const [roomInfo] = await pool.query(query9, [existingPatientId]);
+ console.log(roomInfo[0])
+ 
+        res.render('file.ejs', { floors: floorRows, floor1: floor1Rows, floor2: floor2Rows, floor3: floor3Rows, floor4: floor4Rows, existingPatientId: existingPatientId,DRs:query5Rows,surgeryInfo:surgeryInfo, personalFileInfo:personalFileInfo,allergyInfo,roomInfo:roomInfo[0]});
+})    
 app.post('/file', async (req, res) => {
     try {
         let selectedRoom;
         let fileId = req.body.file_id; // Assuming file_id is provided in the request body
-    
+        const formType = req.body.formType;
+
         // Check which room select has a value
         if (req.body.selectedRoom1) {
           selectedRoom = req.body.selectedRoom1;
@@ -600,24 +630,141 @@ app.post('/file', async (req, res) => {
         } else if (req.body.selectedRoom4) {
           selectedRoom = req.body.selectedRoom4;
         }
-     
-        if (selectedRoom && fileId) {
-          // Update the `room_name` where `file_id` equals the provided value
-          const [result] = await pool.query('UPDATE `admission_patient` SET `room_name` = ? WHERE `file_id` = ?', [selectedRoom, fileId]);
-          const [resultt] = await pool.query('INSERT INTO `file_case` (`file_id`, `dr_id`) VALUES (?, ?)', [fileId, req.body.Dr_name]);
-          // Handle success or send a response to the client
-          res.send('Room updated in the database.');
-        } else {
-          // Handle case where no room or fileId is provided
-          res.status(400).send('No room selected or fileId provided.');
+        const SurgeryForm =req.body.surgery
+        if(SurgeryForm){
+          const file_id=req.body.file_id
+          const surgery_name=req.body.surgery_name
+          const report=req.body.report
+          const date=req.body.date
+          const surgen=req.body.surgen
+          const [resultt] = await pool.query(`INSERT INTO surgery(file_id, surgery_name, report, date, surgen) VALUES (?,?,?,?,?)`,[file_id,surgery_name,report,date,surgen])
+           
         }
+        const allergy=req.body.allergy
+        if(allergy){
+          const file_id=req.body.file_id
+          const genral_allergy=req.body.genral_allergy
+          const medicine_allergy=req.body.medicine_allergy
+          const [resultt] = await pool.query(`INSERT INTO allergy(medicine_allergy, genral_allergy, file_id) VALUES (?,?,?)`,[medicine_allergy,genral_allergy,file_id])
+
+        }
+        if (selectedRoom && fileId) {
+           
+            const [resulttt] = await pool.query('UPDATE `file` SET `birth_date` = ?, `setFromInside` = 1 WHERE `file_id` = ?', [req.body.birthD, fileId]);
+
+            const [result] = await pool.query('UPDATE `admission_patient` SET `room_name` = ? WHERE `file_id` = ?', [selectedRoom, fileId]);
+          const [resultt] = await pool.query('INSERT INTO `file_case` (`file_id`, `dr_id`) VALUES (?, ?)', [fileId, req.body.Dr_name]);
+        }
+          // Query the database to get updated room information
+          const query = `SELECT * FROM floors`;
+          const [floorRows] = await pool.query(query);
+          const query1 = `SELECT r.*
+          FROM rooms r
+          LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+          WHERE r.floor_number = 1
+            AND ap.room_name IS NULL;
+          `;
+          const [floor1Rows] = await pool.query(query1);
+          const query2 = `SELECT r.*
+          FROM rooms r
+          LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+          WHERE r.floor_number = 2
+            AND ap.room_name IS NULL;
+          `;
+          const [floor2Rows] = await pool.query(query2);
+          const query3 = `SELECT r.*
+          FROM rooms r
+          LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+          WHERE r.floor_number = 3
+            AND ap.room_name IS NULL;
+          `;
+          const [floor3Rows] = await pool.query(query3);
+          const query4 = `SELECT r.*
+          FROM rooms r
+          LEFT JOIN admission_patient ap ON r.room_name = ap.room_name
+          WHERE r.floor_number = 4
+            AND ap.room_name IS NULL;
+          `;
+          const [floor4Rows] = await pool.query(query4);
+
+          // Query for doctors information
+          const query5 = `SELECT  * FROM doctors`;
+          const [query5Rows] = await pool.query(query5);
+
+          const existingPatientId = req.query.existingPatientId;
+          const query6 = `
+          SELECT  * FROM surgery where file_id=?
+          `;
+          const [surgeryInfo] = await pool.query(query6,existingPatientId);
+          console.log(existingPatientId)
+          const query7 = `
+          SELECT * FROM file WHERE file_id=?
+        `;
+        const [personalFileInfo] = await pool.query(query7, [existingPatientId]);
+        const query8 = `
+        SELECT * FROM allergy WHERE file_id=?
+      `; 
+      const [allergyInfo] = await pool.query(query8, [existingPatientId]);
+          res.render('file.ejs', { 
+            floors: floorRows, 
+            floor1: floor1Rows, 
+            floor2: floor2Rows, 
+            floor3: floor3Rows, 
+            floor4: floor4Rows, 
+            existingPatientId: existingPatientId,
+            DRs: query5Rows ,
+            surgeryInfo:surgeryInfo,
+            personalFileInfo:personalFileInfo,allergyInfo
+          });
+
       } catch (error) {
         console.error('Error updating room in the database:', error);
         // Handle error or send an error response to the client
         res.status(500).send('Internal server error');
       }
-})  
+});
 
+
+
+app.get('/file_tests',async (req, res) =>{
+    res.render('test.ejs')
+})
+app.post('/file_tests',upload.single('file'),async (req, res) =>{
+    console.log("here",req.body.file_id)
+    const id=req.body.file_id
+     const query = `
+     SELECT * FROM lab WHERE file_id=?
+     `;
+      
+     const [patient_tests] = await pool.query(query, [id]);
+     res.render('test.ejs',{patient_tests});
+    
+}) 
+app.get('/file_scan',async (req, res) =>{
+    res.render('scanHistory.ejs')
+})
+app.post('/file_scan',upload.single('file'),async (req, res) =>{
+    console.log("here",req.body.file_id)
+    const id=req.body.file_id
+     const query = `
+     SELECT * FROM scan WHERE file_id=?
+     `;
+      
+     const [patient_tests] = await pool.query(query, [id]);
+     res.render('scanHistory.ejs',{patient_tests});
+    
+})   
+
+app.post('/surgery',async (req, res) =>{
+ const file_id=req.body.file_id
+ const surgery_name=req.body.surgery_name
+ const report=req.body.report
+ const date=req.body.date
+ const surgen=req.body.surgen
+ const [resultt] = await pool.query(`INSERT INTO surgery(file_id, surgery_name, report, date, surgen) VALUES (?,?,?,?,?)`,[file_id,surgery_name,report,date,surgen])
+ res.render('file.ejs')
+
+})
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 
 }); 
