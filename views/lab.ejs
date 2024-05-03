@@ -18,7 +18,7 @@
 
     <center>
     <div class="Lab_form">
-  <h1 style="text-align: left;  color: white; font-size: 1.5em;" >Request Test</h1>
+  <h1 style="text-align: left;  color:rgb(3, 49, 92) ; font-size: 1.5em;" >Request Test</h1>
     <form action="/lab" method="post" enctype="multipart/form-data">
         <div>
             <br>
@@ -55,13 +55,13 @@
              <br>
                 
                     <div class="test_info">
-                        <span >Test Name: </span>
+                        <span  style="margin-left: 50px;">Test Name: </span>
                         <p style="display: inline;" class="test_name"><%= item.test_name %></p>
-                        <span>From Doctor:</span><%= item.dr_name %> 
+                        <span style="margin-left: 35px;">From Doctor:</span><%= item.dr_name %> 
                         
-                        <span>Patient ID:</span>
+                        <span  style="margin-left: 35px;">Patient ID:</span>
                         <p style="display: inline;" class="patient_id"><%= item.file_id %></p>
-                        <span>   Test ID:</span>  <%= item.test_id %>
+                        <span style="margin-left: 35px;">   Test ID:</span>  <%= item.test_id %>
                     </div>
                 
             </div>
@@ -86,13 +86,9 @@
 
                         <div class="hidee" style="margin-top: 0; display: inline;">    <!-- Hide the input visually -->
 
-                          <label for="file" class="file-label">Choose File</label>
+                          <label for="file" class="file-label"> <i class="fas fa-upload" style="color: rgb(3, 49, 92);  border-radius: 5px; background-color: white; padding: 5px;"></i></label>
                           <input type="file" id="file" class="file-input" name="file" >
 
-<!-- Add an icon for file upload -->
-<label for="file" >
-    <i class="fas fa-upload" style="color: rgb(3, 49, 92);  border-radius: 5px; background-color: white; padding: 5px;"></i> 
-</label>
 </div>
                         </div>
                         <input type="submit" id="sub">
@@ -108,23 +104,30 @@
 
         <center>
           <script>
-           var ss = document.getElementById('sub');
-           var isDoctor = '<%= JSON.stringify(isDoctor) %>';
-           var islab = '<%= JSON.stringify(islab) %>';
-           if(isDoctor=='true'){  
-            function toggleDivs() {
-              ss.style.display = 'none';
-                var hideeDivs = document.querySelectorAll('.hidee');
-                hideeDivs.forEach(function(div) {
-                    div.style.display = 'none';
-                });
-                var noResElements = document.querySelectorAll('[id^="no_res"]');
-noResElements.forEach(function(element) {
-    element.style.display = 'block';
-});
-            }   
+            var isDoctor = '<%= JSON.stringify(isDoctor) %>';
+            var islab = '<%= JSON.stringify(islab) %>';
+            
+            if (isDoctor == 'true') {
+                function toggleDivs() {
+                    var ssElements = document.querySelectorAll('#sub');
+                    ssElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+            
+                    var hideeDivs = document.querySelectorAll('.hidee');
+                    hideeDivs.forEach(function(div) {
+                        div.style.display = 'none';
+                    });
+            
+                    var noResElements = document.querySelectorAll('[id^="no_res"]');
+                    noResElements.forEach(function(element) {
+                        element.style.display = 'block';
+                    });
+                }
             toggleDivs(); 
-}
+
+            }
+               
 
 
           if(islab=="true"){

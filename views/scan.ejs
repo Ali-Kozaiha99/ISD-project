@@ -10,7 +10,7 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LAb</title>
+    <title>scan</title>
   </head>
 <body>
     <style>
@@ -21,24 +21,22 @@
     color: rgb(3, 49, 92);
 
     border-radius: 20px;
-    height: 32vh;
-    width: 50vw;
+    width: 88vw;
 margin-top: 20px;
 background-color:#9fc2e1;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            grid-template-columns: 2fr 1fr; /* Two equal columns */
         }
         
         .scan-left-grid,
         .scan-right-grid {
-            padding: 10px;
         }
         .scan-right-grid {
             border-left: 1px solid lightgrey;
         }
         
         .scan-info {
-            margin-bottom: 25px; /* Add space between each scan info */
+            display: inline;
         }
         
         .info-heading {
@@ -46,9 +44,11 @@ background-color:#9fc2e1;
         }
         
         .info-item {
+            display: inline;
             margin-top: 5px;
         }
         .info-label{
+            margin-left: 35px;
             color: white;
         }
         .scan-grid-container input[type="submit"]{
@@ -98,17 +98,18 @@ background-color:#9fc2e1;
                 <% scanData.forEach(item => { %>
                     <div class="scan-grid-container">
                         <div class="scan-left-grid">
+                            <br>
                             <div class="scan-info">
-                                <div class="info-item"><span class="info-label">-Scan ID:</span> <%= item.scan_id %></div>
+                                <div class="info-item"><span class="info-label">Scan ID:</span> <%= item.scan_id %></div>
                             </div>
                             <div class="scan-info">
-                                <div class="info-item"><span class="info-label">-Test Name:</span> <%= item.scan_name %></div>
+                                <div class="info-item"><span class="info-label">Test Name:</span> <%= item.scan_name %></div>
                             </div>
                             <div class="scan-info">
-                                <div class="info-item"><span class="info-label">-Doctor ID:</span> <%= item.dr_id %></div>
+                                <div class="info-item"><span class="info-label">Doctor ID:</span> <%= item.dr_id %></div>
                             </div>
                             <div class="scan-info">
-                                <div class="info-item"><span class="info-label">-File ID:</span> <%= item.file_id %></div>
+                                <div class="info-item"><span class="info-label">File ID:</span> <%= item.file_id %></div>
                             </div>
                         </div>
                         
@@ -117,14 +118,25 @@ background-color:#9fc2e1;
 
                                     <% if (item.result) { %>
                                         <div class="scan-info" style="margin-top: 40px;">
-                                            <div class="info-heading" style="color: white; display: inline; font-weight: 400;">Scan Results:</div>
+                                            <div class="info-heading" style="color: white; display: inline; font-weight: 400;"> Results:</div>
                                             <div class="info-item" style="display: inline; ">
                                         <a href="../file_uploads/<%= item.result %>" target="_blank" rel="noopener noreferrer"> <i class="far fa-file-alt" style="color: rgb(3, 49, 92); padding: 5px; "></i></a>
                                     <% } else { %>
+
                                         <form action="/scan" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="file_idd" value="<%= item.scan_id  %>">
-                                            <input type="file" name="file">
-                                            <input type="submit">
+<div class="file_container">
+    <label style=" color: white; text-align: left;">   Results:</label>
+    <div id="no_res"  style="display: none;">No Results Published</div>
+    <div class="hidee" style="margin-top: 0; display: inline;">    <!-- Hide the input visually -->
+        <label for="file" class="file-label"> <i class="fas fa-upload" style="color: rgb(3, 49, 92);  border-radius: 5px; background-color: white; padding: 5px;"></i></label>
+        <input type="file" id="file" class="file-input" name="file" >
+
+
+
+                                    
+                                        </div>
+                                            <input type="submit" id="sub">
                     </form>
                                     <% } %>
                                 </div>
@@ -143,7 +155,22 @@ background-color:#9fc2e1;
            
            var isDoctor = '<%= JSON.stringify(isDoctor) %>'
            var isScan = '<%= JSON.stringify(isScan) %>'
-
+           if (isDoctor == 'true') {
+            var ssElements = document.querySelectorAll('#sub');
+            ssElements.forEach(function(element) {
+                element.style.display = 'none';
+            });
+            
+            var hideeDivs = document.querySelectorAll('.hidee');
+            hideeDivs.forEach(function(div) {
+                div.style.display = 'none';
+            });
+            var noResElements = document.querySelectorAll('[id^="no_res"]');
+            noResElements.forEach(function(element) {
+                element.style.display = 'block';
+            });
+            
+           }
 
            if(isScan=="true"){
              function hideLabForm() {
@@ -155,6 +182,10 @@ background-color:#9fc2e1;
                }
              }
              hideLabForm();
+           }
+           else{
+
+
            }
  
         </script>
