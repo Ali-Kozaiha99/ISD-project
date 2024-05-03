@@ -1,13 +1,18 @@
-<h1>hi</h1>
+<h1>hon menzed osas l admission</h1>
+<% if (roomInfo.room_name!=0) { %>
+  <p>room number: <%= roomInfo.room_name %></p>
+  <p>Doctor id: <%= roomInfo.dr_id %></p>
+  <p>Doctor name: <%= roomInfo.doctor_name %></p>
 
+
+  <% } else { %>
 <select id="choosenFloor" onchange="showRooms()">
   <% floors.forEach(floor => { %>
   <option value="<%= floor.floor_number %>"><%= floor.floor_number %></option>
   <% }) %>
 </select>
 
-<form action="/file" method="post" id="roomForm">
-  <select id="choosenFloor1Room" name="selectedRoom1" class="floor-room" required>
+<form action="/file?existingPatientId=<%= existingPatientId %>" method="post" id="roomForm">  <select id="choosenFloor1Room" name="selectedRoom1" class="floor-room" required>
     <% floor1.forEach(rooms1 => { %>
     <option value="<%= rooms1.room_name %>"><%= rooms1.room_name %></option>
     <% }) %>
@@ -27,6 +32,7 @@
     <option value="<%= rooms4.room_name %>"><%= rooms4.room_name %></option>
     <% }) %>
   </select>
+
   <p><%= existingPatientId %></p>
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
   <select name="Dr_name">
@@ -34,6 +40,100 @@
     <option value="<%= dr.id%>"><%= dr.name %></option>
     <% }) %>
   </select>
-  <button type="submit">Submit</button>
+  <% } %>
+
+  <br><br><br>
+  <label for="date of birth">date of birth</label>
+
+  <% if (personalFileInfo[0].setFromInside === 1) { %>
+    <!-- Display the submitted value instead of the input field -->
+    <p>Date of Birth: <%= personalFileInfo[0].birth_date.toLocaleDateString() %></p>
+  <% } else { %>
+    <!-- Render the input field -->
+    <input type="date" name="birthD">
+  <% } %>
+  
+  <button type="submit" value="<%= existingPatientId %>">Submit</button>
 </form>
+<form  action="/file_tests" method="post">
+
+  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+  <input type="submit" value="TEST">
+</form>
+<form  action="/file_scan" method="post">
+  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+  <input type="submit" value="scan">
+</form>
+</form>
+<h1>allergys</h1>
+
+<form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+<input type="hidden" name="allergy" value="surgery">
+
+<input type="hidden" name="file_id" value="<%= existingPatientId %>">
+<label for="medicine_allergy" >medicine allergy</label>
+<input type="text" name="medicine_allergy" >
+
+<label for="genral_allergy" >genral allergy</label>
+<input type="text" name="genral_allergy" >
+
+<input type="submit">
+</form>
+<ul>
+  <% allergyInfo.forEach(allergy => { %>
+    <li>
+      <%= allergy.medicine_allergy %> <%= allergy.genral_allergy %> 
+    </li>
+  <% }) %>
+</ul>
+<h1>surgery</h1>
+<form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+  <input type="hidden" name="surgery" value="surgery">
+
+  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+  <label for="surgery_name" >surgery name</label>
+<input type="text" name="surgery_name" >
+
+<label for="report" >report</label>
+<input type="text" name="report" >
+
+<label for="date" >date</label>
+<input type="date" name="date" >
+
+<label for="surgen" >surgen</label>
+<input type="text" name="surgen" >
+<input type="submit">
+
+  <ul>
+    <% surgeryInfo.forEach(surgery => { %>
+      <li>
+        <%= surgery.file_id %> <%= surgery.surgery_name %> <%= surgery.report %> 
+        <%= surgery.date.toLocaleDateString() %>
+        <%= surgery.surgen %>
+      </li>
+    <% }) %>
+  </ul>
+  
 <script src="script.js"></script>
+
+<script>
+  // JavaScript code to submit the form and redirect
+  document.getElementById("surgeryForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
+    var formData = new FormData(this); // Create FormData object to send form data
+
+    // Send POST request to "/surgery" endpoint
+    fetch("/surgery", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => {
+      // Redirect to "/file" after successful submission
+      window.location.href = "/file";
+    })
+    .catch(error => {
+      console.error("Error submitting form:", error);
+      // Handle error if needed
+    });
+  });
+</script>

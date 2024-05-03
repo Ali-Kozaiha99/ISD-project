@@ -1,0 +1,6 @@
+<h1>test</h1>
+<ul>
+<% patient_tests.forEach(test => { %>
+   <li>test name: <%= test.test_name  %>  Doctor name: <%= test.dr_name  %>   result: <a href="../file_uploads/<%= test.file_filename  %> " target="_blank" rel="noopener noreferrer" class="view_filee">View File</a>   patient id:<%= test.file_id  %></li>
+    <% }) %>
+</ul>
