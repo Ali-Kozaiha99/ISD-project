@@ -820,7 +820,7 @@ app.post('/lab', upload.single('file'), async (req, res) => {
 
 
         const { test_name, file_idd } = req.body;
-        const { filename } = req.file;
+        const {  filename } = req.file||{};
  
         console.log("file_idd:",file_idd)
         // Insert both form data and file information into the database
@@ -837,7 +837,7 @@ app.post('/lab', upload.single('file'), async (req, res) => {
           file_id
           
         ]);   
-    }
+    } 
     else if(isUserlabStaff){
 
         await pool.query("UPDATE `lab` SET `file_filename` = ? WHERE `test_id` = ?", [
@@ -934,7 +934,7 @@ app.post('/scan', upload.single('file'), async (req, res) => {
              file_id
               
             ]);
-        }
+        } 
         else if(isUserScanStaff){
             await pool.query("UPDATE `scan` SET `result` = ? WHERE `scan_id` = ?", [
                 filename,

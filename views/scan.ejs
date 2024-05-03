@@ -122,16 +122,10 @@ background-color:#9fc2e1;
                                         <a href="../file_uploads/<%= item.result %>" target="_blank" rel="noopener noreferrer"> <i class="far fa-file-alt" style="color: rgb(3, 49, 92); padding: 5px; "></i></a>
                                     <% } else { %>
                                         <form action="/scan" method="post" enctype="multipart/form-data">
-
                                             <input type="hidden" name="file_idd" value="<%= item.scan_id  %>">
-                                            <label for="file" class="file_label" style="color: white;">Choose File:</label>
-                                            <br><br>
-                                            <input type="file" id="file" class="file_input" name="file" style="display: none;">
-                                            <label for="file" >
-                                                <i class="fas fa-upload" style="color: rgb(3, 49, 92); padding: 5px; background-color: white; border-radius: 5px;"></i> 
-                                            </label>
+                                            <input type="file" name="file">
                                             <input type="submit">
-                                        </form>
+                    </form>
                                     <% } %>
                                 </div>
                             </div>
