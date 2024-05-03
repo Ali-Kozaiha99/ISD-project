@@ -50,7 +50,7 @@
     </div>
 
     <div class="right">
-      <input type="text" class="it_search" id="TodaysearchInput" placeholder="Search..." onkeyup="TodaysearchFunction()" style="margin-bottom: 20px;" />
+      <input type="text" class="it_search" id="TodaysearchInput" placeholder="Search..." onkeyup="TodaysearchFunction()" style="margin-bottom: 20px;" /> <br>
 
       <ul class="show_today_container" id="today-items">
         <% admission_patients.forEach(admission_patient => { %>
@@ -62,9 +62,8 @@
               <div class="patient-name"> <span>Name:  </span><%= admission_patient.patient_name %></div>
               <div class="phone-number"><span>Number:  </span> <%= admission_patient.phone_number %></div>
               <div class="phone-number"><span>Room Number:  </span> <%= admission_patient.room_name %></div>
-
               
-              <span>Date:  </span> <%= admission_patient.date_added.toLocaleString() %>
+              <span>Date:  </span>  <div  class="date-added" style="display: inline;"><%= admission_patient.date_added.toLocaleString() %></div>
 
             </form>
             <a class="delete" data-dtask="<%= admission_patient.file_id%>" href="" style="font-weight: 500;">Delete</a>

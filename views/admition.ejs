@@ -39,7 +39,7 @@
     
         <div class="add_pat_container" style="margin-top: 20px;">
             <h1 class="add_user_admi" >Create File:</h1> 
-            <form action="/admition" method="post" autocomplete="off">
+            <form action="/admition" method="post" autocomplete="off" autocomplete="off">
                 <div>
                     <label for="patient_id">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPatient ID:</label>
                     <input type="number" id="patient_id" name="patient_id" required><br>
@@ -57,12 +57,12 @@
         <div class="files_divvv" style="border-left: 4px solid lightgray;">
             <form action="admissionPatient" method="POST">
                 <input type="hidden" name="file_id" value="<%= file.file_id %>">
-                <div class="file-info">
+                <div class="file-info " style="padding: 7px;">
                   
                   <div class="file-id"><span>ID:</span> <%= file.file_id %></div>
-                  <div class="file-name"><span>patients Name:</span> <%= file.patient_name %></div>
+                  <div class="file-name"><span> Name:</span> <%= file.patient_name %></div>
                   <div class="file-phone"><span>Phone Number:</span> <%= file.phone_number %></div>
-              <input type="submit" name="taskIds" value="+ " class="files_button " style=" font-size: 1.5em;background-color: transparent; color: white; text-align: center;" >
+              <input type="submit" name="taskIds" value="+" class="files_button " style=" font-size: 1.5em;background-color: transparent; color: white; text-align: center;" >
   
               </div>
             </form>

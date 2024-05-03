@@ -7,21 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>login</title>
   </head>
-  <body>
-    <div class="login_container">
-      <center>
-        <h1>login</h1>
+  <body style="margin: 0;">
+    <div class="grid-container">
+      <div class="grid-item grid_leftt"><center><h1>Login</h1>
+        <br>
+      <h2>Hospital Managment System </h2></center></div>
+      <div class="grid-item grid_rightt"> 
+        <center>
+          <div class="login_container ">
         <form action="/login" method="post" autocomplete="off">
-            <input type="email" name="email" id="email" placeholder="Email" />
+          <style>
+            input::-webkit-input-placeholder { /* For Chrome, Safari, etc. */
+              color: white;
+            }
+            input:-moz-placeholder { /* For Mozilla Firefox */
+              color: white;
+            }
+            input::-moz-placeholder { /* For legacy Mozilla Firefox */
+              color: white;
+            }
+            input:-ms-input-placeholder { /* For Internet Explorer */
+              color: white;
+            }
+          </style>
+          
+          <input type="email" name="email" id="email" placeholder="Email..."/>
           <br />
-          <input type="password" name="password" id="password" placeholder="Password"/>
+          <input type="password" name="password" id="password" placeholder="Password..."/>
           <br />
+          <div class="login_error">
+            <% if(messages.error){ %> <%= messages.error %> <% } %></div>
           <button type="submit">Login</button>
-<div class="login_error">
-  <% if(messages.error){ %> <%= messages.error %> <% } %></div>
-        </form>
-        
-      </center>
+
+                  </form>
+        </div>
+        </center>
+        </div>
     </div>
+
+
+
+<style>.grid-container {
+  display: grid;
+  grid-template-columns: 3fr 2fr;  /* Defines two columns of equal width */
+  height: 100vh;
+  gap: 0px;  /* Sets the container height to 100% viewport height */
+}
+
+
+.grid_leftt{
+  padding-top: 30vh;
+  color: white  ;
+  font-size: 1.7em;
+  background-color:  #9fc2e1;
+}
+.grid_rightt{
+  
+  padding-top: 30vh;
+  background-color:  white;
+}
+</style>
+    </div></div>
   </body>
 </html>

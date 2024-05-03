@@ -18,7 +18,7 @@
 
     <center>
     <div class="Lab_form">
-  <h1 style="text-align: left;  color: rgb(3, 49, 92); font-size: 1.5em;" >Request Test</h1>
+  <h1 style="text-align: left;  color: white; font-size: 1.5em;" >Request Test</h1>
     <form action="/lab" method="post" enctype="multipart/form-data">
         <div>
             <br>
@@ -52,17 +52,16 @@
         <div class="test_div">
             <!-- Left section for test names and IDs -->
             <div class="left_section">
-             
+             <br>
                 
                     <div class="test_info">
-                        <span >-Test Name: </span>
-                        <p style="display: inline;" class="test_name"><%= item.test_name %></p><br>
-                        <br>
-                        <span>-From Doctor:</span><%= item.dr_name %> <br>
-                        <br>
-                        <span>-Patient ID:</span>
+                        <span >Test Name: </span>
+                        <p style="display: inline;" class="test_name"><%= item.test_name %></p>
+                        <span>From Doctor:</span><%= item.dr_name %> 
+                        
+                        <span>Patient ID:</span>
                         <p style="display: inline;" class="patient_id"><%= item.file_id %></p>
-                        <%= item.test_id %>
+                        <span>   Test ID:</span>  <%= item.test_id %>
                     </div>
                 
             </div>
@@ -71,7 +70,7 @@
             <div class="right_section">
                 <% if (item.file_filename) { %>
                     <center>
-                        <div class="results_content" style="margin-top: 40px;">
+                        <div class="results_content">
                             <p style="display: inline;color: white;">Results:</p>
                             <a href="../file_uploads/<%= item.file_filename %>" target="_blank" rel="noopener noreferrer" class="view_filee"><i class="far fa-file-alt" style="color: rgb(3, 49, 92); padding: 5px; "></i></a>
                         </div>
@@ -81,19 +80,23 @@
                         <input type="hidden" name="test_name" value="<%= item.test_name %>">
                         <input type="hidden" name="file_idd" value="<%= item.test_id %>">
                         <div class="file_container" >
-                            <p style="display:inline; color: white;">Fill test results:</p>
-                            <label for="file" class="file_label">Choose File</label>
-                            <br><br>
-                            <!-- Hide the input visually -->
+                          <label style=" color: white; text-align: left;">   Results:</label>
+
+                          <div id="no_res"  style="display: none;">No Results Published</div>
+
+                        <div class="hidee" style="margin-top: 0; display: inline;">    <!-- Hide the input visually -->
+
+                            <label for="file" class="file_label" ></label>
+
 <input type="file" id="file" class="file_input" name="file" style="display: none;">
 
 <!-- Add an icon for file upload -->
 <label for="file" >
-    <i class="fas fa-upload" style="color: rgb(3, 49, 92); padding: 5px; background-color: white; border-radius: 5px;"></i> 
+    <i class="fas fa-upload" style="color: rgb(3, 49, 92);  border-radius: 5px; background-color: white; padding: 5px;"></i> 
 </label>
-
+</div>
                         </div>
-                        <input type="submit">
+                        <input type="submit" id="sub">
                     </form>
                 <% } %>
             </div>
@@ -106,9 +109,24 @@
 
         <center>
           <script>
-           
+           var ss = document.getElementById('sub');
            var isDoctor = '<%= JSON.stringify(isDoctor) %>';
            var islab = '<%= JSON.stringify(islab) %>';
+           if(isDoctor=='true'){  
+            function toggleDivs() {
+              ss.style.display = 'none';
+                var hideeDivs = document.querySelectorAll('.hidee');
+                hideeDivs.forEach(function(div) {
+                    div.style.display = 'none';
+                });
+                var noResElements = document.querySelectorAll('[id^="no_res"]');
+noResElements.forEach(function(element) {
+    element.style.display = 'block';
+});
+            }   
+            toggleDivs(); 
+}
+
 
           if(islab=="true"){
             function hideLabForm() {

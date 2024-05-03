@@ -10,6 +10,9 @@
     display: grid;
     grid-template-columns: 10% 90%;
 }
+a{
+    text-decoration:none;
+}
 
 
 .left {
@@ -53,13 +56,24 @@ color:rgb(3, 49, 92);
     top: 5px;
     right: 5px;
 }
+
+.login_grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.login_left{
+    width: 40vw;
+    height: 500px;
+}
 .grid-container {
+    
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
 .test_div {
+    width: 88vw;
     border: 1px solid #ccc;
     padding: 20px;
 }
@@ -113,17 +127,7 @@ font-weight: 500;
     padding-top: 5vh;
 }
 
-.login_container {
 
-    position: absolute;
-    top: 25%;
-    left: 32%;
-    background-color: #9fc2e1;
-    height: 50vh;
-    width: 35vw;
-    border-radius: 30px;
-
-}
 
 
 .login_container h1 {
@@ -132,26 +136,25 @@ font-weight: 500;
     color: rgb(3, 49, 92);
 }
 .task_form{
-    border: 3px solid #9fc2e1;
     padding: 10px;
     border-radius: 15px;
-    background-color: white;
+    background-color: #9fc2e1;
    width: 50vw;
-   height: 40vh;
+   height: 35vh;
 }
 .task_form p{
   
     font-size: 1.3em;
-    color: rgb(3, 49, 92);
-    font-weight: bold;
+    color:rgb(3, 49, 92);
+    font-weight: 400;
 }
 
 .task_form select {
     font-size: 1.2em;
     text-align: center ;
-    background-color:#9fc2e1;
-    width: 100px;
-    border: none;
+    background-color:white;
+    width: 10vw;
+   border: none;
     outline: none;
     color: rgb(3, 49, 92);
 }
@@ -161,7 +164,8 @@ font-weight: 500;
 }
 
 .task_form option {
-background-color: #9fc2e1;
+    background-color:white;
+
 border: none;
 outline: none;
 padding: 4px;
@@ -170,7 +174,7 @@ color: rgb(3, 49, 92);
 .task_form label{
 font-size: 1.4em;
 color: rgb(3, 49, 92);
-font-weight: bold;
+font-weight: 400;
 }
 
 .task_under h1{
@@ -195,16 +199,16 @@ color: rgb(3, 49, 92);
     background-color: #9fc2e1;
 }
 .Lab_form{
+    color: white;
     padding: 10px;
     position: relative;
  border-radius: 10px;
-border: 2px solid rgb(85, 141, 194);
     width: 45vw;
     height: 30vh;
-    background-color: WHITE;
+    background-color:#9fc2e1;
 }
 .Lab_form label{
-    color: rgb(3, 49, 92);
+    color: white;
     font-weight: bold;
 
 }
@@ -213,7 +217,7 @@ border: 2px solid rgb(85, 141, 194);
     bottom: 5px;
     right: 5px;
     color: rgb(3, 49, 92);
-    background-color: #9fc2e1;
+    background-color: white;
     width: 100px;
     border: none;
     padding: 8px;
@@ -221,7 +225,7 @@ border: 2px solid rgb(85, 141, 194);
     border-radius: 5px;
 }
 .Lab_form input[type="text"]{
-background-color: #9fc2e1;
+background-color: white;
 border: none ;
 outline: none;
 padding: 10px;
@@ -229,9 +233,11 @@ border-radius: 5px;
 width: 20vw;
 }
 .Lab_form input[type="text"]{
-    background-color: #9fc2e1;
+    background-color: white;
     border: none ;
     outline: none;
+    color: rgb(3, 49, 92);
+    
     padding: 10px;
     border-radius: 5px;
     width: 20vw;
@@ -239,17 +245,16 @@ width: 20vw;
 
 .custom-select {
         color: rgb(3, 49, 92);
-background-color: #9fc2e1;
+background-color: white;
 border: none;
 outline: none;
 width: 10vw;
-border-radius: 10px;
 text-align: center;
 font-size: 1.1em;
       }
       .custom-select option{
     color: rgb(3, 49, 92);
-    background-color: #9fc2e1;
+    background-color: white;
     border: none;
     outline: none;
     width: 10vw;
@@ -271,14 +276,12 @@ border-radius: 5px;
     color: rgb(3, 49, 92);
 
     border-radius: 20px;
-    height: 25vh;
-    width: 50vw;
 margin-top: 20px;
 background-color:#9fc2e1;
 }
 
 .test_div span{
-    margin-left:50px;
+    margin-left:20px;
 color: white;
 }
 .test_div input[type="submit"]{
@@ -317,7 +320,6 @@ padding-right: 20px;
     float: right;
 }
 .file-container {
-    margin-top: 20px;
     position: relative;
   }
   
@@ -402,12 +404,12 @@ font-size: 1.2em;
 height: 15vh;
     outline: none;
     width: 35vw;
-    background-color: #9fc2e1;
+    background-color: white;
 }
 .task_form button{
     color: rgb(3, 49, 92);
     font-size: 1em;
-    background-color: #9fc2e1;
+    background-color: white;
     border-radius: 10px;
     float: right;
     width: 8vw;
@@ -422,19 +424,20 @@ height: 15vh;
 }
 
 .login_container input {
+    
+    background-color: #9fc2e1;
     outline: none;
     width: 25vw;
     height: 7vh;
     border: none;
+    color: white;
     border-radius: 10px;
     margin-top: 35px;
-    background-color: white;
     font-size: 1.15em;
     padding-left: 10px;
 }
-
 .login_container button {
-    color: white;
+    background-color: #9fc2e1;
     font-size: 1.2em;
     font-weight: bold;
     border-radius: 10px;
@@ -442,7 +445,7 @@ height: 15vh;
     width: 9vw;
     height: 6vh;
     border: none;
-    background-color: rgb(3, 49, 92);
+    color: white;
 }
 .file-info div{
     display: inline;
@@ -497,10 +500,9 @@ position: relative;
     margin-bottom: 20px; /* Adjust spacing between test items */
 }
 
-.left_section,
+.left_section{flex: 2;}
 .right_section {
     flex: 1; /* Each section takes equal width */
-    padding: 10px;
 
     border-radius: 5px;
 }
@@ -516,13 +518,14 @@ position: relative;
 }
 
 .files_divvv{
-    height: max-content;
+background-color: #9fc2e1;
+    height: 7vh;
     position: relative;
     border-radius: 5px;    
     padding-left: 10px;
     font-weight: 400;
     font-size: 1.3em;
-    color: rgb(3, 49, 92);
+    color: rgb(43, 43, 44);
     margin: 10px;
     margin-right: 50px;
     margin-left: 50px;
@@ -530,23 +533,20 @@ position: relative;
 
 
 
-    background-color: #9fc2e1;
 }
 .file-info {
-    height: 6vh;
+    height: 5vh;
     display: grid;
     grid-template-columns: 11% 42% 37% 8%;
     grid-column-gap: 10px; /* Adjust the gap between columns as needed */
 }
 .file-info > div {
-    border-right: 3px solid lightgrey; /* Adjust border width as needed */
-    padding-right: 10px;
+    border-right: 2px solid lightgrey;
 }
 .file-info > div:last-child {
     border-right: none; /* Remove right border for the last div */
 }
 .files_divvv span{
-    padding-left: 10px;
     font-weight: 400;
 
 color: white;    
@@ -589,7 +589,7 @@ color: rgb(3, 49, 92);
     color:white;
     padding: 10px;
     margin-top: 10px;
-    background-color: rgb(3, 49, 92);
+    background-color: #9fc2e1;
 }
 
 .rolee label {
@@ -734,7 +734,7 @@ i {
     border-radius: 10px;
     color: rgb(3, 49, 92);
     background-Color: #9fc2e1;
-    font-Weight: bo;
+    font-Weight: bold;
     border-Radius: 10;
     margin: 10px;
     box-Shadow: 2px 3px 2px grey;
