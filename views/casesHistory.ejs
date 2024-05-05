@@ -1,0 +1,8 @@
+<h1>Case History</h1>
+<ul>
+<% patient_cases.forEach(casee => { %>
+    <li>admission Date: <%= casee.case_time.toLocaleDateString() %></li>
+   <li>case id: <%= casee.case_id %>  Doctor name: <%= casee.dr_id  %>   symptoms:<%= casee.symptoms  %> </li>
+<br><br>
+    <% }) %>
+</ul>

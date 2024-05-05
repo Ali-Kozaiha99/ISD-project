@@ -1,11 +1,13 @@
 <h1>hon menzed osas l admission</h1>
-<% if (roomInfo.room_name!=0) { %>
-  <p>room number: <%= roomInfo.room_name %></p>
-  <p>Doctor id: <%= roomInfo.dr_id %></p>
-  <p>Doctor name: <%= roomInfo.doctor_name %></p>
+  <p>room number: <%= roomInfoo.room_name %></p>
 
 
-  <% } else { %>
+  <h1><%= file_case_id.dr_id!=0 ? file_case_id.dr_id : 'No dr is set yet' %></h1>
+  <p>file_case_dr: <%= file_case_id.dr_id %></p>
+  <p>sy: <%= file_case_id.symptoms %></p>
+
+
+
 <select id="choosenFloor" onchange="showRooms()">
   <% floors.forEach(floor => { %>
   <option value="<%= floor.floor_number %>"><%= floor.floor_number %></option>
@@ -40,21 +42,19 @@
     <option value="<%= dr.id%>"><%= dr.name %></option>
     <% }) %>
   </select>
-  <% } %>
 
   <br><br><br>
   <label for="date of birth">date of birth</label>
 
-  <% if (personalFileInfo[0].setFromInside === 1) { %>
     <!-- Display the submitted value instead of the input field -->
     <p>Date of Birth: <%= personalFileInfo[0].birth_date.toLocaleDateString() %></p>
-  <% } else { %>
     <!-- Render the input field -->
     <input type="date" name="birthD">
-  <% } %>
   
   <button type="submit" value="<%= existingPatientId %>">Submit</button>
 </form>
+</form>
+
 <form  action="/file_tests" method="post">
 
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
@@ -64,6 +64,9 @@
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
   <input type="submit" value="scan">
 </form>
+<form  action="/file_case" method="post">
+  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+  <input type="submit" value="case">
 </form>
 <h1>allergys</h1>
 
@@ -103,7 +106,7 @@
 <label for="surgen" >surgen</label>
 <input type="text" name="surgen" >
 <input type="submit">
-
+</form>
   <ul>
     <% surgeryInfo.forEach(surgery => { %>
       <li>
@@ -113,7 +116,31 @@
       </li>
     <% }) %>
   </ul>
+  <h1><%= file_case_id.case_id %> </h1>
+  <form  action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+
+    <input type="hidden" name="addCase" value="addCase">
+<input type="submit" value="new case">
+
+  </form>
+
+
+
+
+
+  <h1>as2ela</h1>
+  <form  action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+    <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+
+<label for="symptoms" >symptoms</label>
+  <input type="text" name="symptoms">
+      <input type="hidden" name="questions" value="addCase">
+  <input type="submit" >
   
+    </form>
+    <p>sy: <%= file_case_id.symptoms %></p>
+
 <script src="script.js"></script>
 
 <script>
@@ -136,4 +163,7 @@
       // Handle error if needed
     });
   });
+  
 </script>
+
+
