@@ -433,33 +433,16 @@ function getRandomColor() {
     }
     return color;
 }
-var storedValues = {}; // Object to store original values
-
 function showRooms() {
   var selectedFloor = document.getElementById("choosenFloor").value;
-  
-  // Hide all select elements initially and store original values
   var rooms = document.getElementsByClassName("floor-room");
   for (var i = 0; i < rooms.length; i++) {
-    var room = rooms[i];
-    room.style.display = "none";
-    room.removeAttribute("required");
-    
-    // Store original values if not already stored
-    if (!storedValues[room.id]) {
-      storedValues[room.id] = room.value;
-    }
+    rooms[i].removeAttribute("required");
+    rooms[i].style.display = "none";
   }
-  
-  // Show the select element corresponding to the selected floor
   var selectedRoom = document.getElementById("choosenFloor" + selectedFloor + "Room");
-  selectedRoom.style.display = "block";
   selectedRoom.setAttribute("required", true);
-  
-  // Restore original values for the selected room
-  if (storedValues[selectedRoom.id]) {
-    selectedRoom.value = storedValues[selectedRoom.id];
-  }
+  selectedRoom.style.display = "block";
 }
 
 
