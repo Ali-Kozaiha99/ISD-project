@@ -436,15 +436,23 @@ function getRandomColor() {
 function showRooms() {
   var selectedFloor = document.getElementById("choosenFloor").value;
   var rooms = document.getElementsByClassName("floor-room");
+  var selectedRoomValue = null; // Variable to store the selected room value
   for (var i = 0; i < rooms.length; i++) {
+    // Store the value of the selected room before hiding the element
+    if (rooms[i].style.display !== "none") {
+      selectedRoomValue = rooms[i].value;
+    }
     rooms[i].removeAttribute("required");
     rooms[i].style.display = "none";
   }
   var selectedRoom = document.getElementById("choosenFloor" + selectedFloor + "Room");
   selectedRoom.setAttribute("required", true);
   selectedRoom.style.display = "block";
+
+  // Restore the value of the selected room after showing the element
+  if (selectedRoomValue !== null) {
+    selectedRoom.value = selectedRoomValue;
+  }
 }
-
-
 
    
