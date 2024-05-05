@@ -697,14 +697,39 @@ app.post('/file', async (req, res) => {
         const qus=req.body.questions
         if(qus){
             const symptoms=req.body.symptoms
+            const q1 = req.body.q1;
+const q2 = req.body.q2;
+const q3 = req.body.q3;
+const q4 = req.body.q4;
+const q5 = req.body.q5;
+const q6 = req.body.q6;
+const q7 = req.body.q7;
+const q8 = req.body.q8;
+const q9 = req.body.q9;
+const q10 = req.body.q10;
+const q11 = req.body.q11;
+const q12 = req.body.q12;
+const q13 = req.body.q13;
+const q14 = req.body.q14;
+const q15 = req.body.q15;
+const q16 = req.body.q16;
+const q17 = req.body.q17;
+const q18 = req.body.q18;
+const q19 = req.body.q19;
+const q20 = req.body.q20;
+const q21 = req.body.q21;
+const q22 = req.body.q22;
+const q23 = req.body.q23;
+
+
             const query12=`
 UPDATE file_case
-SET symptoms = ?
+SET symptoms = ?,q1=?, q2=?, q3=?, q4=?, q5=?, q6=?, q7=?, q8=?, q9=?, q10=?, q11=?, q12=?, q13=?, q14=?, q15=?, q16=?, q17=?, q18=?, q19=?, q20=?, q21=?, q22=?, q23=?
 WHERE file_id = ?
   AND case_id = (SELECT MAX(case_id) FROM file_case WHERE file_id = ?);
 
 `
-const [file_case_questions] = await pool.query(query12, [symptoms,fileId,fileId]);
+const [file_case_questions] = await pool.query(query12, [symptoms,q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23,fileId,fileId]);
         }
         if (selectedRoom && fileId) {
            console.log('selectedRoom', selectedRoom)

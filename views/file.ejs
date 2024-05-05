@@ -130,17 +130,128 @@
 
 
   <h1>as2ela</h1>
-  <form  action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+  <form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
     <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-
-<label for="symptoms" >symptoms</label>
-  <input type="text" name="symptoms">
-      <input type="hidden" name="questions" value="addCase">
-  <input type="submit" >
   
-    </form>
+    <label for="symptoms">symptoms</label>
+    <input type="text" name="symptoms">
+  
+    <fieldset>
+      <legend>SDS History and Nursing Assessment 1/2</legend>
+      <label for="date_time">Date and Time of assessment:</label>
+      <input type="text" id="date_time" name="q1">
+  
+      <label for="mode_of_arrival">Mode of Arrival:</label>
+      <input type="text" id="mode_of_arrival" name="q2">
+  
+      <label for="planned_surgery_name">Name of Planned Surgery:</label>
+      <input type="text" id="planned_surgery_name" name="q3">
+  
+      <label for="site_of_planned_surgery">Site of Planned Surgery:</label>
+      <input type="text" id="site_of_planned_surgery" name="q4">
+  
+      <label for="admission_through">Admission through:</label>
+      <input type="text" id="admission_through" name="q5">
+  
+      <label for="emotional_status">Emotional Status:</label>
+      <input type="text" id="emotional_status" name="q6">
+    </fieldset>
+  
+    <fieldset>
+      <legend>Biographic Data</legend>
+      <label for="marital_status">Marital Status:</label>
+      <input type="text" id="marital_status" name="q7">
+  
+      <label for="profession">Profession:</label>
+      <input type="text" id="profession" name="q8">
+  
+      <label for="patient_height">Patient's Height:</label>
+      <input type="text" id="patient_height" name="q9">
+  
+      <label for="patient_weight">Patient's Weight:</label>
+      <input type="text" id="patient_weight" name="q10">
+    </fieldset>
+  
+    <fieldset>
+      <legend>Functional Data</legend>
+      <label for="ambulating">Ambulating:</label>
+      <input type="text" id="ambulating" name="q11">
+  
+      <label for="feeding">Feeding:</label>
+      <input type="text" id="feeding" name="q12">
+  
+      <label for="bathing">Bathing:</label>
+      <input type="text" id="bathing" name="q13">
+  
+      <label for="blood_group">Blood Group:</label>
+      <input type="text" id="blood_group" name="q14">
+    </fieldset>
+  
+    <fieldset>
+      <legend>Life style and health practices</legend>
+      <label for="alcohol">Alcohol:</label>
+      <input type="text" id="alcohol" name="q15">
+  
+      <label for="exercise">Exercise:</label>
+      <input type="text" id="exercise" name="q16">
+  
+      <label for="smoking">Smoking:</label>
+      <input type="text" id="smoking" name="q17">
+  
+      <label for="dietary_habits">Dietary habits:</label>
+      <input type="text" id="dietary_habits" name="q18">
+    </fieldset>
+  
+    <fieldset>
+      <legend>Allergies</legend>
+      <label for="modify_allergy">Modify Allergy:</label>
+      <input type="text" id="modify_allergy" name="q19">
+  
+      <label for="allergy_to_contrast">Allergy to contrast:</label>
+      <input type="text" id="allergy_to_contrast" name="q20">
+    </fieldset>
+  
+    <fieldset>
+      <legend>Health History</legend>
+      <label for="past_medical_history">Past Medical History:</label>
+      <input type="text" id="past_medical_history" name="q21">
+  
+      <label for="past_surgical_history">Past Surgical History:</label>
+      <input type="text" id="past_surgical_history" name="q22">
+  
+      <label for="special_medical_considerations">Special Medical Considerations/Instructions:</label>
+      <input type="text" id="special_medical_considerations" name="q23">
+    </fieldset>
+  
+    <input type="hidden" name="questions" value="addCase">
+    <input type="submit">
+  </form>
+  
     <p>sy: <%= file_case_id.symptoms %></p>
-
+    
+<p><p>date_time: <%= file_case_id.q1 %></p>
+<p>mode_of_arrival: <%= file_case_id.q2 %></p>
+<p>planned_surgery_name: <%= file_case_id.q3 %></p>
+<p>site_of_planned_surgery: <%= file_case_id.q4 %></p>
+<p>admission_through: <%= file_case_id.q5 %></p>
+<p>emotional_status: <%= file_case_id.q6 %></p>
+<p>marital_status: <%= file_case_id.q7 %></p>
+<p>profession: <%= file_case_id.q8 %></p>
+<p>patient_height: <%= file_case_id.q9 %></p>
+<p>patient_weight: <%= file_case_id.q10 %></p>
+<p>ambulating: <%= file_case_id.q11 %></p>
+<p>feeding: <%= file_case_id.q12 %></p>
+<p>bathing: <%= file_case_id.q13 %></p>
+<p>blood_group: <%= file_case_id.q14 %></p>
+<p>alcohol: <%= file_case_id.q15 %></p>
+<p>exercise: <%= file_case_id.q16 %></p>
+<p>smoking: <%= file_case_id.q17 %></p>
+<p>dietary_habits: <%= file_case_id.q18 %></p>
+<p>modify_allergy: <%= file_case_id.q19 %></p>
+<p>allergy_to_contrast: <%= file_case_id.q20 %></p>
+<p>past_medical_history: <%= file_case_id.q21 %></p>
+<p>past_surgical_history: <%= file_case_id.q22 %></p>
+<p>special_medical_considerations: <%= file_case_id.q23 %></p></p>
 <script src="script.js"></script>
 
 <script>
