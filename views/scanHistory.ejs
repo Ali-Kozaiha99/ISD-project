@@ -2,19 +2,28 @@
 <center>
 <ul>
   <% patient_tests.forEach(test => { %>
-    <li>
-      <span>Test Name:</span> <%= test.scan_name %> 
+    <div class="test_pagee">    <li>
+      <span>Test Name:</span> <%= test.scan_name %> <br> <hr>
       <span>Doctor Name:</span> <%= test.dr_id %> 
       <span>Result:</span> <a href="../file_uploads/<%= test.result %>" target="_blank" rel="noopener noreferrer" class="view_filee">View File</a> 
       <span>Patient ID:</span> <%= test.file_id %>
     </li>
+  </div>
+
   <% }) %>
 </ul>
 </center>
 
 <style>
+  .test_pagee{
+    width: 80vw;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #9fc2e1;
+margin-top: 20px;
+  }
     body {
-        font-size: 1.3em;
+      font-size: 1.2em;
         font-family: Arial, sans-serif;
         background-color: white;
         color: rgb(3, 49, 92);
@@ -48,7 +57,7 @@
   
   /* Additional styles for better readability */
   span {
-    margin-right: 10px;
-    color: rgb(3, 49, 92);
+    margin-left: 30px;
+    color: white;
   }
   </style>

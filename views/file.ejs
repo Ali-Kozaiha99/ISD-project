@@ -161,17 +161,18 @@
 
 <input type="submit">
 </form>
-<ul>
+<ul>  <br><br><br>
+  <h2 style="color: rgb(3, 49, 92);">old records </h2>
 <% allergyInfo.forEach(allergy => { %>
-  <li>
-    <%= allergy.medicine_allergy %> <%= allergy.genral_allergy %> 
+  <li style="  list-style-type: none; " > <span>medical </span>
+    <%= allergy.medicine_allergy %>  &nbsp&nbsp&nbsp&nbsp<span> general </span> <%= allergy.genral_allergy %> 
   </li>
 <% }) %>
 </ul>
 </div>
 <br>
 <h1 style="color: rgb(3, 49, 92);">surgery</h1>
-<div class="presonal_info " style="height: 15vh;">
+<div class="presonal_info " style="height: auto;">
 <div>
 <form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
 <input type="hidden" name="surgery" value="surgery">
@@ -202,17 +203,17 @@
 <input type="text" name="surgen" >
 <input type="submit" class="bb">
 </form>
+</div>
 
 <ul>
+  <h2 style="color: rgb(3, 49, 92); font-size: 1.5em; font-weight: bold;">old records</h2>
   <% surgeryInfo.forEach(surgery => { %>
-    <li>
-      <%= surgery.file_id %> <%= surgery.surgery_name %> <%= surgery.report %> 
-      <%= surgery.date.toLocaleDateString() %>
-      <%= surgery.surgen %>
+    <li><span> id </span>&nbsp&nbsp&nbsp&nbsp
+      <%= surgery.file_id %> &nbsp&nbsp&nbsp&nbsp <span>name </span> <%= surgery.surgery_name %> &nbsp&nbsp&nbsp&nbsp<span>report </span><%= surgery.report %> 
+      &nbsp&nbsp&nbsp&nbsp     <span>surgen name</span>  <%= surgery.surgen %>
     </li>
   <% }) %>
 </ul>
-</div>
 </div>
 
 

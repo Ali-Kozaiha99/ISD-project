@@ -753,6 +753,7 @@ color: white;
    background-color: black; 
 }
 .presonal_info{
+    font-size: 1.2em;
     position: relative;
     height: 20vh;
     margin-bottom: 20px;
@@ -816,7 +817,15 @@ color: white;
     width: 8vw;
     border-radius: 5px;  
 }
+.presonal_info span  {
+    color: white;
+}
+.presonal_info li  {
+    list-style-type: none; 
+text-decoration: none;
+}
 .ale_info{
+    font-size: 1.2em;
     position: relative;
     padding: 25px;
     border-radius:15px ;
@@ -841,6 +850,9 @@ border-radius: 5px;
    border: none;
     outline: none;
     color: rgb(3, 49, 92);
+}
+.ale_info span{
+    color: white;
 }
 
 .bb{
