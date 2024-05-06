@@ -1,8 +1,43 @@
 <h1>Case History</h1>
+<CEnter>
 <ul>
-<% patient_cases.forEach(casee => { %>
-    <li>admission Date: <%= casee.case_time.toLocaleDateString() %></li>
-   <li>case id: <%= casee.case_id %>  Doctor name: <%= casee.dr_id  %>   symptoms:<%= casee.symptoms  %> </li>
-<br><br>
-    <% }) %>
+  <% patient_cases.forEach(casee => { %>
+    <li class="scan_page">
+      <span>Admission Date:</span> <%= casee.case_time.toLocaleDateString() %><br>
+      <hr>
+      <span>Case ID:</span> <%= casee.case_id %> <span>Doctor ID:</span> <%= casee.dr_id %> <br><span>Symptoms:</span> <%= casee.symptoms %>
+    </li>
+  <% }) %>
 </ul>
+</CEnter>
+<style>body {
+    font-size: 1.3em;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: rgb(3, 49, 92);
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(3, 49, 92);
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .scan_page {
+    background-color: #9fc2e1;
+    margin-top: 10px;
+    width: 60vw;
+    border-radius: 15px;
+    padding: 10px;
+  }
+  
+  .scan_page span {
+    color: white;
+  }
+  
+  </style>

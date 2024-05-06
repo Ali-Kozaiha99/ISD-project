@@ -1,7 +1,54 @@
-<h1>scan</h1>
-<h1>test</h1>
+<h1>Scan</h1>
+<center>
 <ul>
-<% patient_tests.forEach(test => { %>
-   <li>test name: <%= test.scan_name  %>  Doctor name: <%= test.dr_id  %>   result: <a href="../file_uploads/<%= test.result  %> " target="_blank" rel="noopener noreferrer" class="view_filee">View File</a>   patient id:<%= test.file_id  %></li>
-    <% }) %>
+  <% patient_tests.forEach(test => { %>
+    <li>
+      <span>Test Name:</span> <%= test.scan_name %> 
+      <span>Doctor Name:</span> <%= test.dr_id %> 
+      <span>Result:</span> <a href="../file_uploads/<%= test.result %>" target="_blank" rel="noopener noreferrer" class="view_filee">View File</a> 
+      <span>Patient ID:</span> <%= test.file_id %>
+    </li>
+  <% }) %>
 </ul>
+</center>
+
+<style>
+    body {
+        font-size: 1.3em;
+        font-family: Arial, sans-serif;
+        background-color: white;
+        color: rgb(3, 49, 92);
+      }
+      
+    h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(3, 49, 92);
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  .view_filee {
+    color: rgb(3, 49, 92);
+    text-decoration: none;
+    border-bottom: 1px solid rgb(3, 49, 92);
+  }
+  
+  .view_filee:hover {
+    color: rgb(3, 49, 92);
+    border-bottom: 1px solid transparent;
+  }
+  
+  /* Additional styles for better readability */
+  span {
+    margin-right: 10px;
+    color: rgb(3, 49, 92);
+  }
+  </style>
