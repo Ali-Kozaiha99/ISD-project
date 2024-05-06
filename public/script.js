@@ -442,7 +442,7 @@ function showRooms() {
   }
   var selectedRoom = document.getElementById("choosenFloor" + selectedFloor + "Room");
   selectedRoom.setAttribute("required", true);
-  selectedRoom.style.display = "block";
+  selectedRoom.style.display = "inline";
 }
 
 

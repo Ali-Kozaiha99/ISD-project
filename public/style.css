@@ -752,3 +752,198 @@ color: white;
 .addmittion_container{
    background-color: black; 
 }
+.presonal_info{
+    position: relative;
+    height: 20vh;
+    margin-bottom: 20px;
+    background-color: lightgrey;
+    border-radius: 15px;
+    background-color: #9fc2e1;
+    padding: 15px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
+}
+.presonal_info h2{
+    font-size: 1.4em;
+    font-weight: 400;
+    margin-top: 10px;
+    padding: 5px;
+    color: white;
+
+}
+.presonal_info p{
+    font-size: 1.3em;
+    color: rgb(3, 49, 92);
+
+}
+
+.presonal_info select{
+    font-size: 1.2em;
+    text-align: center ;
+    background-color:white;
+    width: 8vw;
+   border: none;
+    outline: none;
+    color: rgb(3, 49, 92);
+}
+
+.presonal_info [type="date"] {
+    font-size: 1em;
+    text-align: center ;
+    background-color:white;
+    width: 10vw;
+   border: none;
+    outline: none;
+    color: rgb(3, 49, 92);
+}
+.file_sumbit{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: white;
+    color: rgb(3, 49, 92);
+    border: none;
+    padding: 10px;
+    width: 8vw;
+    border-radius: 5px;
+}
+.butt_file{
+    background-color: #9fc2e1;
+    color: rgb(3, 49, 92);
+    border: none;
+    padding: 10px;
+    width: 8vw;
+    border-radius: 5px;  
+}
+.ale_info{
+    position: relative;
+    padding: 25px;
+    border-radius:15px ;
+    background-color: #9fc2e1;
+}
+.ale_info label{
+    padding: 10px;
+    color: white;
+    font-size: 1.4em;
+    background-color: #9fc2e1;
+}
+.ale_info input[type="submit"] {
+    bottom: 5px;
+position: absolute;
+border-radius: 5px;   
+ right: 5px;
+    font-size: 1em;
+    text-align: center ;
+    background-color:white;
+    padding: 5px;
+    width: 8vw;
+   border: none;
+    outline: none;
+    color: rgb(3, 49, 92);
+}
+
+.bb{
+    bottom: 5px;
+    position: absolute;
+    border-radius: 5px;   
+     right: 5px;
+        font-size: 1em;
+        text-align: center ;
+        background-color:white;
+        padding: 5px;
+        width: 8vw;
+       border: none;
+        outline: none;
+        color: rgb(3, 49, 92);
+}
+.asa {
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #9fc2e1;
+    color: white; /* Set text color to white */
+}
+
+
+
+
+
+.asa fieldset { 
+    
+    border: 2px solid white; /* Change border color and width */
+    border-radius: 8px; /* Add rounded corners */
+    padding: 20px;
+    margin-bottom: 20px; /* Add some space between fieldsets */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow wrapping of items */
+    justify-content: space-between; /* Space between items */
+}
+
+.asa legend {
+    color: rgb(3, 49, 92)   ; /* Set legend text color to white */
+    font-weight: bold; /* Make legend text bold */
+}
+
+.asa label {
+    font-size: 1.2em;
+    flex-basis: calc(50% - 10px); /* Set width for labels */
+    margin-bottom: 10px; /* Add space below each label */
+    margin-top: 10px; /* Add space above each label */
+}
+
+.asa input[type="text"],
+.asa textarea { /* Target both text input and textarea */
+    color: rgb(3, 49, 92);
+    height: 4vh;
+    flex-basis: calc(50% - 10px); /* Set width for input fields */
+    width: 100%; /* Ensure input fields fill the available space */
+    margin-top: 10px; /* Add space above each input field */
+    padding: 8px; /* Add padding */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Add border radius */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width/height */
+}
+
+.asa textarea {
+    width: 80vw;
+    color: rgb(3, 49, 92);
+    font-size: 1.1em;
+    height: 100px; /* Set fixed height for textarea */
+    resize: none; /* Disable textarea resizing */
+}
+.asa2{
+    font-size: 1.2em;
+    font-weight: 900;
+}
+.asa2 fieldset {
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  .asa2 legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: rgb(3, 49, 92);
+  }
+  
+  .asa2 p {
+    margin: 5px 0;
+    display: flex;
+  }
+  
+  .asa2 .question,
+  .asa2 .answer {
+    margin-top: 10px;
+    width: 50%;
+    flex: 1; /* Distribute the available space equally */
+  }
+  
+  .asa2 .question {
+    font-weight: bold;
+    color: white;
+  }
+  
+  .asa2 .answer {
+    color: rgb(3, 49, 92);
+  }
+  

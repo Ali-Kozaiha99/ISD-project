@@ -1,20 +1,81 @@
-<h1>hon menzed osas l admission</h1>
-  <p>room number: <%= roomInfoo.room_name %></p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>it</title>
+  </head>
+  <body class="Right_left_body">
+    <div  class="left">
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fa-solid fa-hospital-user"></i>
+            <p>Today's Patient</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fa-solid fa-file-waveform"></i>
+            <p>Patient Files</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <p>Tasks</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="">
+            <i class="fas fa-flask"></i>
+            <i class="fas fa-syringe"></i>
+            <p>Tests</p>
+          </a>
+        </center>
+      </div>
+    </div>
 
 
-  <h1><%= file_case_id.dr_id!=0 ? file_case_id.dr_id : 'No dr is set yet' %></h1>
-  <p>file_case_dr: <%= file_case_id.dr_id %></p>
+    
+    <div class="right" >
+
+
   <p>sy: <%= file_case_id.symptoms %></p>
+      
+  <h1 style="color:rgb(3, 49, 92)">personal info</h1>
 
+       <div class="presonal_info">
+<div style="border-right: 2px solid lightgrey;"> 
 
+   <h2 style="display: inline;">Patient ID:</h2>
+  <p style="display: inline;"><%= existingPatientId %></p>
+  <br> <br>
 
-<select id="choosenFloor" onchange="showRooms()">
+  
+  <h2 style="display: inline;" >Floor:</h2>
+  <select id="choosenFloor" onchange="showRooms()">
   <% floors.forEach(floor => { %>
   <option value="<%= floor.floor_number %>"><%= floor.floor_number %></option>
   <% }) %>
-</select>
-
-<form action="/file?existingPatientId=<%= existingPatientId %>" method="post" id="roomForm">  <select id="choosenFloor1Room" name="selectedRoom1" class="floor-room" required>
+  </select>
+  <h2 style="display: inline;" >Room Number:</h2>
+  
+  <form action="/file?existingPatientId=<%= existingPatientId %>" method="post" id="roomForm" style="display: inline;">  
+    <select id="choosenFloor1Room" name="selectedRoom1" class="floor-room" required>
     <% floor1.forEach(rooms1 => { %>
     <option value="<%= rooms1.room_name %>"><%= rooms1.room_name %></option>
     <% }) %>
@@ -34,247 +95,347 @@
     <option value="<%= rooms4.room_name %>"><%= rooms4.room_name %></option>
     <% }) %>
   </select>
+  <br><br>
+  <p> <span style="color: white;">room number: </span> <%= roomInfoo.room_name %></p>
 
-  <p><%= existingPatientId %></p>
+</div>
+<div>
+  <h2 style="display: inline;"> Doctor nane: </h2>
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
   <select name="Dr_name">
     <% DRs.forEach(dr => { %>
     <option value="<%= dr.id%>"><%= dr.name %></option>
     <% }) %>
   </select>
-
-  <br><br><br>
-  <label for="date of birth">date of birth</label>
-
+  
+  <h2 style="display: inline;"> Doctor id :</h2>
+  <p style="display: inline;"><%= file_case_id.dr_id!=0 ? file_case_id.dr_id : 'No dr is set yet' %></p>
+<br>
+<br>
+  <p> <span style="color: white; margin-left: 5px;">file_case_dr: </span> <%= file_case_id.dr_id %></p>
+<br>
+  <h2 style="display: inline;">
+  <label for="date of birth">date of birth:</label>
+  </h2  > 
     <!-- Display the submitted value instead of the input field -->
-    <p>Date of Birth: <%= personalFileInfo[0].birth_date.toLocaleDateString() %></p>
+    <p style="display: inline;"> <%= personalFileInfo[0].birth_date.toLocaleDateString() %></p>
     <!-- Render the input field -->
     <input type="date" name="birthD">
   
-  <button type="submit" value="<%= existingPatientId %>">Submit</button>
+  <button type="submit" value="<%= existingPatientId %>" class="file_sumbit">Submit</button>
+  </form>
+
+</div>
+
+
+
+
+
+    </div>
+
+<form  style="display: inline" action="/file_tests" method="post">
+
+<input  type="hidden" name="file_id" value="<%= existingPatientId %>">
+<input    class="butt_file"  type="submit" value="TEST">
 </form>
+<form style="display: inline"  action="/file_scan" method="post">
+<input type="hidden" name="file_id" value="<%= existingPatientId %>">
+<input    class="butt_file" type="submit" value="scan">
+</form>
+<form  style="display: inline" action="/file_case" method="post">
+<input type="hidden" name="file_id" value="<%= existingPatientId %>">
+<input    class="butt_file" type="submit" value="case">
 </form>
 
-<form  action="/file_tests" method="post">
-
-  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-  <input type="submit" value="TEST">
-</form>
-<form  action="/file_scan" method="post">
-  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-  <input type="submit" value="scan">
-</form>
-<form  action="/file_case" method="post">
-  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-  <input type="submit" value="case">
-</form>
-<h1>allergys</h1>
-
+<h1 style="color: rgb(3, 49, 92);">allergys</h1>
+<div class="ale_info">
 <form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
 <input type="hidden" name="allergy" value="surgery">
 
 <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-<label for="medicine_allergy" >medicine allergy</label>
+<label for="medicine_allergy" >medicine allergy:</label>
 <input type="text" name="medicine_allergy" >
 
-<label for="genral_allergy" >genral allergy</label>
+<label for="genral_allergy" >genral allergy:</label>
 <input type="text" name="genral_allergy" >
 
 <input type="submit">
 </form>
 <ul>
-  <% allergyInfo.forEach(allergy => { %>
+<% allergyInfo.forEach(allergy => { %>
+  <li>
+    <%= allergy.medicine_allergy %> <%= allergy.genral_allergy %> 
+  </li>
+<% }) %>
+</ul>
+</div>
+<br>
+<h1 style="color: rgb(3, 49, 92);">surgery</h1>
+<div class="presonal_info " style="height: 15vh;">
+<div>
+<form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+<input type="hidden" name="surgery" value="surgery">
+
+<input type="hidden" name="file_id" value="<%= existingPatientId %>">
+<h2 style="display: inline;">
+<label for="surgery_name" >surgery name:</label>
+</h2>
+<input type="text" name="surgery_name"  style="display: inline;">
+<br>
+<h2 style="display: inline;">
+<br>
+<label for="report" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspreport:</label>
+</h2>
+<input type="text" name="report" >
+</div>
+<div>
+<h2 style="display: inline;">
+
+<label for="date" >&nbsp&nbsp&nbsp&nbspdate:</label>
+</h2>
+<input type="date" name="date" >
+<br><br>
+<h2 style="display: inline;">
+
+<label for="surgen" >surgen:</label>
+</h2>
+<input type="text" name="surgen" >
+<input type="submit" class="bb">
+</form>
+
+<ul>
+  <% surgeryInfo.forEach(surgery => { %>
     <li>
-      <%= allergy.medicine_allergy %> <%= allergy.genral_allergy %> 
+      <%= surgery.file_id %> <%= surgery.surgery_name %> <%= surgery.report %> 
+      <%= surgery.date.toLocaleDateString() %>
+      <%= surgery.surgen %>
     </li>
   <% }) %>
 </ul>
-<h1>surgery</h1>
-<form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
-  <input type="hidden" name="surgery" value="surgery">
+</div>
+</div>
 
+
+
+
+
+<h1>as2ela</h1>
+<div class="asa">
+<form action="/file?existingPatientId=<%= existingPatientId %>" method="post"   autocomplete="off">
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-  <label for="surgery_name" >surgery name</label>
-<input type="text" name="surgery_name" >
 
-<label for="report" >report</label>
-<input type="text" name="report" >
+  <label for="symptoms">symptoms</label>
+  <center>
+  <textarea type="text" name="symptoms"></textarea>
+</center>
+<br>
+  <fieldset>
+    <legend>SDS History and Nursing Assessment 1/2</legend>
+    <label for="date_time">Date and Time of assessment:</label>
+    <input type="text" id="date_time" name="q1">
 
-<label for="date" >date</label>
-<input type="date" name="date" >
+    <label for="mode_of_arrival">Mode of Arrival:</label>
+    <input type="text" id="mode_of_arrival" name="q2">
 
-<label for="surgen" >surgen</label>
-<input type="text" name="surgen" >
-<input type="submit">
+    <label for="planned_surgery_name">Name of Planned Surgery:</label>
+    <input type="text" id="planned_surgery_name" name="q3">
+
+    <label for="site_of_planned_surgery">Site of Planned Surgery:</label>
+    <input type="text" id="site_of_planned_surgery" name="q4">
+
+    <label for="admission_through">Admission through:</label>
+    <input type="text" id="admission_through" name="q5">
+
+    <label for="emotional_status">Emotional Status:</label>
+    <input type="text" id="emotional_status" name="q6">
+  </fieldset>
+
+  <fieldset>
+    <legend>Biographic Data</legend>
+    <label for="marital_status">Marital Status:</label>
+    <input type="text" id="marital_status" name="q7">
+
+    <label for="profession">Profession:</label>
+    <input type="text" id="profession" name="q8">
+
+    <label for="patient_height">Patient's Height:</label>
+    <input type="text" id="patient_height" name="q9">
+
+    <label for="patient_weight">Patient's Weight:</label>
+    <input type="text" id="patient_weight" name="q10">
+  </fieldset>
+
+  <fieldset>
+    <legend>Functional Data</legend>
+    <label for="ambulating">Ambulating:</label>
+    <input type="text" id="ambulating" name="q11">
+
+    <label for="feeding">Feeding:</label>
+    <input type="text" id="feeding" name="q12">
+
+    <label for="bathing">Bathing:</label>
+    <input type="text" id="bathing" name="q13">
+
+    <label for="blood_group">Blood Group:</label>
+    <input type="text" id="blood_group" name="q14">
+  </fieldset>
+
+  <fieldset>
+    <legend>Life style and health practices</legend>
+    <label for="alcohol">Alcohol:</label>
+    <input type="text" id="alcohol" name="q15">
+
+    <label for="exercise">Exercise:</label>
+    <input type="text" id="exercise" name="q16">
+
+    <label for="smoking">Smoking:</label>
+    <input type="text" id="smoking" name="q17">
+
+    <label for="dietary_habits">Dietary habits:</label>
+    <input type="text" id="dietary_habits" name="q18">
+  </fieldset>
+
+  <fieldset>
+    <legend>Allergies</legend>
+    <label for="modify_allergy">Modify Allergy:</label>
+    <input type="text" id="modify_allergy" name="q19">
+
+    <label for="allergy_to_contrast">Allergy to contrast:</label>
+    <input type="text" id="allergy_to_contrast" name="q20">
+  </fieldset>
+
+  <fieldset>
+    <legend>Health History</legend>
+    <label for="past_medical_history">Past Medical History:</label>
+    <input type="text" id="past_medical_history" name="q21">
+
+    <label for="past_surgical_history">Past Surgical History:</label>
+    <input type="text" id="past_surgical_history" name="q22">
+
+    <label for="special_medical_considerations">Special Medical Considerations/Instructions:</label>
+    <input type="text" id="special_medical_considerations" name="q23">
+  </fieldset>
+
+  <input type="hidden" name="questions" value="addCase">
+  <input type="submit" style="  
+  border-radius: 5px;   
+      font-size: 1em;
+      text-align: center ;
+      background-color:white;
+      padding: 5px;
+      width: 8vw;
+     border: none;
+      outline: none;
+      color: rgb(3, 49, 92)">
 </form>
-  <ul>
-    <% surgeryInfo.forEach(surgery => { %>
-      <li>
-        <%= surgery.file_id %> <%= surgery.surgery_name %> <%= surgery.report %> 
-        <%= surgery.date.toLocaleDateString() %>
-        <%= surgery.surgen %>
-      </li>
-    <% }) %>
-  </ul>
+
+<p><span class="question">sy:</span> <span class="answer"><%= file_case_id.symptoms %></span></p>
+<div class="asa2">
+<fieldset>
+  <legend>SDS History and Nursing Assessment 1/2</legend>
+
+<p><span class="question">date_time:</span> <span class="answer"><%= file_case_id.q1 %></span></p>
+<p><span class="question">mode_of_arrival:</span> <span class="answer"><%= file_case_id.q2 %></span></p>
+
+<p><span class="question">planned_surgery_name:</span> <span class="answer"><%= file_case_id.q3 %></span></p>
+<p><span class="question">site_of_planned_surgery:</span> <span class="answer"><%= file_case_id.q4 %></span></p>
+<p><span class="question">admission_through:</span> <span class="answer"><%= file_case_id.q5 %></span></p>
+<p><span class="question">emotional_status:</span> <span class="answer"><%= file_case_id.q6 %></span></p>
+</fieldset>
+<fieldset>
+  <legend>Biographic Data
+  </legend>
+<p><span class="question">marital_status:</span> <span class="answer"><%= file_case_id.q7 %></span></p>
+<p><span class="question">profession:</span> <span class="answer"><%= file_case_id.q8 %></span></p>
+<p><span class="question">patient_height:</span> <span class="answer"><%= file_case_id.q9 %></span></p>
+<p><span class="question">patient_weight:</span> <span class="answer"><%= file_case_id.q10 %></span></p>
+</fieldset>
+<fieldset>
+  <legend>Functional Data</legend>
+<p><span class="question">ambulating:</span> <span class="answer"><%= file_case_id.q11 %></span></p>
+<p><span class="question">feeding:</span> <span class="answer"><%= file_case_id.q12 %></span></p>
+<p><span class="question">bathing:</span> <span class="answer"><%= file_case_id.q13 %></span></p>
+<p><span class="question">blood_group:</span> <span class="answer"><%= file_case_id.q14 %></span></p>
+</fieldset>
+<fieldset>
+  <legend>Life style and health practices
+  </legend>
+<p><span class="question">alcohol:</span> <span class="answer"><%= file_case_id.q15 %></span></p>
+<p><span class="question">exercise:</span> <span class="answer"><%= file_case_id.q16 %></span></p>
+<p><span class="question">smoking:</span> <span class="answer"><%= file_case_id.q17 %></span></p>
+<p><span class="question">dietary_habits:</span> <span class="answer"><%= file_case_id.q18 %></span></p>
+</fieldset>
+<fieldset>
+  <legend>Allergies</legend>
+<p><span class="question">modify_allergy:</span> <span class="answer"><%= file_case_id.q19 %></span></p>
+<p><span class="question">allergy_to_contrast:</span> <span class="answer"><%= file_case_id.q20 %></span></p>
+</fieldset>
+<fieldset>
+  <legend>Health History</legend>
+<p><span class="question">past_medical_history:</span> <span class="answer"><%= file_case_id.q21 %></span></p>
+<p><span class="question">past_surgical_history:</span> <span class="answer"><%= file_case_id.q22 %></span></p>
+<p><span class="question">special_medical_considerations:</span> <span class="answer"><%= file_case_id.q23 %></span></p>
+</fieldset>
+</div>
+</div>
+<script src="script.js"></script>
+
+</div>
   <h1><%= file_case_id.case_id %> </h1>
-  <form  action="/file?existingPatientId=<%= existingPatientId %>" method="post">
-  <input type="hidden" name="file_id" value="<%= existingPatientId %>">
+<form  action="/file?existingPatientId=<%= existingPatientId %>" method="post">
+<input type="hidden" name="file_id" value="<%= existingPatientId %>">
 
-    <input type="hidden" name="addCase" value="addCase">
-<input type="submit" value="new case">
+  <input type="hidden" name="addCase" value="addCase">
+<input type="submit" value="new case"  style="  
+border-radius: 5px;   
+    font-size: 1em;
+    text-align: center ;
+    background-color: #9fc2e1;
+    padding: 5px;
+    width: 8vw;
+   border: none;
+    outline: none;
+    color: rgb(3, 49, 92)">
 
-  </form>
-
-
-
-
-
-  <h1>as2ela</h1>
-  <form action="/file?existingPatientId=<%= existingPatientId %>" method="post">
-    <input type="hidden" name="file_id" value="<%= existingPatientId %>">
-  
-    <label for="symptoms">symptoms</label>
-    <input type="text" name="symptoms">
-  
-    <fieldset>
-      <legend>SDS History and Nursing Assessment 1/2</legend>
-      <label for="date_time">Date and Time of assessment:</label>
-      <input type="text" id="date_time" name="q1">
-  
-      <label for="mode_of_arrival">Mode of Arrival:</label>
-      <input type="text" id="mode_of_arrival" name="q2">
-  
-      <label for="planned_surgery_name">Name of Planned Surgery:</label>
-      <input type="text" id="planned_surgery_name" name="q3">
-  
-      <label for="site_of_planned_surgery">Site of Planned Surgery:</label>
-      <input type="text" id="site_of_planned_surgery" name="q4">
-  
-      <label for="admission_through">Admission through:</label>
-      <input type="text" id="admission_through" name="q5">
-  
-      <label for="emotional_status">Emotional Status:</label>
-      <input type="text" id="emotional_status" name="q6">
-    </fieldset>
-  
-    <fieldset>
-      <legend>Biographic Data</legend>
-      <label for="marital_status">Marital Status:</label>
-      <input type="text" id="marital_status" name="q7">
-  
-      <label for="profession">Profession:</label>
-      <input type="text" id="profession" name="q8">
-  
-      <label for="patient_height">Patient's Height:</label>
-      <input type="text" id="patient_height" name="q9">
-  
-      <label for="patient_weight">Patient's Weight:</label>
-      <input type="text" id="patient_weight" name="q10">
-    </fieldset>
-  
-    <fieldset>
-      <legend>Functional Data</legend>
-      <label for="ambulating">Ambulating:</label>
-      <input type="text" id="ambulating" name="q11">
-  
-      <label for="feeding">Feeding:</label>
-      <input type="text" id="feeding" name="q12">
-  
-      <label for="bathing">Bathing:</label>
-      <input type="text" id="bathing" name="q13">
-  
-      <label for="blood_group">Blood Group:</label>
-      <input type="text" id="blood_group" name="q14">
-    </fieldset>
-  
-    <fieldset>
-      <legend>Life style and health practices</legend>
-      <label for="alcohol">Alcohol:</label>
-      <input type="text" id="alcohol" name="q15">
-  
-      <label for="exercise">Exercise:</label>
-      <input type="text" id="exercise" name="q16">
-  
-      <label for="smoking">Smoking:</label>
-      <input type="text" id="smoking" name="q17">
-  
-      <label for="dietary_habits">Dietary habits:</label>
-      <input type="text" id="dietary_habits" name="q18">
-    </fieldset>
-  
-    <fieldset>
-      <legend>Allergies</legend>
-      <label for="modify_allergy">Modify Allergy:</label>
-      <input type="text" id="modify_allergy" name="q19">
-  
-      <label for="allergy_to_contrast">Allergy to contrast:</label>
-      <input type="text" id="allergy_to_contrast" name="q20">
-    </fieldset>
-  
-    <fieldset>
-      <legend>Health History</legend>
-      <label for="past_medical_history">Past Medical History:</label>
-      <input type="text" id="past_medical_history" name="q21">
-  
-      <label for="past_surgical_history">Past Surgical History:</label>
-      <input type="text" id="past_surgical_history" name="q22">
-  
-      <label for="special_medical_considerations">Special Medical Considerations/Instructions:</label>
-      <input type="text" id="special_medical_considerations" name="q23">
-    </fieldset>
-  
-    <input type="hidden" name="questions" value="addCase">
-    <input type="submit">
-  </form>
-  
-    <p>sy: <%= file_case_id.symptoms %></p>
-    
-<p><p>date_time: <%= file_case_id.q1 %></p>
-<p>mode_of_arrival: <%= file_case_id.q2 %></p>
-<p>planned_surgery_name: <%= file_case_id.q3 %></p>
-<p>site_of_planned_surgery: <%= file_case_id.q4 %></p>
-<p>admission_through: <%= file_case_id.q5 %></p>
-<p>emotional_status: <%= file_case_id.q6 %></p>
-<p>marital_status: <%= file_case_id.q7 %></p>
-<p>profession: <%= file_case_id.q8 %></p>
-<p>patient_height: <%= file_case_id.q9 %></p>
-<p>patient_weight: <%= file_case_id.q10 %></p>
-<p>ambulating: <%= file_case_id.q11 %></p>
-<p>feeding: <%= file_case_id.q12 %></p>
-<p>bathing: <%= file_case_id.q13 %></p>
-<p>blood_group: <%= file_case_id.q14 %></p>
-<p>alcohol: <%= file_case_id.q15 %></p>
-<p>exercise: <%= file_case_id.q16 %></p>
-<p>smoking: <%= file_case_id.q17 %></p>
-<p>dietary_habits: <%= file_case_id.q18 %></p>
-<p>modify_allergy: <%= file_case_id.q19 %></p>
-<p>allergy_to_contrast: <%= file_case_id.q20 %></p>
-<p>past_medical_history: <%= file_case_id.q21 %></p>
-<p>past_surgical_history: <%= file_case_id.q22 %></p>
-<p>special_medical_considerations: <%= file_case_id.q23 %></p></p>
+</form>
 <script src="script.js"></script>
 
 <script>
-  // JavaScript code to submit the form and redirect
-  document.getElementById("surgeryForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent default form submission
-    var formData = new FormData(this); // Create FormData object to send form data
+// JavaScript code to submit the form and redirect
+document.getElementById("surgeryForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent default form submission
+  var formData = new FormData(this); // Create FormData object to send form data
 
-    // Send POST request to "/surgery" endpoint
-    fetch("/surgery", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => {
-      // Redirect to "/file" after successful submission
-      window.location.href = "/file";
-    })
-    .catch(error => {
-      console.error("Error submitting form:", error);
-      // Handle error if needed
-    });
+  // Send POST request to "/surgery" endpoint
+  fetch("/surgery", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => {
+    // Redirect to "/file" after successful submission
+    window.location.href = "/file";
+  })
+  .catch(error => {
+    console.error("Error submitting form:", error);
+    // Handle error if needed
   });
-  
+});
+
 </script>
+
+    </div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
 
 
