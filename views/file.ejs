@@ -13,18 +13,18 @@
     <title>it</title>
   </head>
   <body class="Right_left_body">
-    <div  class="left">
+    <div class="left">
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="/admissionPatient">
             <i class="fa-solid fa-hospital-user"></i>
-            <p>Today's Patient</p>
+         <p>Today's Patient</p>
           </a>
         </center>
       </div>
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="admition">
             <i class="fa-solid fa-file-waveform"></i>
             <p>Patient Files</p>
           </a>
@@ -32,18 +32,27 @@
       </div>
       <div class="left_nav">
         <center>
-          <a href="">
-            <i class="fas fa-tasks"></i>
-            <p>Tasks</p>
+          <a href="tasks">
+            <i class="fas fa-tasks" style="color:#9fc2e1;"></i>
+            <p style="color: #9fc2e1;">Tasks</p>
           </a>
         </center>
       </div>
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="scan">
             <i class="fas fa-flask"></i>
             <i class="fas fa-syringe"></i>
-            <p>Tests</p>
+            <p>scan</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="lab">
+            <i class="fas fa-flask"></i>
+            <i class="fas fa-syringe"></i>
+            <p>tests</p>
           </a>
         </center>
       </div>
@@ -58,7 +67,7 @@
       
   <h1 style="color:rgb(3, 49, 92)">personal info</h1>
 
-       <div class="presonal_info">
+       <div class="presonal_info" style="height: 25vh;">
 <div style="border-right: 2px solid lightgrey;"> 
 
    <h2 style="display: inline;">Patient ID:</h2>
@@ -161,7 +170,7 @@
 
 <input type="submit">
 </form>
-<ul>  <br><br><br>
+<ul style="color: rgb(3, 49, 92)">  <br><br><br>
   <h2 style="color: rgb(3, 49, 92);">old records </h2>
 <% allergyInfo.forEach(allergy => { %>
   <li style="  list-style-type: none; " > <span>medical </span>
@@ -205,7 +214,7 @@
 </form>
 </div>
 
-<ul>
+<ul style="color: rgb(3, 49, 92);">
   <h2 style="color: rgb(3, 49, 92); font-size: 1.5em; font-weight: bold;">old records</h2>
   <% surgeryInfo.forEach(surgery => { %>
     <li><span> id </span>&nbsp&nbsp&nbsp&nbsp
