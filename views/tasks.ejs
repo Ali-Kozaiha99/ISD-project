@@ -17,7 +17,7 @@
     <div class="left">
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="/admissionPatient">
             <i class="fa-solid fa-hospital-user"></i>
          <p>Today's Patient</p>
           </a>
@@ -25,7 +25,7 @@
       </div>
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="admition">
             <i class="fa-solid fa-file-waveform"></i>
             <p>Patient Files</p>
           </a>
@@ -33,7 +33,7 @@
       </div>
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="tasks">
             <i class="fas fa-tasks" style="color:#9fc2e1;"></i>
             <p style="color: #9fc2e1;">Tasks</p>
           </a>
@@ -41,16 +41,47 @@
       </div>
       <div class="left_nav">
         <center>
-          <a href="">
+          <a href="scan">
             <i class="fas fa-flask"></i>
             <i class="fas fa-syringe"></i>
-            <p>Tests</p>
+            <p>scan</p>
+          </a>
+        </center>
+      </div>
+      <div class="left_nav">
+        <center>
+          <a href="lab">
+            <i class="fas fa-flask"></i>
+            <i class="fas fa-syringe"></i>
+            <p>tests</p>
           </a>
         </center>
       </div>
     </div>
+<style>
+  #logoutForm button{
+    border-radius: 5px;
+    float: right;
+    background-color: #9fc2e1;
+    color: white;
+    padding: 7px;
+    border: none;
+font-size: 1.2em
 
+  }
+</style>
     <div class="right">
+      <form id="logoutForm" action="/logout" method="POST"> <!-- Form submission method set to POST -->
+        <input type="hidden" name="_method" id="methodOverride" value="DELETE"> <!-- Method override for DELETE -->
+        <input type="hidden" name="originalMethod" value="POST"> <!-- Store the original method -->
+        <button type="submit">Log Out</button> <!-- Submit button -->
+    </form>
+    <script>
+      document.getElementById("logoutForm").addEventListener("submit", function(event) {
+          const originalMethod = document.getElementById("logoutForm").elements["originalMethod"].value;
+          document.getElementById("methodOverride").value = originalMethod; // Set method override to original method
+      });
+  </script>
      
       <script>
         document.addEventListener('DOMContentLoaded', function() {

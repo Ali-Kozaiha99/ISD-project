@@ -18,7 +18,7 @@ a{
 .left {
     height: 600px;
     display: grid;
-    grid-template-rows: 25% 25% 25%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
     border-radius: 10px;
     margin: 15px;
     background-color: rgb(3, 49, 80);
