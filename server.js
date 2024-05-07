@@ -90,6 +90,7 @@ app.get('/a',(req,res)=>{
 app.get('/login',checkNotAuthenticated,(req,res)=>{
     res.render('login.ejs')
 })
+ 
 app.post('/login',checkNotAuthenticated, passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
@@ -510,16 +511,18 @@ app.post('/admissionPatient', async (req, res) => {
         console.log(existingPatientt)
 
         res.redirect('/file?existingPatientId=' + existingPatientt[0].file_id); // Redirect with patient ID in query parameter
+
+
+    } else {
+        await pool.query("INSERT INTO `admission_patient` (`file_id`) VALUES (?)", [req.body.file_id]);
         await pool.query(`INSERT INTO file_case (file_id)
         SELECT * FROM (SELECT ?) AS tmp
         WHERE NOT EXISTS (
             SELECT file_id FROM file_case WHERE file_id = ?
         ) LIMIT 1;
          `, [req.body.file_id,req.body.file_id]);
-
-    } else {
-        await pool.query("INSERT INTO `admission_patient` (`file_id`) VALUES (?)", [req.body.file_id]);
-        res.redirect('/file?existingPatientId=' + existingPatientt[0].file_id);
+        res.redirect('/file?existingPatientId=' + [req.body.file_id]);
+         
     }
 }); 
 
@@ -730,7 +733,7 @@ WHERE file_id = ?
 
 `
 const [file_case_questions] = await pool.query(query12, [symptoms,q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23,fileId,fileId]);
-        }
+        } 
         if (selectedRoom && fileId) {
            console.log('selectedRoom', selectedRoom)
             const [resulttt] = await pool.query('UPDATE `file` SET `birth_date` = ?, `setFromInside` = 1 WHERE `file_id` = ?', [req.body.birthD, fileId]);
