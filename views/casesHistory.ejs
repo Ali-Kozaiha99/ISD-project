@@ -6,6 +6,56 @@
       <span>Admission Date:</span> <%= casee.case_time.toLocaleDateString() %><br>
       <hr>
       <span>Case ID:</span> <%= casee.case_id %> <span>Doctor ID:</span> <%= casee.dr_id %> <br><span>Symptoms:</span> <%= casee.symptoms %>
+
+      <br><span>date l 5oroj:</span> <%= casee.case_time_end.toLocaleDateString() %>
+      <div class="asa2">
+        <fieldset>
+          <legend>SDS History and Nursing Assessment 1/2</legend>
+        
+        <p><span class="question">date_time:</span> <span class="answer"><%= casee.q1 %></span></p>
+        <p><span class="question">mode_of_arrival:</span> <span class="answer"><%= casee.q2 %></span></p>
+        
+        <p><span class="question">planned_surgery_name:</span> <span class="answer"><%= casee.q3 %></span></p>
+        <p><span class="question">site_of_planned_surgery:</span> <span class="answer"><%= casee.q4 %></span></p>
+        <p><span class="question">admission_through:</span> <span class="answer"><%= casee.q5 %></span></p>
+        <p><span class="question">emotional_status:</span> <span class="answer"><%= casee.q6 %></span></p>
+        </fieldset>
+        <fieldset>
+          <legend>Biographic Data
+          </legend>
+        <p><span class="question">marital_status:</span> <span class="answer"><%= casee.q7 %></span></p>
+        <p><span class="question">profession:</span> <span class="answer"><%= casee.q8 %></span></p>
+        <p><span class="question">patient_height:</span> <span class="answer"><%= casee.q9 %></span></p>
+        <p><span class="question">patient_weight:</span> <span class="answer"><%= casee.q10 %></span></p>
+        </fieldset>
+        <fieldset>
+          <legend>Functional Data</legend>
+        <p><span class="question">ambulating:</span> <span class="answer"><%= casee.q11 %></span></p>
+        <p><span class="question">feeding:</span> <span class="answer"><%= casee.q12 %></span></p>
+        <p><span class="question">bathing:</span> <span class="answer"><%= casee.q13 %></span></p>
+        <p><span class="question">blood_group:</span> <span class="answer"><%= casee.q14 %></span></p>
+        </fieldset>
+        <fieldset>
+          <legend>Life style and health practices
+          </legend>
+        <p><span class="question">alcohol:</span> <span class="answer"><%= casee.q15 %></span></p>
+        <p><span class="question">exercise:</span> <span class="answer"><%= casee.q16 %></span></p>
+        <p><span class="question">smoking:</span> <span class="answer"><%= casee.q17 %></span></p>
+        <p><span class="question">dietary_habits:</span> <span class="answer"><%= casee.q18 %></span></p>
+        </fieldset>
+        <fieldset>
+          <legend>Allergies</legend>
+        <p><span class="question">modify_allergy:</span> <span class="answer"><%= casee.q19 %></span></p>
+        <p><span class="question">allergy_to_contrast:</span> <span class="answer"><%= casee.q20 %></span></p>
+        </fieldset>
+        <fieldset>
+          <legend>Health History</legend>
+        <p><span class="question">past_medical_history:</span> <span class="answer"><%= casee.q21 %></span></p>
+        <p><span class="question">past_surgical_history:</span> <span class="answer"><%= casee.q22 %></span></p>
+        <p><span class="question">special_medical_considerations:</span> <span class="answer"><%= casee.q23 %></span></p>
+        </fieldset>
+        </div>
+        
     </li>
   <% }) %>
 </ul>

@@ -90,20 +90,85 @@ app.get('/a',(req,res)=>{
 app.get('/login',checkNotAuthenticated,(req,res)=>{
     res.render('login.ejs')
 })
- 
+async function isDoctor(userId) {
+    try {
+        const sql = "SELECT * FROM doctors WHERE id = ?";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking doctor:", error);
+        return false;
+    }
+} async function islab(userId) {
+    try {
+        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'lab'";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking lab:", error);
+        return false;
+    }
+}
+async function isAdmition(userId) {
+    try {
+        const sql = "SELECT * FROM admition WHERE id = ?";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking doctor:", error);
+        return false;
+    }
+} async function isScan(userId) {
+    try {
+        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'scan'";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking lab:", error);
+        return false;
+    }
+}
+
 app.post('/login',checkNotAuthenticated, passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
-}), (req, res) => {
+}), async(req, res) => {
     const userEmail = req.user.email;
+    const isUserDoctor = await isDoctor(req.user.id);
+    const isUserlab = await islab(req.user.id);
+    const isUseradmition = await isAdmition(req.user.id);
+    const isUserScanStaff = await isScan(req.user.id);
+
 
     // Add your conditional logic here to render different pages based on the user's email
-    if (userEmail === '32130341@students.liu.edu.lb') {
-        // Render a specific page for example1@example.com
-        res.redirect('/a');
-    }  else {
-        // Default redirect to the homepage '/'
-        res.redirect('/');
+    if (isUserDoctor) {
+        const isUserDoctor = true; 
+        res.redirect('/tasks?isDoctor=' + isUserDoctor);
+    }
+    else if(isUserlab){
+        const isUserDoctor = false; // Replace with your logic to determine user type
+        const isUserlabStaff = true; // Replace with your logic to determine user type
+        res.redirect('/lab?isDoctor=' + isUserDoctor + '&islab=' + isUserlabStaff);
+    }
+    else if(isUseradmition){
+res.redirect('/admition')
+    }
+    else if(isUserScanStaff){
+        const isUserDoctor = false; // Replace with your logic to determine user type
+        const isUserScannStaff = true; // Replace with your logic to determine user type
+        res.redirect('/lab?isDoctor=' + isUserDoctor + '&isScan=' + isUserScannStaff);
+
+        
+    }else if(userEmail==="t@t"){
+        res.redirect('/register.ejs')
+    }
+    else{
+        const isUserDoctor = false; 
+        res.redirect('/tasks?isDoctor=' + isUserDoctor);
     }
 });
  
@@ -269,17 +334,7 @@ app.post('/register',async(req,res)=>{
 
    
 
-    async function isDoctor(userId) {
-        try {
-            const sql = "SELECT * FROM doctors WHERE id = ?";
-            const [rows, fields] = await pool.query(sql, [userId]);
-            // If rows.length > 0, it means the user exists in the doctor table
-            return rows.length > 0;
-        } catch (error) {
-            console.error("Error checking doctor:", error);
-            return false;
-        }
-    } 
+
     async function getNameById(id, tableName) {
         try {
             const [rows, fields] = await connection.execute(`SELECT name FROM ${tableName} WHERE id = ?`, [id]);
@@ -449,17 +504,7 @@ app.delete('/tasks/:id', async (req, res) => {
 });
 
 
-async function isAdmition(userId) {
-    try {
-        const sql = "SELECT * FROM admition WHERE id = ?";
-        const [rows, fields] = await pool.query(sql, [userId]);
-        // If rows.length > 0, it means the user exists in the doctor table
-        return rows.length > 0;
-    } catch (error) {
-        console.error("Error checking doctor:", error);
-        return false;
-    }
-}  
+ 
 app.get('/admition', async (req, res) => {
     try {
         const query = `SELECT * FROM file`;
@@ -539,6 +584,11 @@ app.delete('/admissionPatient/:id', async (req, res) => {
 
         // Execute the delete query
         await pool.query(sql, [id]);
+
+        const sql1 = 'UPDATE file_case SET case_time_end = NOW() WHERE file_id = ? AND case_id = (SELECT MAX(case_id) FROM file_case WHERE file_id = ?); ';
+
+        // Execute the delete query
+        await pool.query(sql1, [id,id]);
 
         // Re-enable foreign key checks
         await pool.query('SET FOREIGN_KEY_CHECKS = 1');
@@ -891,17 +941,7 @@ app.post('/surgery',async (req, res) =>{
 app.get('/AI', async (req, res) => {
     res.render('AI.ejs'); 
 }); 
-async function islab(userId) {
-    try {
-        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'lab'";
-        const [rows, fields] = await pool.query(sql, [userId]);
-        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
-        return rows.length > 0;
-    } catch (error) {
-        console.error("Error checking lab:", error);
-        return false;
-    }
-}
+
 
 app.get('/lab', async (req, res) => {
     try {
@@ -997,17 +1037,6 @@ app.post('/lab', upload.single('file'), async (req, res) => {
     }
 });
 
-async function isScan(userId) {
-    try {
-        const sql = "SELECT * FROM staff WHERE id = ? AND type = 'scan'";
-        const [rows, fields] = await pool.query(sql, [userId]);
-        // If rows.length > 0, it means the user exists in the doctor table and has type=lab
-        return rows.length > 0;
-    } catch (error) {
-        console.error("Error checking lab:", error);
-        return false;
-    }
-}
 
 app.get('/scan', async (req, res) => {
     try {
@@ -1133,7 +1162,7 @@ app.post('/logout', function(req, res, next){
       if (err) { return next(err); }
       res.redirect('/');
     });
-  });
+  }); 
 
 function checkAuthenticated(req,res,next){
     if(req.isAuthenticated()){

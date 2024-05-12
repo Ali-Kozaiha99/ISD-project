@@ -239,6 +239,7 @@
   <textarea type="text" name="symptoms"></textarea>
 </center>
 <br>
+<% if(!file_case_id.q1){ %>
   <fieldset>
     <legend>SDS History and Nursing Assessment 1/2</legend>
     <label for="date_time">Date and Time of assessment:</label>
@@ -338,7 +339,7 @@
       outline: none;
       color: rgb(3, 49, 92)">
 </form>
-
+<% }else{ %>
 <p><span class="question">sy:</span> <span class="answer"><%= file_case_id.symptoms %></span></p>
 <div class="asa2">
 <fieldset>
@@ -387,8 +388,8 @@
 <p><span class="question">special_medical_considerations:</span> <span class="answer"><%= file_case_id.q23 %></span></p>
 </fieldset>
 </div>
+<% } %>
 </div>
-<script src="script.js"></script>
 
 </div>
   <h1><%= file_case_id.case_id %> </h1>
@@ -432,6 +433,7 @@ document.getElementById("surgeryForm").addEventListener("submit", function(event
 });
 
 </script>
+<script src="script.js"></script>
 
     </div>
   </body>
