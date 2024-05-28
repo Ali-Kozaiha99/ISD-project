@@ -100,7 +100,19 @@ async function isDoctor(userId) {
         console.error("Error checking doctor:", error);
         return false;
     }
-} async function islab(userId) {
+}
+async function isNurse(userId) {
+    try {
+        const sql = "SELECT * FROM nurses WHERE id = ?";
+        const [rows, fields] = await pool.query(sql, [userId]);
+        // If rows.length > 0, it means the user exists in the doctor table
+        return rows.length > 0;
+    } catch (error) {
+        console.error("Error checking doctor:", error);
+        return false;
+    }
+}
+ async function islab(userId) {
     try {
         const sql = "SELECT * FROM staff WHERE id = ? AND type = 'lab'";
         const [rows, fields] = await pool.query(sql, [userId]);
@@ -189,7 +201,7 @@ app.get('/register',  async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }); 
-
+ 
  
 
 /*app.post('/user',async (req,res)=>{
@@ -376,8 +388,33 @@ app.post('/register',async(req,res)=>{
                 LEFT JOIN doctors ON tasks.doctor_id = doctors.id
             `;
             const [tasksRows] = await pool.query(query);
+
+            const isUserNurse = await isNurse(req.user.id);
+            if(isUserNurse){
+                const query = `
+                SELECT tasks.*, 
+                doctors.name AS doctor_name,
+                admission_patient.room_name,
+                rooms.floor_number
+         FROM tasks
+         LEFT JOIN doctors ON tasks.doctor_id = doctors.id
+         LEFT JOIN admission_patient ON tasks.file_id = admission_patient.file_id
+         LEFT JOIN rooms ON admission_patient.room_name = rooms.room_name
+         WHERE (SELECT section FROM nurses WHERE id = 205) = rooms.floor_number;
+         
+         
+         
+            `;[req.user.id]
+            const [tasksRows] = await pool.query(query);
+
+            }
+
                         const query1 = `
-                        SELECT nurses.name, done_tasks.taskId FROM done_tasks INNER JOIN nurses ON done_tasks.nurse_id = nurses.id WHERE done_tasks.taskId IN (SELECT taskId FROM tasks WHERE tasks.task_id = done_tasks.taskId);
+                        SELECT nurses.name, done_tasks.date 
+                        FROM done_tasks 
+                        INNER JOIN nurses ON done_tasks.nurse_id = nurses.id 
+                        WHERE done_tasks.taskId IN (SELECT taskId FROM tasks WHERE tasks.task_id = done_tasks.taskId);
+                        
 
                         
             `;/* SELECT tasks.task_id, nurses.*
@@ -389,9 +426,9 @@ app.post('/register',async(req,res)=>{
 const query2=`SELECT tasks.task_id FROM tasks LEFT JOIN done_tasks ON tasks.task_id = done_tasks.taskId WHERE done_tasks.taskId IS NOT NULL;
 `
 const [doneRows] = await pool.query(query2);
-console.log(doneRows)
+
             const [nurseRows] = await pool.query(query1);
-console.log(nurseRows.id)
+console.log(nurseRows.date)
                 const isUserDoctor = await isDoctor(req.user.id);
                 if (nurseRows.length > 0) {
                     // The query returned results, do something with them
@@ -402,7 +439,7 @@ console.log(nurseRows.id)
                 }
                 if (isUserDoctor) { 
 
-                    const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+                    const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ? GROUP BY fc.file_id;';
 
                     // Execute the query with the userId as a parameter
                     const [dr_patientsRows] = await pool.query(query, req.user.id);
@@ -503,11 +540,12 @@ app.delete('/tasks/:id', async (req, res) => {
     }
 });
 
-
+ 
  
 app.get('/admition', async (req, res) => {
     try {
-        const query = `SELECT * FROM file`;
+        const query = `SELECT * FROM file
+        ORDER BY RAND()`;
         const [fileRows] = await pool.query(query);
         console.log('Fetched files:', fileRows); // Log fetched files for debugging
         res.render('admition.ejs', { files: fileRows });
@@ -534,12 +572,38 @@ INNER JOIN admission_patient ap ON f.file_id = ap.file_id;
 app.get('/admissionPatient', async (req, res) => {
 
     try {
+    const isUserDoctor = await isDoctor(req.user.id);
+    const isUserNurse = await isNurse(req.user.id);
+    const isUseradmition = await isAdmition(req.user.id);
+
+    if(isUserDoctor|| isUseradmition){
+
         const query = `SELECT f.*, ap.date_added,ap.room_name
         FROM file f
         INNER JOIN admission_patient ap ON f.file_id = ap.file_id;`;
         const [admission_patientRows] = await pool.query(query);
         console.log('Fetched files:', admission_patientRows); // Log fetched files for debugging
         res.render('admissionPatient.ejs', { admission_patients: admission_patientRows });
+    }
+    else if(isUserNurse){
+
+        const query = `SELECT f.*, ap.date_added, ap.room_name
+        FROM file f
+        INNER JOIN admission_patient ap ON f.file_id = ap.file_id
+        WHERE ap.room_name IN (
+            SELECT room_name
+            FROM rooms
+            WHERE floor_number = (
+                SELECT section
+                FROM nurses
+                WHERE id = ?
+            )
+        )
+        `; 
+        const [admission_patientRows] = await pool.query(query,[req.user.id]);
+        console.log('Fetched files:', admission_patientRows); // Log fetched files for debugging
+        res.render('admissionPatient.ejs', { admission_patients: admission_patientRows });
+    }
     } catch (error) {
         console.error('Error retrieving files:', error);
         res.status(500).send('Internal Server Error');
@@ -961,7 +1025,7 @@ app.get('/lab', async (req, res) => {
             
             // Execute the select query
             const labData = await pool.query(sql, [id]);
-            const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+            const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ? GROUP BY fc.file_id;';
 
             // Execute the query with the userId as a parameter
             const [dr_patientsRows] = await pool.query(query, req.user.id);
@@ -1016,7 +1080,7 @@ app.post('/lab', upload.single('file'), async (req, res) => {
             res.render('lab.ejs', { labData, isDoctor:isUserDoctor,islab:isUserlabStaff,dr_patients:[]});
             }
             else if(isDoctor){
-                const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+                const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ? GROUP BY fc.file_id;';
 
                 // Execute the query with the userId as a parameter
                 const [dr_patientsRows] = await pool.query(query, req.user.id);
@@ -1056,7 +1120,7 @@ app.get('/scan', async (req, res) => {
             
             // Execute the select query
             const scanData = await pool.query(sql, [id]);
-            const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+            const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ? GROUP BY fc.file_id;';
             const [dr_patientsRows] = await pool.query(query,[id]);
             res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff, dr_patients: dr_patientsRows });
             
@@ -1106,7 +1170,7 @@ app.post('/scan', upload.single('file'), async (req, res) => {
                 
                 // Execute the select query
                 const scanData = await pool.query(sql, [id]);
-                const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ?';
+                const query = ' SELECT fc.*, f.patient_name FROM file_case fc JOIN file f ON fc.file_id = f.file_id WHERE fc.dr_id = ? GROUP BY fc.file_id;';
                 const [dr_patientsRows] = await pool.query(query, req.user.id);
                 res.render('scan.ejs', { scanData:scanData[0], isDoctor: isUserDoctor, isScan: isUserScanStaff, dr_patients:dr_patientsRows });
                 

@@ -16,7 +16,7 @@ a{
 
 
 .left {
-    height: 600px;
+    height: 500px;
     display: grid;
     grid-template-rows: 20% 20% 20% 20% 20%;
     border-radius: 10px;
@@ -125,6 +125,7 @@ font-weight: 500;
 
 .left_nav {
     padding-top: 5vh;
+    
 }
 
 
@@ -348,7 +349,7 @@ padding-right: 20px;
 .delete{
     height: 2vh;
     text-align: center;
-    width: 75px;
+    width: 50px;
     padding: 5px;
     border-radius: 5px;
    background-color: white;

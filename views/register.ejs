@@ -86,7 +86,7 @@
             <label for="doctorRole">Doctor</label>
 
             <input type="radio" id="admition" name="role" value="admition" required onchange="updateForm()">
-            <label for="admition">Admition</label>
+            <label for="admition">Admission</label>
           
           
             <input type="radio" id="nurseRole" name="role" value="a" required onchange="updateForm()">
@@ -94,7 +94,7 @@
           
           
             <input type="radio" id="staffRole" name="role" value="s" required onchange="updateForm()">
-            <label for="staffRole">Staff</label>
+            <label for="staffRole">Radio/Lab</label>
           
           
       </div>
@@ -200,7 +200,7 @@
     
         <!-- Staff -->
         <ul>
-          <center><h2>Staff</h2></center>
+          <center><h2>Radio/Lab</h2></center>
 
             <% staff.forEach(staffMember => { %>
             <div class="it_show_users">
@@ -210,24 +210,24 @@
               <br>
                 <div class="namess">Email:</div >
                 <%= staffMember.email %> <br>
-                <div class="namess">PhoneNumber:</div >
-                <%= staffMember.phoneNumber %>
+<br>
             </div>
             <% }) %>
         </ul>
     <ul>
-      <center><h2>Admittion </h2></center>
+      <center><h2>Admission </h2></center>
 
       <% admitions.forEach(admition => { %>
       <div class="it_show_users">
-          <div class="namess">ID:</div >
-        <span> <%= admition.id %>  </span>                    <a class="delete" data-dtask="<%= admition.id  %>" href="">Delete</a>
+  
+        <div class="namess">Name:</div >
+          <span>       <%= admition.name %> <div class="namess">ID:</div > <%= admition.id  %></span>                     <a class="delete" data-dtask="<%= admition.id  %>" href="">Delete</a>
         <hr style="background-color: white ; height : 2px;border: none;width:170px;  ">
         <br>
           <div class="namess">Email:</div >
           <%= admition.email %> <br>
           <div class="namess">PhoneNumber:</div >
-          <%= admition.phoneNumber %>
+          <%= admition.phone_number %>
       </div>
       <% }) %>
   </ul>

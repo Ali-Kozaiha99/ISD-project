@@ -13,6 +13,7 @@
     <title>LAb</title>
   </head>
 <body>
+  
   <style>
     #logoutForm button{
       border-radius: 5px;
@@ -50,6 +51,7 @@
 
           
           <select name="patient_id" class="custom-select">
+            <option value="">Choose patient</option>
             <% dr_patients.forEach(patient => { %>
               <option style="border-radius: 10px;" id="option" value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
             <% }) %>
@@ -87,7 +89,7 @@
                         <p style="display: inline;" class="patient_id"><%= item.file_id %></p>
                         <span style="margin-left: 35px;">   Test ID:</span>  <%= item.test_id %>
                     </div>
-                
+                <br>
             </div>
     <hr style="background-color: lightgrey ; border: none; width: 2px;">
             <!-- Right section for displaying results -->
@@ -104,7 +106,7 @@
                         <input type="hidden" name="test_name" value="<%= item.test_name %>">
                         <input type="hidden" name="file_idd" value="<%= item.test_id %>">
                         <div class="file_container" >
-                          <label style=" color: white; text-align: left;">   Results:</label>
+                          <label style=" color: #9fc2e1; text-align: left;">     .</label>
 
                           <div id="no_res"  style="display: none;">No Results Published</div>
 

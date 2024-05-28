@@ -99,6 +99,7 @@ background-color:#9fc2e1;
                 <br>
                 <label style="display: inline;"> Patient ID:</label>
                 <select name="patient_id" class="custom-select">
+                    <option value="">Choose Patient</option>
                     <% dr_patients.forEach(patient => { %>
                     <option value="<%= patient.file_id  %>"><%= patient.patient_name  %></option>
                     <% }) %>
@@ -115,10 +116,11 @@ background-color:#9fc2e1;
         </form>
         </div>
         </center>
-        <center>
             <% if (scanData) { %>
+
                 <% scanData.forEach(item => { %>
-                    <div class="scan-grid-container">
+                    <center>
+                                            <div class="scan-grid-container">
                         <div class="scan-left-grid">
                             <br>
                             <div class="scan-info">
@@ -161,18 +163,18 @@ background-color:#9fc2e1;
                                             <input type="submit" id="sub">
                     </form>
                                     <% } %>
+                                    <br>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <% }); %>
-            <% } else { %>
+            <% } 
+            else { %>
                 <p>No data available</p>
             <% } %>
             
-    </center>
 
-        <center>
           <script>
            
            var isDoctor = '<%= JSON.stringify(isDoctor) %>'

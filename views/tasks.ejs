@@ -18,46 +18,39 @@
       <div class="left_nav">
         <center>
           <a href="/admissionPatient">
-            <i class="fa-solid fa-hospital-user"></i>
-         <p>Today's Patient</p>
+            <i class="fa-solid fa-hospital-user" style="color:#9fc2e1;"></i>
+         <p style="color: #9fc2e1;">Admitted Patient</p>
           </a>
         </center>
       </div>
-      <div class="left_nav">
-        <center>
-          <a href="admition">
-            <i class="fa-solid fa-file-waveform"></i>
-            <p>Patient Files</p>
-          </a>
-        </center>
-      </div>
-      <div class="left_nav">
+
+      <div class="left_nav" style="padding-top:60px ;">
         <center>
           <a href="tasks">
-            <i class="fas fa-tasks" style="color:#9fc2e1;"></i>
-            <p style="color: #9fc2e1;">Tasks</p>
+            <i class="fas fa-tasks" ></i>
+            <p >Tasks</p>
           </a>
         </center>
       </div>
-      <div class="left_nav">
+      <div class="left_nav" style="padding-top:90px ;">
         <center>
           <a href="scan">
-            <i class="fas fa-flask"></i>
-            <i class="fas fa-syringe"></i>
+            <i class="fa-solid fa-x-ray"></i>
+
             <p>scan</p>
           </a>
         </center>
       </div>
-      <div class="left_nav">
+      <div class="left_nav" style="padding-top:120px ;">
         <center>
           <a href="lab">
-            <i class="fas fa-flask"></i>
-            <i class="fas fa-syringe"></i>
+            <i class="fas fa-microscope"></i>
             <p>tests</p>
           </a>
         </center>
       </div>
     </div>
+
 <style>
   #logoutForm button{
     border-radius: 5px;
@@ -118,6 +111,7 @@ font-size: 1.2em
 
              <p style="display: inline;"> patient ID:</p> 
              <select name="patient_id">
+            <option value="">Choose patient</option>
                 
                 <% dr_patients.forEach(patient => { %>
                 <option value="<%= patient.file_id  %>" class="task_id"><%= patient.patient_name  %></option>
@@ -180,7 +174,8 @@ font-size: 1.2em
               </a>
 
               <% if (nurseInfo) { %>
-              <span style="color: grey; font-weight: 400; font-size: 1em;">Done By:</span> Nurse: <%= nurseInfo.name %> <% } %>
+              <span style="color: grey; font-weight: 400; font-size: 1em;">Done By:</span> Nurse: <%= nurseInfo.name %>  &nbsp&nbsp&nbsp Date: <%= nurseInfo.date.toLocaleString()
+                %><% } %>
             </div>
 
               <!-- delete is not supported in html only get and post -->

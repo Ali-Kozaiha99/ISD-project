@@ -17,53 +17,28 @@
       <div class="left_nav">
         <center>
           <a href="/admissionPatient">
-            <i class="fa-solid fa-hospital-user"></i>
-         <p>Today's Patient</p>
+            <i class="fa-solid fa-hospital-user" style="color: #9fc2e1;"></i>
+         <p style="color: #9fc2e1;">Admitted Patient</p>
           </a>
         </center>
       </div>
-      <div class="left_nav">
-        <center>
-          <a href="admition">
-            <i class="fa-solid fa-file-waveform"></i>
-            <p>Patient Files</p>
-          </a>
-        </center>
-      </div>
-      <div class="left_nav">
+
+      <div class="left_nav" style="padding-top:90px ;">
         <center>
           <a href="tasks">
-            <i class="fas fa-tasks" style="color:#9fc2e1;"></i>
-            <p style="color: #9fc2e1;">Tasks</p>
+            <i class="fas fa-tasks" ></i>
+            <p >Tasks</p>
           </a>
         </center>
       </div>
-      <div class="left_nav">
-        <center>
-          <a href="scan">
-            <i class="fas fa-flask"></i>
-            <i class="fas fa-syringe"></i>
-            <p>scan</p>
-          </a>
-        </center>
-      </div>
-      <div class="left_nav">
-        <center>
-          <a href="lab">
-            <i class="fas fa-flask"></i>
-            <i class="fas fa-syringe"></i>
-            <p>tests</p>
-          </a>
-        </center>
-      </div>
-    </div>
 
+    </div>
 
     
     <div class="right" >
 
 
-  <p>sy: <%= file_case_id.symptoms %></p>
+  
       
   <h1 style="color:rgb(3, 49, 92)">personal info</h1>
 
@@ -77,6 +52,8 @@
   
   <h2 style="display: inline;" >Floor:</h2>
   <select id="choosenFloor" onchange="showRooms()">
+    <option value="">choose floor</option>
+
   <% floors.forEach(floor => { %>
   <option value="<%= floor.floor_number %>"><%= floor.floor_number %></option>
   <% }) %>
@@ -85,6 +62,7 @@
   
   <form action="/file?existingPatientId=<%= existingPatientId %>" method="post" id="roomForm" style="display: inline;">  
     <select id="choosenFloor1Room" name="selectedRoom1" class="floor-room" required>
+      <option value="">choose room</option>
     <% floor1.forEach(rooms1 => { %>
     <option value="<%= rooms1.room_name %>"><%= rooms1.room_name %></option>
     <% }) %>
@@ -109,27 +87,31 @@
 
 </div>
 <div>
-  <h2 style="display: inline;"> Doctor nane: </h2>
+  <h2 style="display: inline;"> Doctor name: </h2>
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
   <select name="Dr_name">
     <% DRs.forEach(dr => { %>
     <option value="<%= dr.id%>"><%= dr.name %></option>
     <% }) %>
   </select>
-  
+  <br>
+<br>
   <h2 style="display: inline;"> Doctor id :</h2>
+  
   <p style="display: inline;"><%= file_case_id.dr_id!=0 ? file_case_id.dr_id : 'No dr is set yet' %></p>
-<br>
-<br>
-  <p> <span style="color: white; margin-left: 5px;">file_case_dr: </span> <%= file_case_id.dr_id %></p>
-<br>
+
+
+
+<br><br>
   <h2 style="display: inline;">
   <label for="date of birth">date of birth:</label>
+  <p style="display: inline; font-size: x-large;"> <%= personalFileInfo[0].birth_date.toLocaleDateString()!='11/30/1899' ? personalFileInfo[0].birth_date.toLocaleDateString() : 'No Date is set' %></p>
+
+  <input type="date" name="birthD">
+
   </h2  > 
     <!-- Display the submitted value instead of the input field -->
-    <p style="display: inline;"> <%= personalFileInfo[0].birth_date.toLocaleDateString() %></p>
     <!-- Render the input field -->
-    <input type="date" name="birthD">
   
   <button type="submit" value="<%= existingPatientId %>" class="file_sumbit">Submit</button>
   </form>
@@ -171,7 +153,7 @@
 <input type="submit">
 </form>
 <ul style="color: rgb(3, 49, 92)">  <br><br><br>
-  <h2 style="color: rgb(3, 49, 92);">old records </h2>
+  <h2 style="color: rgb(3, 49, 92); font-size: 1.2em;">Allergy</h2>
 <% allergyInfo.forEach(allergy => { %>
   <li style="  list-style-type: none; " > <span>medical </span>
     <%= allergy.medicine_allergy %>  &nbsp&nbsp&nbsp&nbsp<span> general </span> <%= allergy.genral_allergy %> 
@@ -215,7 +197,7 @@
 </div>
 
 <ul style="color: rgb(3, 49, 92);">
-  <h2 style="color: rgb(3, 49, 92); font-size: 1.5em; font-weight: bold;">old records</h2>
+  <h2 style="color: rgb(3, 49, 92); font-size: 1.2em; font-weight: bold;">Past surgeries</h2>
   <% surgeryInfo.forEach(surgery => { %>
     <li><span> id </span>&nbsp&nbsp&nbsp&nbsp
       <%= surgery.file_id %> &nbsp&nbsp&nbsp&nbsp <span>name </span> <%= surgery.surgery_name %> &nbsp&nbsp&nbsp&nbsp<span>report </span><%= surgery.report %> 
@@ -229,14 +211,14 @@
 
 
 
-<h1>as2ela</h1>
 <div class="asa">
 <form action="/file?existingPatientId=<%= existingPatientId %>" method="post"   autocomplete="off">
   <input type="hidden" name="file_id" value="<%= existingPatientId %>">
 
-  <label for="symptoms">symptoms</label>
   <center>
-  <textarea type="text" name="symptoms"></textarea>
+ 
+    <div class="text_enter"><h1 style="padding-bottom: 10px;">symptoms</h1></div>
+    <textarea id="textInput" name="symptoms" placeholder=""></textarea>
 </center>
 <br>
 <% if(!file_case_id.q1){ %>
@@ -340,7 +322,8 @@
       color: rgb(3, 49, 92)">
 </form>
 <% }else{ %>
-<p><span class="question">sy:</span> <span class="answer"><%= file_case_id.symptoms %></span></p>
+<p><span class="question"style="font-size:x-large">symptoms:</span> <span class="answer"><div style="font-size: x-large;color: rgb(3, 49, 92) ;font-weight: bold;"><%= file_case_id.symptoms %></div></span></p>
+<br><br>
 <div class="asa2">
 <fieldset>
   <legend>SDS History and Nursing Assessment 1/2</legend>
