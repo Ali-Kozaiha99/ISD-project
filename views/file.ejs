@@ -218,7 +218,61 @@
   <center>
  
     <div class="text_enter"><h1 style="padding-bottom: 10px;">symptoms</h1></div>
-    <textarea id="textInput" name="symptoms" placeholder=""></textarea>
+
+    <div class="container">
+      <div class="input-container">
+          <textarea id="textInput" name="symptoms" placeholder="Type your text here..."></textarea>
+          <button onclick="sendMessage()"  class="delete" style="width: 7vw; height: 4vh; font-weight: bold; font-size: 1.2em; border: none; padding-bottom:25px;">predict </button>
+      </div>
+      <div class="response-container">
+        <p id="summarized" style="font-weight: bold; font-size: 1.2em; ">predicted</p>
+  
+          <div class="response" id="response"></div>
+      </div>
+  </div>
+  
+  <script>
+    function sendMessage() {
+      const responseElement = document.getElementById("response");
+      responseElement.textContent = "";
+      responseElement.style.color = "black"; 
+  
+      const textInput = document.getElementById('textInput').value.trim();
+      if (textInput === "") {
+        responseElement.textContent = "No Text Has Been Added!!!";
+        responseElement.style.color = "red"; 
+        responseElement.style.fontWeight = "bold"; 
+        return; // Prevent further execution if no text is entered
+      }
+      
+      fetch("http://127.0.0.1:5000/send_message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: textInput }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const disease = data.disease;
+        if (data.confidence >= 0.2) {
+          responseElement.innerHTML = "<strong>Predicted Disease:</strong> " + disease;
+        } else {
+          responseElement.textContent = "Not enough information";
+          responseElement.style.color = "red";
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again later.");
+      });
+    }
+    </script>
 </center>
 <br>
 <% if(!file_case_id.q1){ %>
